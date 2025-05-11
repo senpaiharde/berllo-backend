@@ -12,12 +12,14 @@ const CheckItemSchema = new Schema<ICheckItem>({
 interface IComment {
   user: Types.ObjectId;
   text: string;
+   createdAt: Date,
 }
 
 const CommentSchema = new Schema<IComment>(
   {
     user: { type: Schema.Types.ObjectId, ref: 'User' },
     text: String,
+     createdAt: { type: Date, default: Date.now },
   },
   { timestamps: true }
 );

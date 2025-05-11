@@ -87,16 +87,12 @@ router.get('/:id', async (req: Request, res: Response): Promise<any> => {
 
 router.put('/:id', async (req: Request, res: Response): Promise<any> => {
   try {
-    const allowed = [
-        'title',
-      'description',
-      'labels',
-      'members',
-      'startDate',
-      'dueDate',
-      'position',
-      'archivedAt',
-    ] as const;
+   const allowed = [
+  'title', 'description', 'labels', 'members',
+  'startDate', 'dueDate', 'reminder',
+  'coordinates', 'cover', 'checklist', 'comments',
+  'position', 'archivedAt',
+] as const;
     const update = pick(req.body, allowed)
 
     const task =  await Task.findByIdAndUpdate(
