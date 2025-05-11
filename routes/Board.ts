@@ -1,14 +1,14 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import { authMiddleware } from '../middlewares/authmiddleware';
-import Board, { IBoard } from '../models/Board';
-import List, { IList } from '../models/List';
+import  Board  from '../models/Board';
+import   List from '../models/List';
 import { pick } from '../utils/pick';
-import Activity, { IActivity } from '../models/activity';
-import Task, { ITask } from '../models/activity';
+import Activity from '../models/activity';
+import Task from '../models/task';
 const router = Router();
 router.use(authMiddleware);
 
-router.post('/', authMiddleware, async (req: Request, res: Response) => {
+router.post('/',  async (req: Request, res: Response) => {
   try {
     const { title, style } = req.body as { title: string; style?: { backgroundImage?: string } };
     const board = await Board.create({
@@ -25,15 +25,21 @@ router.post('/', authMiddleware, async (req: Request, res: Response) => {
 });
 
 // Boards – fetch one with lists + tasks
-router.get('/', authMiddleware, async (req: Request, res: Response): Promise<any> => {
+router.get('/:id',  async (req: Request, res: Response): Promise<any> => {
   try {
     const board = await Board.findById(req.params.id)
       .populate({ path: 'members.user', select: 'fullName avatar' })
       .lean();
+
+
     if (!board) return res.status(404).json({ error: 'Board not found' });
 
     const lists = await List.find({ board: board._id }).sort({ position: 1 }).lean();
-    const tasks = await List.find({ board: board._id }).lean();
+
+
+
+
+     const tasks = await Task.find({ board: board._id }).lean();
     res.json({ board, lists, tasks });
   } catch (err: any) {
     console.error(err);
@@ -41,9 +47,9 @@ router.get('/', authMiddleware, async (req: Request, res: Response): Promise<any
   }
 });
 
-router.put('/:id', authMiddleware, async (req: Request, res: Response): Promise<any> => {
+router.put('/:id', async (req: Request, res: Response): Promise<any> => {
   try {
-    const allowed = ['title', 'style', 'isStarred', 'archivedAt'] as const;
+    const allowed = ['title', 'style', 'isStarred', 'archivedAt'] as const ;
     const updates = pick(req.body, allowed);
 
     // Only owners/admins may update
@@ -70,7 +76,7 @@ router.put('/:id', authMiddleware, async (req: Request, res: Response): Promise<
   }
 });
 
-router.delete('/:id', authMiddleware, async (req: Request, res: Response): Promise<any> => {
+router.delete('/:id', async (req: Request, res: Response): Promise<any> => {
   try {
     const board = await Board.findOne({
       _id: req.params.id,
@@ -113,3 +119,7 @@ router.delete('/:id', authMiddleware, async (req: Request, res: Response): Promi
     res.status(500).json({ error: 'Could not delete entry' });
   }
 });
+
+
+export default router;
+
