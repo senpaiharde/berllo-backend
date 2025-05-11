@@ -12,12 +12,14 @@ const CheckItemSchema = new Schema<ICheckItem>({
 interface IComment {
   user: Types.ObjectId;
   text: string;
+   createdAt: Date,
 }
 
 const CommentSchema = new Schema<IComment>(
   {
     user: { type: Schema.Types.ObjectId, ref: 'User' },
     text: String,
+     createdAt: { type: Date, default: Date.now },
   },
   { timestamps: true }
 );
@@ -80,4 +82,4 @@ const TaskSchema = new Schema<ITask>(
   },
   { timestamps: true }
 );
-export default mongoose.model<ITask>('ScheduleEntry', TaskSchema);
+export default mongoose.model<ITask>('TaskEntry', TaskSchema);

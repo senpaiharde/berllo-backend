@@ -1,10 +1,22 @@
 {
+  "name": "berllo-backend",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "ts-node-dev --respawn --transpile-only index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "migrate:users": "ts-node --transpile-only src/scripts/migrateUsers.ts"
+  },
   "dependencies": {
+    "@types/bcrypt": "^5.0.2",
     "bcryptjs": "^3.0.2",
+    "berllo-backend": "file:",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
+    "fitness-ai-tracker-backend": "file:",
+    "helmet": "^8.1.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.14.2",
     "morgan": "^1.10.0"
@@ -19,8 +31,5 @@
     "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.8.3"
-  },
-  "scripts": {
-    "dev": "nodemon server.js"
   }
 }

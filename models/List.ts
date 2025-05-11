@@ -1,5 +1,5 @@
 import mongoose, { model, Schema, Types } from 'mongoose';
-
+// hello
 interface IList extends Document {
   board: Types.ObjectId;
   title: string;
@@ -18,4 +18,4 @@ const ListSchema = new Schema<IList>(
   },
   { timestamps: true }
 );
-export default mongoose.model<IList>('ScheduleEntry', ListSchema);
+export default mongoose.model<IList>('ListEntry', ListSchema);

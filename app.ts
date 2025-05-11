@@ -8,6 +8,7 @@ import boardRouter from './routes/Board';
 
 import authRoutes from './routes/auth'
 dotenv.config();
+
 const app = express();
 app.use((req, res, next) => {
   console.log(`→ [REQ] ${req.method} ${req.path}`);
