@@ -42,4 +42,4 @@ const BoardSchema = new Schema<IBoard>(
   },
   { timestamps: true }
 );
-export const Board = model<IBoard>('Board', BoardSchema);
+export default mongoose.model<IBoard>('ScheduleEntry', BoardSchema);

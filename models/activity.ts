@@ -21,4 +21,4 @@ const ActivitySchema = new Schema<IActivity>(
   },
   { timestamps: { createdAt: true, updatedAt: false } }
 );
-export const List = model<IActivity>('Activity', ActivitySchema);
+export default mongoose.model<IActivity>('ScheduleEntry', ActivitySchema);
