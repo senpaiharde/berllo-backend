@@ -18,4 +18,4 @@ const ListSchema = new Schema<IList>(
   },
   { timestamps: true }
 );
-export default mongoose.model<IList>('ScheduleEntry', ListSchema);
+export default mongoose.model<IList>('ListEntry', ListSchema);

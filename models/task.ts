@@ -82,4 +82,4 @@ const TaskSchema = new Schema<ITask>(
   },
   { timestamps: true }
 );
-export default mongoose.model<ITask>('ScheduleEntry', TaskSchema);
+export default mongoose.model<ITask>('TaskEntry', TaskSchema);
