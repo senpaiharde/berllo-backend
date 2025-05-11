@@ -11,7 +11,7 @@ import { pick } from '../utils/pick.js';
 const router = Router();
 router.use(authMiddleware);
 
-router.post('/:id', async (req: Request, res: Response): Promise<any> => {
+router.post(':listId', async (req: Request, res: Response): Promise<any> => {
   try {
     const list = await List.findById(req.params.listId).populate({
       path: 'board',
