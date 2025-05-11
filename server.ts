@@ -20,6 +20,9 @@ app.use(express.json());
 
 app.use('/auth', authRoutes);
 app.use('/board', boardRouter);
+
+
+
 app.use((req, res) => {
   res.status(404).json({ error: 'Route not found' });
 });
