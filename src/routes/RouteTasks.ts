@@ -163,7 +163,7 @@ router.put('/:id', async (req: Request, res: Response): Promise<any> => {
 
     await Activity.create({
       board: task.board,
-      user: req.user?.id || null,
+      user: req.user?.id || new mongoose.Types.ObjectId("000000000000000000000000"),
       entity: { kind: 'task', id: task._id },
       action: 'updated_task',
       payload: updates,
