@@ -1,88 +1,109 @@
-/* scripts/seedFullJson.cjs  ── run with:  node scripts/seedFullJson.cjs */
-
-require('ts-node/register');          // so TS models load
+// scripts/seedFullJson.cjs
+require('ts-node/register');     // load TS models on-the-fly
 require('dotenv').config();
 
 const fs       = require('fs/promises');
 const path     = require('path');
 const mongoose = require('mongoose');
+const { Types } = mongoose;
 
+// your strict models
 const Board = require('../models/Board').default;
 const List  = require('../models/List').default;
 const Task  = require('../models/task').default;
 
-const { Types } = mongoose;
+// map legacy user IDs → fresh ObjectIds
+const userIdMap = {};
+function getUserId(legacyId) {
+  if (!userIdMap[legacyId]) {
+    userIdMap[legacyId] = new Types.ObjectId();
+  }
+  return userIdMap[legacyId];
+}
 
-/* convert whole board JSON object to three collections */
-const inflateBoard = async (rawBoard) => {
-  /* 1 board */
+async function inflateBoard(raw) {
+  // 1) create board
   const boardId = new Types.ObjectId();
   await Board.create({
-    _id   : boardId,
-    title : rawBoard.boardTitle,
-    style : rawBoard.boardStyle,
-    // add whatever else you need…
+    _id       : boardId,
+    title     : raw.boardTitle,
+    style     : raw.boardStyle,
+    isStarred : !!raw.isStarred,
+    archivedAt: raw.archivedAt ?? null,
   });
 
-  /* 2 lists */
-  const listIdMap = {};   // legacy list _id -> new ObjectId
-  const listDocs  = rawBoard.boardLists.map((list, idx) => {
-    const newId = new Types.ObjectId();
-    listIdMap[list._id] = newId;
+  // 2) create lists
+  const listIdMap = {};
+  const listDocs = raw.boardLists.map((l, idx) => {
+    const id = new Types.ObjectId();
+    listIdMap[l._id] = id;
     return {
-      _id   : newId,
-      board : boardId,
-      title : list.taskListTitle,
-      position: idx,
+      _id       : id,
+      board     : boardId,
+      title     : l.taskListTitle,
+      position  : idx,
+      style     : l.listStyle,
+      archivedAt: l.archivedAt ?? null,
     };
   });
   await List.insertMany(listDocs);
 
-  /* 3 tasks */
-  const taskDocs = rawBoard.boardLists.flatMap((list, lidx) =>
-    (list.taskList || []).map((task, tidx) => ({
-      title        : task.taskTitle,
-      description  : task.taskDescription,
-      board        : boardId,
-      list         : listIdMap[list._id],
-      labels       : (task.taskLabels ?? []).map(l => l.color),
-      isDueComplete: task.isDueComplete ?? false,
-      members      : (task.taskMembers ?? []).map(m => m._id),
-      startDate    : task.taskStartDate ? new Date(task.taskStartDate) : undefined,
-      dueDate      : task.taskDueDate   ? new Date(task.taskDueDate)   : undefined,
-      reminder     : task.taskDateReminder ? new Date(task.taskDateReminder) : undefined,
-      coordinates  : task.taskCoordinates,
-      checklist    : (task.taskCheckList ?? []).map(txt => ({ text:String(txt) })),
-      cover        : task.taskCover,
-      comments     : (task.taskActivityComments ?? []).map(c => ({
-                       user: c.userId, text:c.comment, createdAt:new Date(c.date)
+  // 3) create tasks
+  const taskDocs = raw.boardLists.flatMap((l) =>
+    (l.taskList || []).map((t, tIdx) => ({
+      board       : boardId,
+      list        : listIdMap[l._id],
+      title       : t.taskTitle,
+      description : t.taskDescription,
+      labels      : (t.taskLabels || []).map(lbl => lbl.color),
+      isDueComplete: t.isDueComplete || false,
+      members     : (t.taskMembers || []).map(m => getUserId(m._id)),
+      startDate   : t.taskStartDate ? new Date(t.taskStartDate) : undefined,
+      dueDate     : t.taskDueDate   ? new Date(t.taskDueDate)   : undefined,
+      reminder    : t.taskDateReminder
+                       ? new Date(t.taskDateReminder)
+                       : undefined,
+      coordinates : t.taskCoordinates,
+      checklist   : (t.taskCheckList || []).map(txt => ({ text:String(txt) })),
+      cover       : t.taskCover || undefined,
+      comments    : (t.taskActivityComments || []).map(c => ({
+                       user      : getUserId(c.userId),  // call the function here
+                       text      : c.comment,
+                       createdAt : new Date(c.date),
                      })),
-      position     : tidx,
+      archivedAt  : t.archivedAt || null,
+      position    : tIdx,
     }))
   );
   await Task.insertMany(taskDocs);
 
-  console.log(`✓ Imported board “${rawBoard.boardTitle}” with`,
-              listDocs.length, 'lists and',
-              taskDocs.length, 'tasks');
-};
+  console.log(` ${raw.boardTitle}: ${listDocs.length} lists, ${taskDocs.length} tasks`);
+}
 
 (async () => {
-  if (!process.env.MONGO_URI) throw new Error('MONGO_URI not set');
+  if (!process.env.MONGO_URI) {
+    throw new Error('MONGO_URI not set in .env');
+  }
   await mongoose.connect(process.env.MONGO_URI);
   console.log('Mongo connected');
 
-  const jsonPath  = path.join(__dirname, '..', 'berllo.json');
-  const raw       = JSON.parse(await fs.readFile(jsonPath, 'utf-8'));
+  // wipe all demo data
+  await Promise.all([
+    Board.deleteMany({}),
+    List.deleteMany({}),
+    Task.deleteMany({}),
+  ]);
 
-  await Board.deleteMany({});
-  await List.deleteMany({});
-  await Task.deleteMany({});
+  // read your full JSON dump
+  const raw = JSON.parse(
+    await fs.readFile(path.join(__dirname, '..', 'berllo.json'), 'utf-8')
+  );
 
+  // inflate each board
   for (const board of raw.boards) {
     await inflateBoard(board);
   }
 
   console.log('Seeding complete!');
-  process.exit();
+  process.exit(0);
 })();

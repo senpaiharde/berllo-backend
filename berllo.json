@@ -1,0 +1,285 @@
+{
+  "boards": [
+    {
+      "_id": "dgsgs1",
+      "boardTitle": "testBoard",
+      "isStarred": false,
+      "archivedAt": 1710945000000,
+      "createdBy": {
+        "_id": "u101",
+        "fullname": "Abi Abambi",
+        "imgUrl": "http://some-img"
+      },
+      "boardStyle": {
+        "backgroundImage": ""
+      },
+      "boardLabels": [
+        { "id": "d1", "color": "#4BCE97", "title": "" },
+        { "id": "d2", "color": "#F5CD47", "title": "" },
+        { "id": "d3", "color": "#FEA362", "title": "" },
+        { "id": "d4", "color": "#F87168", "title": "" },
+        { "id": "d5", "color": "#9F8FEF", "title": "" },
+        { "id": "d6", "color": "#6CC3E0", "title": "" },
+        { "id": "d7", "color": "#0C66E4", "title": "" }
+      ],
+      "boardMembers": [
+        {
+          "_id": "u101",
+          "title": "Slava",
+          "icon": "https://trello-members.s3.amazonaws.com/67dc0d58156e00a0d36695b5/5ebdcda4c17a9f4c8c5d9d381df3910a/30.png"
+        },
+        {
+          "_id": "u102",
+          "title": "Eli",
+          "icon": "https://trello-members.s3.amazonaws.com/67dd4a1311ccad73b3c84135/cb6be1f71478f8e991dd20dc7d409494/50.png"
+        },
+        {
+          "_id": "u103",
+          "title": "ohad",
+          "icon": "https://trello-members.s3.amazonaws.com/67dc117d6c8086501c05fc74/3feae410612bcc882499031607e372b7/50.png"
+        }
+      ],
+      "boardActivities": [
+        {
+          "id": "a101",
+          "title": "Changed Color",
+          "createdAt": 1710945000000,
+          "byMember": {
+            "_id": "u101",
+            "fullname": "Abi Abambi",
+            "imgUrl": "http://some-img"
+          },
+          "group": {
+            "id": "g101",
+            "title": "Urgent Stuff"
+          },
+          "task": {
+            "id": "c101",
+            "title": "Replace Logo"
+          }
+        }
+      ],
+      "boardLists": [
+        {
+          "_id": "list1",
+          "taskListTitle": "Backlog",
+          "taskListBoard": "dgsgs1",
+          "archivedAt": null,
+          "listCollapsed": false,
+          "sortedBy": "date",
+          "listStyle": {
+            "backgroundColor": ""
+          },
+          "taskList": [
+            {
+              "_id": "task1",
+              "taskChecked": false,
+              "archivedAt": null,
+              "taskMembers": [
+                {
+                  "_id": "u101",
+                  "title": "Slava",
+                  "icon": "https://trello-members.s3.amazonaws.com/67dc0d58156e00a0d36695b5/5ebdcda4c17a9f4c8c5d9d381df3910a/30.png"
+                },
+                {
+                  "_id": "u102",
+                  "title": "Eli",
+                  "icon": "https://trello-members.s3.amazonaws.com/67dd4a1311ccad73b3c84135/cb6be1f71478f8e991dd20dc7d409494/50.png"
+                },
+                {
+                  "_id": "u103",
+                  "title": "ohad",
+                  "icon": "https://trello-members.s3.amazonaws.com/67dc117d6c8086501c05fc74/3feae410612bcc882499031607e372b7/50.png"
+                }
+              ],
+              "taskTitle": "Setup project",
+              "taskDescription": "Initialize repo and setup project",
+              "taskLabels": [
+                {
+                  "id": "l101",
+                  "title": "",
+                  "color": "#AE4787"
+                }
+              ],
+              "taskStartDate": 1710945000000,
+              "taskCoordinates": [32.0, 34.6],
+              "taskDueDate": 1711045000000,
+              "taskDateReminder": 1711000000000,
+              "taskList": "list1",
+              "taskboard": "dgsgs1",
+              "taskCheckList": ["1", "2"],
+              "taskCover": {
+                "coverType": "color",
+                "coverColor": "#FFD700",
+                "coverImg": ""
+              },
+              "taskActivityComments": [
+                {
+                  "userId": "u102",
+                  "userFullName": "Josh Ga",
+                  "comment": "Let's get this started!",
+                  "date": 1710945000000
+                }
+              ]
+            },
+            {
+              "_id": "task2",
+              "taskChecked": false,
+              "archivedAt": null,
+              "taskMembers": [
+                {
+                  "_id": "u102",
+                  "title": "Eli",
+                  "icon": "https://trello-members.s3.amazonaws.com/67dd4a1311ccad73b3c84135/cb6be1f71478f8e991dd20dc7d409494/50.png"
+                },
+                {
+                  "_id": "u103",
+                  "title": "ohad",
+                  "icon": "https://trello-members.s3.amazonaws.com/67dc117d6c8086501c05fc74/3feae410612bcc882499031607e372b7/50.png"
+                }
+              ],
+              "taskTitle": "Research UI Libraries",
+              "taskDescription": "Look for the best UI framework for our project",
+              "taskLabels": [
+                {
+                  "id": "l101",
+                  "title": "",
+                  "color": "#AE4787"
+                }
+              ],
+              "taskStartDate": 1710945000000,
+              "taskCoordinates": [32.5, 34.8],
+              "taskDueDate": 1711145000000,
+              "taskDateReminder": 1711100000000,
+              "taskList": "list1",
+              "taskboard": "dgsgs1",
+              "taskCheckList": ["1", "2", "3"],
+              "taskCover": {
+                "coverType": "image",
+                "coverColor": "",
+                "coverImg": "http://www.img.com/ui.png"
+              },
+              "taskActivityComments": []
+            }
+          ]
+        },
+        {
+          "_id": "list2",
+          "taskListTitle": "In Progress",
+          "taskListBoard": "dgsgs1",
+          "archivedAt": null,
+          "listCollapsed": false,
+          "sortedBy": "priority",
+          "listStyle": {
+            "backgroundColor": "#f4f4f4"
+          },
+          "taskList": [
+            {
+              "_id": "task3",
+              "taskChecked": false,
+              "archivedAt": null,
+              "taskMembers": [
+                {
+                  "_id": "u101",
+                  "title": "Slava",
+                  "icon": "https://trello-members.s3.amazonaws.com/67dc0d58156e00a0d36695b5/5ebdcda4c17a9f4c8c5d9d381df3910a/30.png"
+                },
+                {
+                  "_id": "u102",
+                  "title": "Eli",
+                  "icon": "https://trello-members.s3.amazonaws.com/67dd4a1311ccad73b3c84135/cb6be1f71478f8e991dd20dc7d409494/50.png"
+                }
+              ],
+              "taskTitle": "Develop API",
+              "taskDescription": "Create endpoints for user authentication",
+              "taskLabels": [
+                {
+                  "id": "l101",
+                  "title": "",
+                  "color": "#AE4787"
+                }
+              ],
+              "taskStartDate": 1710950000000,
+              "taskCoordinates": [32.0, 34.7],
+              "taskDueDate": 1711245000000,
+              "taskDateReminder": 1711200000000,
+              "taskList": "list2",
+              "taskboard": "dgsgs1",
+              "taskCheckList": ["1"],
+              "taskCover": {
+                "coverType": "color",
+                "coverColor": "#FF5733",
+                "coverImg": ""
+              },
+              "taskActivityComments": [
+                {
+                  "userId": "u101",
+                  "userFullName": "Abi Abambi",
+                  "comment": "API structure looks great!",
+                  "date": 1711055000000
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "_id": "list3",
+          "taskListTitle": "Done",
+          "taskListBoard": "dgsgs1",
+          "archivedAt": null,
+          "listCollapsed": false,
+          "sortedBy": "priority",
+          "listStyle": {
+            "backgroundColor": "#dff0d8"
+          },
+          "taskList": [
+            {
+              "_id": "task4",
+              "taskChecked": true,
+              "archivedAt": null,
+              "taskMembers": [
+                {
+                  "_id": "u101",
+                  "title": "Slava",
+                  "icon": "https://trello-members.s3.amazonaws.com/67dc0d58156e00a0d36695b5/5ebdcda4c17a9f4c8c5d9d381df3910a/30.png"
+                },
+                {
+                  "_id": "u102",
+                  "title": "Eli",
+                  "icon": "https://trello-members.s3.amazonaws.com/67dd4a1311ccad73b3c84135/cb6be1f71478f8e991dd20dc7d409494/50.png"
+                },
+                {
+                  "_id": "u103",
+                  "title": "ohad",
+                  "icon": "https://trello-members.s3.amazonaws.com/67dc117d6c8086501c05fc74/3feae410612bcc882499031607e372b7/50.png"
+                }
+              ],
+              "taskTitle": "Set up CI/CD",
+              "taskDescription": "Configured GitHub Actions",
+              "taskLabels": [
+                {
+                  "id": "l104",
+                  "title": "",
+                  "color": "#AE4787"
+                }
+              ],
+              "taskStartDate": 1710945000000,
+              "taskCoordinates": [32.0, 34.6],
+              "taskDueDate": 1711005000000,
+              "taskDateReminder": 1710985000000,
+              "taskList": "list3",
+              "taskboard": "dgsgs1",
+              "taskCheckList": ["1", "2"],
+              "taskCover": {
+                "coverType": "color",
+                "coverColor": "#5bc0de",
+                "coverImg": ""
+              },
+              "taskActivityComments": []
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
