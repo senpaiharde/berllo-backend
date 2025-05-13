@@ -21,4 +21,6 @@ const ActivitySchema = new Schema<IActivity>(
   },
   { timestamps: { createdAt: true, updatedAt: false } }
 );
+
+ActivitySchema.index({ board: 1, createdAt: -1 });
 export default mongoose.model<IActivity>('ActivityEntry', ActivitySchema);

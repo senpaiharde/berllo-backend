@@ -18,4 +18,10 @@ const ListSchema = new Schema<IList>(
   },
   { timestamps: true }
 );
-export default mongoose.model<IList>('ListEntry', ListSchema);
+ ListSchema.index({ board: 1, position: 1 }); // ordered column query
+
+ export default mongoose.model<IList>(
+   'List',
+   ListSchema,
+   'lists'
+ );

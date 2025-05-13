@@ -23,7 +23,7 @@ const MemberSchema = new Schema<IBoardMember>({
 });
 interface IBoard extends Document {
   title: string;
-  style: { backgroundImage?: string };
+  style : Schema.Types.Mixed, 
   isStarred: boolean;
   archivedAt?: Date;
   labels: ILabel[];
@@ -42,4 +42,9 @@ const BoardSchema = new Schema<IBoard>(
   },
   { timestamps: true }
 );
-export default mongoose.model<IBoard>('BoardEntry', BoardSchema);
+BoardSchema.index({ isStarred: 1 });
+export default mongoose.model<IBoard>(
+   'Board',              // model name
+   BoardSchema,
+   'boards'              //  explicit collection
+ );
