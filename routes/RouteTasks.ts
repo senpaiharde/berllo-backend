@@ -75,7 +75,9 @@ router.post('/', async (req: Request, res: Response): Promise<any> => {
 // READ
 router.get('/:id', async (req: Request, res: Response): Promise<any> => {
   try {
+     console.log(` GET /tasks/${req.params.id}`); 
     const task = await Task.findById(req.params.id).lean();
+     console.log(' DB returned:', task);         
     if (!task) {
       return res.status(404).json({ error: 'Task not found' });
     }
@@ -89,6 +91,7 @@ router.get('/:id', async (req: Request, res: Response): Promise<any> => {
 // UPDATE
 router.put('/:id', async (req: Request, res: Response): Promise<any> => {
   try {
+    
     // 1) map front-end keys → schema keys
     const aliasMap: Record<string,string> = {
       taskTitle:            'title',
@@ -123,15 +126,15 @@ router.put('/:id', async (req: Request, res: Response): Promise<any> => {
         updates[field] = val;
       }
     }
-
+     console.log(` PUT /tasks/${req.params.id}`, 'updates:', updates);
     // 4) apply update
     const task = await Task.findByIdAndUpdate(
       req.params.id,
       { $set: updates },
       { new: true, runValidators: true }
     );
-
-    if (!task) {
+       console.log('   After update, DB returned:', task);   
+    if (!task) { 
       return res.status(404).json({ error: 'Task not found' });
     }
 

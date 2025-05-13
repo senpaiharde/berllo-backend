@@ -7,6 +7,7 @@ import boardRouter from './routes/RouteBoard';
 import taskRouter from './routes/RouteTasks';
 
 import authRoutes from './routes/Routeauth'
+require('ts-node/register');
 dotenv.config();
 
 const app = express();
