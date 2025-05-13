@@ -3,10 +3,10 @@ import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import dotenv from 'dotenv';
-import boardRouter from './routes/Board';
+import boardRouter from './routes/RouteBoard';
+import taskRouter from './routes/RouteTasks';
 
-
-import authRoutes from './routes/auth'
+import authRoutes from './routes/Routeauth';
 dotenv.config();
 
 const app = express();
@@ -21,7 +21,7 @@ app.use(express.json());
 
 app.use('/auth', authRoutes);
 app.use('/board', boardRouter);
-
+app.use('/tasks', taskRouter);
 
 
 app.use((req, res) => {

@@ -6,34 +6,49 @@ import List from '../models/List';
 import Task from '../models/task';
 import Activity from '../models/activity';
 
-import { pick } from '../utils/pick.js';
+import pick from '../utils/pick';
 
 const router = Router();
 router.use(authMiddleware);
 
-router.post(':listId', async (req: Request, res: Response): Promise<any> => {
+router.post('/', async (req: Request, res: Response): Promise<any> => {
   try {
-    const list = await List.findById(req.params.listId).populate({
+    
+  //  pull listId from the request body
+    const {
+      listId,                           
+      title,
+      description,
+      labels,
+      members,
+      startDate,
+      dueDate,
+      position,
+    } = req.body as {
+      listId: string;                   
+      title?: string;
+      description?: string;
+      labels?: string[];
+      members?: string[];
+      startDate?: Date;
+      dueDate?: Date;
+      position?: number;
+    };
+
+     if (!listId ) return res.status(400).json({ error: 'listId is required' });
+
+    const list = await List.findById(listId).populate({
       path: 'board',
       match: { 'members.user': req.user!.id },
       select: '_id',
     });
 
-    if (!list || !list.board) return res.status(404).json({ error: 'cant post list' });
+    
+   if (!list || !list.board) {
+      return res.status(404).json({ error: 'cant post list' });
+    }
 
-    const { title, description, labels, members, startDate, dueDate, position } =
-      req.body as Partial<{
-        title: string;
-        description: string;
-        labels: string[];
-        members: string[];
-        startDate: Date;
-        dueDate: Date;
-        position: number;
-      }>;
-
-
-      const task = await Task.create({
+     const task = await Task.create({
       board: list.board._id,
       list: list._id,
       title,
@@ -43,28 +58,26 @@ router.post(':listId', async (req: Request, res: Response): Promise<any> => {
       startDate,
       dueDate,
       position,
-      
     });
-     await Activity.create({
+
+
+    await Activity.create({
       board: list.board._id,
       user: req.user!.id,
       entity: { kind: 'task', id: task._id },
       action: 'created_task',
     });
 
-    res.status(201).json(task)
+    res.status(201).json(task);
   } catch (err: any) {
     console.error(err);
     res.status(500).json({ error: 'Could not create task' });
   }
 });
 
-
 router.get('/:id', async (req: Request, res: Response): Promise<any> => {
   try {
-    const task = await Task.findById(req.params.id)
-      .populate('members', 'fullName avatar')
-      .lean();
+    const task = await Task.findById(req.params.id).populate('members', 'fullName avatar').lean();
 
     if (!task) return res.status(404).json({ error: 'Task not found' });
 
@@ -83,46 +96,51 @@ router.get('/:id', async (req: Request, res: Response): Promise<any> => {
   }
 });
 
-
-
 router.put('/:id', async (req: Request, res: Response): Promise<any> => {
   try {
-   const allowed = [
-  'title', 'description', 'labels', 'members',
-  'startDate', 'dueDate', 'reminder',
-  'coordinates', 'cover', 'checklist', 'comments',
-  'position', 'archivedAt',
-] as const;
-    const update = pick(req.body, allowed)
+    const allowed = [
+      'title',
+      'description',
+      'labels',
+      'members',
+      'startDate',
+      'dueDate',
+      'reminder',
+      'coordinates',
+      'cover',
+      'checklist',
+      'comments',
+      'position',
+      'archivedAt',
+    ] as const;
+    const update = pick(req.body, allowed);
 
-    const task =  await Task.findByIdAndUpdate(
-        { _id: req.params.id },
+    const task = await Task.findByIdAndUpdate(
+      { _id: req.params.id },
       { $set: update },
       { new: true, runValidators: true }
     ).populate({
-        path: 'board',
-        match: {'members.user': req.user!.id},
-        select: '_id',
-    })
-
+      path: 'board',
+      match: { 'members.user': req.user!.id },
+      select: '_id',
+    });
 
     if (!task || !task.board) return res.status(403).json({ error: 'Forbidden' });
 
     await Activity.create({
-        board: task.board._id,
-        user: req.user!.id,
-          entity: { kind: 'task', id: task._id },
-          action: 'updated_task',
-          payload: update
-    })
+      board: task.board._id,
+      user: req.user!.id,
+      entity: { kind: 'task', id: task._id },
+      action: 'updated_task',
+      payload: update,
+    });
 
-    res.json(task)
+    res.json(task);
   } catch (e) {
     console.error(e);
     res.status(500).json({ error: 'Could not fetch task' });
   }
 });
-
 
 router.delete('/:id', async (req: Request, res: Response): Promise<any> => {
   try {
@@ -138,7 +156,7 @@ router.delete('/:id', async (req: Request, res: Response): Promise<any> => {
       task.archivedAt = new Date();
       await task.save();
 
-       await Activity.create({
+      await Activity.create({
         board: task.board._id,
         user: req.user!.id,
         entity: { kind: 'task', id: task._id },
@@ -149,12 +167,12 @@ router.delete('/:id', async (req: Request, res: Response): Promise<any> => {
 
     // Hard-delete – wipe board + children in one go
     await Promise.all([
-      Activity.deleteMany({'entity_id': task._id}),
-      Task.deleteOne({_id: task._id})
+      Activity.deleteMany({ 'entity_id': task._id }),
+      Task.deleteOne({ _id: task._id }),
     ]);
 
     await Activity.create({
-      board: task._id,
+      board: task.board._id,
       user: req.user?.id,
       entity: { kind: 'task', id: task._id },
       action: 'deleted_task',
@@ -166,6 +184,5 @@ router.delete('/:id', async (req: Request, res: Response): Promise<any> => {
     res.status(500).json({ error: 'Could not delete entry' });
   }
 });
-
 
 export default router;

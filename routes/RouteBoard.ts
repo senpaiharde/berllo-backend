@@ -2,7 +2,7 @@ import { Router, Request, Response, NextFunction } from 'express';
 import { authMiddleware } from '../middlewares/authmiddleware';
 import  Board  from '../models/Board';
 import   List from '../models/List';
-import { pick } from '../utils/pick';
+import  pick  from '../utils/pick';
 import Activity from '../models/activity';
 import Task from '../models/task';
 const router = Router();
