@@ -26,4 +26,4 @@ const userSchema = new Schema<IUser>(
     { timestamps: true }
 )
 
-export default mongoose.model<IUser>('user',userSchema);
+export default mongoose.model<IUser>('User',userSchema);
