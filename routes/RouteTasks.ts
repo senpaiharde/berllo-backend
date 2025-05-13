@@ -24,6 +24,7 @@ router.post('/', async (req: Request, res: Response): Promise<any> => {
       startDate,
       dueDate,
       position,
+      isDueComplete
     } = req.body as {
       listId: string;                   
       title?: string;
@@ -33,6 +34,7 @@ router.post('/', async (req: Request, res: Response): Promise<any> => {
       startDate?: Date;
       dueDate?: Date;
       position?: number;
+      isDueComplete: Boolean,
     };
 
      if (!listId ) return res.status(400).json({ error: 'listId is required' });
@@ -58,6 +60,7 @@ router.post('/', async (req: Request, res: Response): Promise<any> => {
       startDate,
       dueDate,
       position,
+      isDueComplete,
     });
 
 
@@ -112,6 +115,7 @@ router.put('/:id', async (req: Request, res: Response): Promise<any> => {
       'comments',
       'position',
       'archivedAt',
+      'isDueComplete',
     ] as const;
     const update = pick(req.body, allowed);
 
