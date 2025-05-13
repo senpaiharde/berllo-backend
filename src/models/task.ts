@@ -38,7 +38,12 @@ interface ITask extends Document {
   list: Types.ObjectId;
   title: string;
   description?: string;
-  labels: string[];
+  labels: [
+    {  id: { type: String },
+      color: { type: String; required: true };
+      title: { type: String; default: '' };
+    }
+  ];
   isDueComplete: Boolean;
   members: Types.ObjectId[];
   startDate?: Date;
@@ -58,7 +63,12 @@ const TaskSchema = new Schema<ITask>(
     list: { type: Schema.Types.ObjectId, ref: 'List', required: true, index: true },
     title: { type: String, required: true },
     description: String,
-    labels: [String],
+    labels: [
+      {  id: { type: String },
+        color: { type: String, required: true },
+        title: { type: String, default: '' },
+      },
+    ],
     isDueComplete: { type: Boolean, default: false },
     members: [{ type: Schema.Types.ObjectId, ref: 'User' }],
     startDate: Date,
