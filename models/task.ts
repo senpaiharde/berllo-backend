@@ -38,6 +38,7 @@ interface ITask extends Document {
   title: string;
   description?: string;
   labels: string[];
+  isDueComplete: Boolean,
   members: Types.ObjectId[];
   startDate?: Date;
   dueDate?: Date;
@@ -58,6 +59,7 @@ const TaskSchema = new Schema<ITask>(
     title: { type: String, required: true },
     description: String,
     labels: [String],
+     isDueComplete: { type: Boolean, default: false },
     members: [{ type: Schema.Types.ObjectId, ref: 'User' }],
     startDate: Date,
     dueDate: Date,
