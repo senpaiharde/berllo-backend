@@ -4,26 +4,27 @@ interface ICheckItem extends Document {
   text: string;
   done: boolean;
 }
-const CheckItemSchema = new Schema<ICheckItem>({
-  text: String,
-  done: { type:Boolean, default:false },
-}, { _id:false });  
-
-
+const CheckItemSchema = new Schema<ICheckItem>(
+  {
+    text: String,
+    done: { type: Boolean, default: false },
+  },
+  { _id: false }
+);
 
 interface IComment {
   user: Types.ObjectId;
   text: string;
-   createdAt: Date,
+  createdAt: Date;
 }
 
 const CommentSchema = new Schema<IComment>(
   {
     user: { type: Schema.Types.ObjectId, ref: 'User' },
     text: String,
-     createdAt: { type: Date, default: Date.now },
+    createdAt: { type: Date, default: Date.now },
   },
-  { _id:false }
+  { _id: false }
 );
 
 interface ITaskCover {
@@ -32,15 +33,13 @@ interface ITaskCover {
   coverImg?: string;
 }
 
-
-
 interface ITask extends Document {
   board: Types.ObjectId;
   list: Types.ObjectId;
   title: string;
   description?: string;
   labels: string[];
-  isDueComplete: Boolean,
+  isDueComplete: Boolean;
   members: Types.ObjectId[];
   startDate?: Date;
   dueDate?: Date;
@@ -53,7 +52,6 @@ interface ITask extends Document {
   position: number;
 }
 
-
 const TaskSchema = new Schema<ITask>(
   {
     board: { type: Schema.Types.ObjectId, ref: 'Board', required: true, index: true },
@@ -61,7 +59,7 @@ const TaskSchema = new Schema<ITask>(
     title: { type: String, required: true },
     description: String,
     labels: [String],
-     isDueComplete: { type: Boolean, default: false },
+    isDueComplete: { type: Boolean, default: false },
     members: [{ type: Schema.Types.ObjectId, ref: 'User' }],
     startDate: Date,
     dueDate: Date,
@@ -88,8 +86,4 @@ const TaskSchema = new Schema<ITask>(
 );
 TaskSchema.index({ list: 1, position: 1 }); // tasks ordered within list
 
- export default mongoose.model<ITask>(
-   'Task',
-   TaskSchema,
-   'tasks'
- );
+export default mongoose.model<ITask>('Task', TaskSchema, 'taskentries');
