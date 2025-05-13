@@ -6,7 +6,7 @@ import dotenv from 'dotenv';
 import boardRouter from './routes/RouteBoard';
 import taskRouter from './routes/RouteTasks';
 
-import authRoutes from './routes/Routeauth';
+import authRoutes from './routes/Routeauth'
 dotenv.config();
 
 const app = express();

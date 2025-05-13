@@ -24,6 +24,7 @@ router.post('/', async (req: Request, res: Response): Promise<any> => {
       startDate,
       dueDate,
       position,
+      isDueComplete
     } = req.body as {
       listId: string;                   
       title?: string;
@@ -33,6 +34,7 @@ router.post('/', async (req: Request, res: Response): Promise<any> => {
       startDate?: Date;
       dueDate?: Date;
       position?: number;
+      isDueComplete: Boolean,
     };
 
      if (!listId ) return res.status(400).json({ error: 'listId is required' });
@@ -58,6 +60,7 @@ router.post('/', async (req: Request, res: Response): Promise<any> => {
       startDate,
       dueDate,
       position,
+      isDueComplete,
     });
 
 
@@ -98,6 +101,33 @@ router.get('/:id', async (req: Request, res: Response): Promise<any> => {
 
 router.put('/:id', async (req: Request, res: Response): Promise<any> => {
   try {
+
+
+    // Map incoming legacy keys to  schema keys
+    const renameMap: Record<string, string> = {
+      taskTitle:               'title',
+      taskDescription:         'description',
+      taskLabels:              'labels',
+      taskMembers:             'members',
+      taskStartDate:           'startDate',
+      taskDueDate:             'dueDate',
+      taskDateReminder:        'reminder',
+      taskCoordinates:         'coordinates',
+      taskCheckList:           'checklist',
+      taskCover:               'cover',
+      taskActivityComments:    'comments',
+      isDueComplete:           'isDueComplete',
+      archivedAt:              'archivedAt',
+      position:                'position',
+    };
+
+    // build a normalized body object
+    const normalized: any = {};
+    for (const key of Object.keys(req.body)) {
+      const mapped = renameMap[key] || key;   // map or keep original
+      normalized[mapped] = req.body[key];
+    }
+
     const allowed = [
       'title',
       'description',
@@ -112,11 +142,12 @@ router.put('/:id', async (req: Request, res: Response): Promise<any> => {
       'comments',
       'position',
       'archivedAt',
+      'isDueComplete',
     ] as const;
-    const update = pick(req.body, allowed);
+    const update = pick(normalized, allowed);
 
     const task = await Task.findByIdAndUpdate(
-      { _id: req.params.id },
+       req.params.id ,
       { $set: update },
       { new: true, runValidators: true }
     ).populate({
@@ -128,7 +159,7 @@ router.put('/:id', async (req: Request, res: Response): Promise<any> => {
     if (!task || !task.board) return res.status(403).json({ error: 'Forbidden' });
 
     await Activity.create({
-      board: task.board._id,
+      board: task.board,
       user: req.user!.id,
       entity: { kind: 'task', id: task._id },
       action: 'updated_task',

@@ -6,8 +6,10 @@ interface ICheckItem extends Document {
 }
 const CheckItemSchema = new Schema<ICheckItem>({
   text: String,
-  done: { type: Boolean, default: false },
-});
+  done: { type:Boolean, default:false },
+}, { _id:false });  
+
+
 
 interface IComment {
   user: Types.ObjectId;
@@ -21,7 +23,7 @@ const CommentSchema = new Schema<IComment>(
     text: String,
      createdAt: { type: Date, default: Date.now },
   },
-  { timestamps: true }
+  { _id:false }
 );
 
 interface ITaskCover {
@@ -38,6 +40,7 @@ interface ITask extends Document {
   title: string;
   description?: string;
   labels: string[];
+  isDueComplete: Boolean,
   members: Types.ObjectId[];
   startDate?: Date;
   dueDate?: Date;
@@ -58,6 +61,7 @@ const TaskSchema = new Schema<ITask>(
     title: { type: String, required: true },
     description: String,
     labels: [String],
+     isDueComplete: { type: Boolean, default: false },
     members: [{ type: Schema.Types.ObjectId, ref: 'User' }],
     startDate: Date,
     dueDate: Date,
@@ -82,4 +86,10 @@ const TaskSchema = new Schema<ITask>(
   },
   { timestamps: true }
 );
-export default mongoose.model<ITask>('TaskEntry', TaskSchema);
+TaskSchema.index({ list: 1, position: 1 }); // tasks ordered within list
+
+ export default mongoose.model<ITask>(
+   'Task',
+   TaskSchema,
+   'tasks'
+ );
