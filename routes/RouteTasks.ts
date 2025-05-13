@@ -11,12 +11,11 @@ import pick from '../utils/pick';
 const router = Router();
 router.use(authMiddleware);
 
+// CREATE
 router.post('/', async (req: Request, res: Response): Promise<any> => {
   try {
-    
-  //  pull listId from the request body
     const {
-      listId,                           
+      listId,
       title,
       description,
       labels,
@@ -24,9 +23,9 @@ router.post('/', async (req: Request, res: Response): Promise<any> => {
       startDate,
       dueDate,
       position,
-      isDueComplete
+      isDueComplete,
     } = req.body as {
-      listId: string;                   
+      listId: string;
       title?: string;
       description?: string;
       labels?: string[];
@@ -34,25 +33,21 @@ router.post('/', async (req: Request, res: Response): Promise<any> => {
       startDate?: Date;
       dueDate?: Date;
       position?: number;
-      isDueComplete: Boolean,
+      isDueComplete?: boolean;
     };
 
-     if (!listId ) return res.status(400).json({ error: 'listId is required' });
-
-    const list = await List.findById(listId).populate({
-      path: 'board',
-      match: { 'members.user': req.user!.id },
-      select: '_id',
-    });
-
-    
-   if (!list || !list.board) {
-      return res.status(404).json({ error: 'cant post list' });
+    if (!listId) {
+      return res.status(400).json({ error: 'listId is required' });
     }
 
-     const task = await Task.create({
-      board: list.board._id,
-      list: list._id,
+    const list = await List.findById(listId);
+    if (!list) {
+      return res.status(404).json({ error: 'List not found' });
+    }
+
+    const task = await Task.create({
+      board: list.board,
+      list : list._id,
       title,
       description,
       labels,
@@ -63,10 +58,9 @@ router.post('/', async (req: Request, res: Response): Promise<any> => {
       isDueComplete,
     });
 
-
     await Activity.create({
-      board: list.board._id,
-      user: req.user!.id,
+      board: list.board,
+      user : req.user!.id,
       entity: { kind: 'task', id: task._id },
       action: 'created_task',
     });
@@ -78,141 +72,121 @@ router.post('/', async (req: Request, res: Response): Promise<any> => {
   }
 });
 
+// READ
 router.get('/:id', async (req: Request, res: Response): Promise<any> => {
   try {
-    const task = await Task.findById(req.params.id).populate('members', 'fullName avatar').lean();
-
-    if (!task) return res.status(404).json({ error: 'Task not found' });
-
-    /* security: confirm requester is on the board */
-    const board = await Board.findOne({
-      _id: task.board,
-      'members.user': req.user!.id,
-    }).select('_id');
-
-    if (!board) return res.status(403).json({ error: 'Forbidden' });
-
+    const task = await Task.findById(req.params.id).lean();
+    if (!task) {
+      return res.status(404).json({ error: 'Task not found' });
+    }
     res.json(task);
-  } catch (e) {
-    console.error(e);
+  } catch (err: any) {
+    console.error(err);
     res.status(500).json({ error: 'Could not fetch task' });
   }
 });
 
+// UPDATE
 router.put('/:id', async (req: Request, res: Response): Promise<any> => {
   try {
-
-
-    // Map incoming legacy keys to  schema keys
-    const renameMap: Record<string, string> = {
-      taskTitle:               'title',
-      taskDescription:         'description',
-      taskLabels:              'labels',
-      taskMembers:             'members',
-      taskStartDate:           'startDate',
-      taskDueDate:             'dueDate',
-      taskDateReminder:        'reminder',
-      taskCoordinates:         'coordinates',
-      taskCheckList:           'checklist',
-      taskCover:               'cover',
-      taskActivityComments:    'comments',
-      isDueComplete:           'isDueComplete',
-      archivedAt:              'archivedAt',
-      position:                'position',
+    // 1) map front-end keys → schema keys
+    const aliasMap: Record<string,string> = {
+      taskTitle:            'title',
+      taskDescription:      'description',
+      taskLabels:           'labels',
+      taskMembers:          'members',
+      taskStartDate:        'startDate',
+      taskDueDate:          'dueDate',
+      taskDateReminder:     'reminder',
+      taskCoordinates:      'coordinates',
+      taskCheckList:        'checklist',
+      taskCover:            'cover',
+      taskActivityComments: 'comments',
+      isDueComplete:        'isDueComplete',
+      archivedAt:           'archivedAt',
+      position:             'position',
     };
 
-    // build a normalized body object
-    const normalized: any = {};
-    for (const key of Object.keys(req.body)) {
-      const mapped = renameMap[key] || key;   // map or keep original
-      normalized[mapped] = req.body[key];
+    // 2) whitelist schema fields
+    const allowedFields = new Set([
+      'title','description','labels','members',
+      'startDate','dueDate','reminder','coordinates',
+      'checklist','cover','comments',
+      'isDueComplete','archivedAt','position',
+    ]);
+
+    // 3) normalize & pick
+    const updates: any = {};
+    for (const [key, val] of Object.entries(req.body)) {
+      const field = aliasMap[key] || key;
+      if (allowedFields.has(field)) {
+        updates[field] = val;
+      }
     }
 
-    const allowed = [
-      'title',
-      'description',
-      'labels',
-      'members',
-      'startDate',
-      'dueDate',
-      'reminder',
-      'coordinates',
-      'cover',
-      'checklist',
-      'comments',
-      'position',
-      'archivedAt',
-      'isDueComplete',
-    ] as const;
-    const update = pick(normalized, allowed);
-
+    // 4) apply update
     const task = await Task.findByIdAndUpdate(
-       req.params.id ,
-      { $set: update },
+      req.params.id,
+      { $set: updates },
       { new: true, runValidators: true }
-    ).populate({
-      path: 'board',
-      match: { 'members.user': req.user!.id },
-      select: '_id',
-    });
+    );
 
-    if (!task || !task.board) return res.status(403).json({ error: 'Forbidden' });
+    if (!task) {
+      return res.status(404).json({ error: 'Task not found' });
+    }
 
     await Activity.create({
-      board: task.board,
-      user: req.user!.id,
+      board : task.board,
+      user  : req.user!.id,
       entity: { kind: 'task', id: task._id },
       action: 'updated_task',
-      payload: update,
+      payload: updates,
     });
 
     res.json(task);
-  } catch (e) {
-    console.error(e);
-    res.status(500).json({ error: 'Could not fetch task' });
+  } catch (err: any) {
+    console.error(err);
+    res.status(400).json({ error: err.message });
   }
 });
 
+// DELETE (soft/hard)
 router.delete('/:id', async (req: Request, res: Response): Promise<any> => {
   try {
-    const task = await Task.findById(req.params.id).populate({
-      path: 'board',
-      match: { 'members.user': req.user!.id },
-      select: '_id',
-    });
+    const task = await Task.findById(req.params.id);
+    if (!task) {
+      return res.status(404).json({ error: 'Task not found' });
+    }
 
-    if (!task || !task.board) return res.status(403).json({ error: 'Forbidden' });
-    // Soft-delete (archive)
+    // soft-delete if ?hard !== 'true'
     if (req.query.hard !== 'true') {
       task.archivedAt = new Date();
       await task.save();
-
       await Activity.create({
-        board: task.board._id,
-        user: req.user!.id,
-        entity: { kind: 'task', id: task._id },
-        action: 'archived_task',
+        board:   task.board,
+        user:    req.user!.id,
+        entity:  { kind: 'task', id: task._id },
+        action:  'archived_task',
       });
       return res.json({ message: 'Task archived' });
     }
 
-    // Hard-delete – wipe board + children in one go
+    // hard-delete
     await Promise.all([
-      Activity.deleteMany({ 'entity_id': task._id }),
+      Activity.deleteMany({ 'entity.id': task._id }),
       Task.deleteOne({ _id: task._id }),
     ]);
-
     await Activity.create({
-      board: task.board._id,
-      user: req.user?.id,
-      entity: { kind: 'task', id: task._id },
-      action: 'deleted_task',
+      board:   task.board,
+      user:    req.user!.id,
+      entity:  { kind: 'task', id: task._id },
+      action:  'deleted_task',
     });
 
     res.status(204).end();
   } catch (err: any) {
     console.error(err);
-    res.status(500).json({ error: 'Could not delete entry' });
+    res.status(500).json({ error: 'Could not delete task' });
   }
 });
 
