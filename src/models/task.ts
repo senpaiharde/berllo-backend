@@ -1,13 +1,23 @@
 import mongoose, { model, Schema, Types } from 'mongoose';
 
 interface ICheckItem extends Document {
-  text: string;
-  done: boolean;
+  title: string;
+  items: [
+    {
+      text: string;
+      done: Boolean;
+    }
+  ];
 }
 const CheckItemSchema = new Schema<ICheckItem>(
   {
-    text: String,
-    done: { type: Boolean, default: false },
+    title: { type: String, required: true },
+    items: [
+      {
+        text: String,
+        done: Boolean,
+      },
+    ],
   },
   { _id: false }
 );
@@ -61,7 +71,7 @@ interface ITask extends Document {
   cover?: ITaskCover;
   comments: IComment[];
   archivedAt?: Date;
-  isWatching: Boolean,
+  isWatching: Boolean;
   position: number;
 }
 

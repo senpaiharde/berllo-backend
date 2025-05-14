@@ -23,7 +23,8 @@ router.post('/', async (req: Request, res: Response): Promise<any> => {
       dueDate,
       position,
       isDueComplete,
-      isWatching
+      isWatching,
+      checklist
     } = req.body as {
       listId: string;
       title?: string;
@@ -34,7 +35,8 @@ router.post('/', async (req: Request, res: Response): Promise<any> => {
       dueDate?: Date;
       position?: number;
       isDueComplete?: boolean;
-      isWatching: Boolean
+      isWatching: Boolean,
+      checklist: string[]
     };
 
     if (!listId) {
@@ -57,7 +59,8 @@ router.post('/', async (req: Request, res: Response): Promise<any> => {
       dueDate,
       position,
       isDueComplete,
-      isWatching
+      isWatching,
+      checklist
     });
 
     await Activity.create({
@@ -79,7 +82,8 @@ router.get('/:id', async (req: Request, res: Response): Promise<any> => {
   try {
     console.log(` GET /tasks/${req.params.id}`);
     const task = await Task.findById(req.params.id).lean();
-    console.log(' DB returned:', task);
+    console.log('updating fetch',task)
+    
     if (!task) {
       return res.status(404).json({ error: 'Task not found' });
     }
@@ -108,9 +112,10 @@ router.put('/:id', async (req: Request, res: Response): Promise<any> => {
       taskMembers: 'members',
       taskStartDate: 'startDate',
       taskDueDate: 'dueDate',
-      taskDateReminder: 'reminder',
+      reminderSettings: 'reminder',
+      reminder: 'reminder',
       taskCoordinates: 'coordinates',
-      taskCheckList: 'checklist',
+      checklist: 'checklist',
       taskCover: 'cover',
       taskActivityComments: 'comments',
       isDueComplete: 'isDueComplete',
@@ -173,7 +178,7 @@ router.put('/:id', async (req: Request, res: Response): Promise<any> => {
       action: 'updated_task',
       payload: updates,
     });
-
+   console.log('→ Sending task to frontend:', task);
     res.json(task);
   } catch (err: any) {
     console.error(err);
