@@ -6,7 +6,8 @@ import dotenv from 'dotenv';
 import boardRouter from './routes/RouteBoard';
 import taskRouter from './routes/RouteTasks';
 
-import authRoutes from './routes/Routeauth'
+import authRoutes from './routes/Routeauth';
+
 dotenv.config();
 
 const app = express();
@@ -22,7 +23,7 @@ app.use(express.json());
 app.use('/auth', authRoutes);
 app.use('/board', boardRouter);
 app.use('/tasks', taskRouter);
-
+console.log('taskroute firing')
 
 app.use((req, res) => {
   res.status(404).json({ error: 'Route not found' });

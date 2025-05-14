@@ -1,29 +1,40 @@
 import mongoose, { model, Schema, Types } from 'mongoose';
 
 interface ICheckItem extends Document {
-  text: string;
-  done: boolean;
+  title: string;
+  items: [
+    {
+      text: string;
+      done: Boolean;
+    }
+  ];
 }
-const CheckItemSchema = new Schema<ICheckItem>({
-  text: String,
-  done: { type:Boolean, default:false },
-}, { _id:false });  
-
-
+const CheckItemSchema = new Schema<ICheckItem>(
+  {
+    title: { type: String, required: true },
+    items: [
+      {
+        text: String,
+        done: Boolean,
+      },
+    ],
+  },
+  { _id: false }
+);
 
 interface IComment {
   user: Types.ObjectId;
   text: string;
-   createdAt: Date,
+  createdAt: Date;
 }
 
 const CommentSchema = new Schema<IComment>(
   {
     user: { type: Schema.Types.ObjectId, ref: 'User' },
     text: String,
-     createdAt: { type: Date, default: Date.now },
+    createdAt: { type: Date, default: Date.now },
   },
-  { _id:false }
+  { _id: false }
 );
 
 interface ITaskCover {
@@ -32,16 +43,26 @@ interface ITaskCover {
   coverImg?: string;
 }
 
-
-
 interface ITask extends Document {
   board: Types.ObjectId;
   list: Types.ObjectId;
   title: string;
   description?: string;
-  labels: string[];
-  isDueComplete: Boolean,
-  members: Types.ObjectId[];
+  labels: [
+    {
+      id: { type: String };
+      color: { type: String; required: true };
+      title: { type: String; default: '' };
+    }
+  ];
+  isDueComplete: Boolean;
+  members: [
+    {
+      _id: String;
+      title: String;
+      icon: String;
+    }
+  ];
   startDate?: Date;
   dueDate?: Date;
   reminder?: Date;
@@ -50,9 +71,9 @@ interface ITask extends Document {
   cover?: ITaskCover;
   comments: IComment[];
   archivedAt?: Date;
+  isWatching: Boolean;
   position: number;
 }
-
 
 const TaskSchema = new Schema<ITask>(
   {
@@ -60,9 +81,22 @@ const TaskSchema = new Schema<ITask>(
     list: { type: Schema.Types.ObjectId, ref: 'List', required: true, index: true },
     title: { type: String, required: true },
     description: String,
-    labels: [String],
-     isDueComplete: { type: Boolean, default: false },
-    members: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+    isWatching: { type: Boolean, default: false },
+    labels: [
+      {
+        id: { type: String },
+        color: { type: String, required: true },
+        title: { type: String, default: '' },
+      },
+    ],
+    isDueComplete: { type: Boolean, default: false },
+    members: [
+      {
+        _id: String,
+        title: String,
+        icon: String,
+      },
+    ],
     startDate: Date,
     dueDate: Date,
     reminder: Date,
@@ -88,8 +122,4 @@ const TaskSchema = new Schema<ITask>(
 );
 TaskSchema.index({ list: 1, position: 1 }); // tasks ordered within list
 
- export default mongoose.model<ITask>(
-   'Task',
-   TaskSchema,
-   'tasks'
- );
+export default mongoose.model<ITask>('Task', TaskSchema, 'taskentries');
