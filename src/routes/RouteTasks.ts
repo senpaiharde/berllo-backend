@@ -23,6 +23,7 @@ router.post('/', async (req: Request, res: Response): Promise<any> => {
       dueDate,
       position,
       isDueComplete,
+      isWatching
     } = req.body as {
       listId: string;
       title?: string;
@@ -33,6 +34,7 @@ router.post('/', async (req: Request, res: Response): Promise<any> => {
       dueDate?: Date;
       position?: number;
       isDueComplete?: boolean;
+      isWatching: Boolean
     };
 
     if (!listId) {
@@ -55,6 +57,7 @@ router.post('/', async (req: Request, res: Response): Promise<any> => {
       dueDate,
       position,
       isDueComplete,
+      isWatching
     });
 
     await Activity.create({
@@ -113,6 +116,7 @@ router.put('/:id', async (req: Request, res: Response): Promise<any> => {
       isDueComplete: 'isDueComplete',
       archivedAt: 'archivedAt',
       position: 'position',
+      isWatching : 'isWatching',
     };
 
     // 2) whitelist schema fields
@@ -131,6 +135,7 @@ router.put('/:id', async (req: Request, res: Response): Promise<any> => {
       'isDueComplete',
       'archivedAt',
       'position',
+      'isWatching'
     ]);
     const exists = await Task.findOne({ _id: new mongoose.Types.ObjectId(id) });
     console.log('TASK EXISTS?', exists ? ' YES' : ' NO');
@@ -148,15 +153,15 @@ router.put('/:id', async (req: Request, res: Response): Promise<any> => {
      { _id: id },
       { $set: updates },
       { new: true, runValidators: true }
-    );
-
-    console.log('   After update, DB returned:', task);
+    )
+    console.log('Incoming members:', req.body.members);
+    
     // const task = await Task.findByIdAndUpdate(
     //   req.params.id,
     //   { $set: updates },
     //   { new: true, runValidators: true }
     //);
-    console.log('   After update, DB returned:', task);
+    
     if (!task) {
       return res.status(404).json({ error: 'Task not found' });
     }

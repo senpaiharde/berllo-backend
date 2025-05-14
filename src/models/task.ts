@@ -39,13 +39,20 @@ interface ITask extends Document {
   title: string;
   description?: string;
   labels: [
-    {  id: { type: String },
+    {
+      id: { type: String };
       color: { type: String; required: true };
       title: { type: String; default: '' };
     }
   ];
   isDueComplete: Boolean;
-  members: Types.ObjectId[];
+  members: [
+    {
+      _id: String;
+      title: String;
+      icon: String;
+    }
+  ];
   startDate?: Date;
   dueDate?: Date;
   reminder?: Date;
@@ -54,6 +61,7 @@ interface ITask extends Document {
   cover?: ITaskCover;
   comments: IComment[];
   archivedAt?: Date;
+  isWatching: Boolean,
   position: number;
 }
 
@@ -63,14 +71,22 @@ const TaskSchema = new Schema<ITask>(
     list: { type: Schema.Types.ObjectId, ref: 'List', required: true, index: true },
     title: { type: String, required: true },
     description: String,
+    isWatching: { type: Boolean, default: false },
     labels: [
-      {  id: { type: String },
+      {
+        id: { type: String },
         color: { type: String, required: true },
         title: { type: String, default: '' },
       },
     ],
     isDueComplete: { type: Boolean, default: false },
-    members: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+    members: [
+      {
+        _id: String,
+        title: String,
+        icon: String,
+      },
+    ],
     startDate: Date,
     dueDate: Date,
     reminder: Date,
