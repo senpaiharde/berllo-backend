@@ -4,6 +4,7 @@ interface ICheckItem extends Document {
   title: string;
   items: [
     {
+      _id: mongoose.Types.ObjectId;
       text: string;
       done: Boolean;
     }
@@ -14,6 +15,7 @@ const CheckItemSchema = new Schema<ICheckItem>(
     title: { type: String, required: true },
     items: [
       {
+        _id: mongoose.Types.ObjectId,
         text: String,
         done: Boolean,
       },
@@ -105,7 +107,20 @@ const TaskSchema = new Schema<ITask>(
       validate: (v: number[]) => v.length === 2,
       index: '2dsphere',
     },
-    checklist: [CheckItemSchema],
+    checklist: {
+      type: [
+        new Schema({
+          title: { type: String, required: true },
+          items: [
+            {
+              text: { type: String, required: true },
+              done: { type: Boolean, default: false },
+            },
+          ],
+        }),
+      ],
+      default: [],
+    },
     cover: {
       type: {
         coverType: { type: String, enum: ['color', 'image'] },
