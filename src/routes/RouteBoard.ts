@@ -1,20 +1,62 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import { authMiddleware } from '../middlewares/authmiddleware';
-import  Board  from '../models/Board';
-import   List from '../models/List';
+import  Board, {IBoard} from '../models/Board';
+import   List, {IList} from '../models/List';
 import  pick  from '../utils/pick';
 import Activity from '../models/activity';
-import Task from '../models/task';
+import Task, {ITask} from '../models/task';
 const router = Router();
+interface combineBoardFromgGetProps{
+  board: IBoard;
+  lists: IList;
+  tasks: ITask;
+}
+// function combineBoardFromGet({
+//   board,
+//   lists,
+//   tasks,
+// }: {
+//   board: IBoard;
+//   lists: IList[];
+//   tasks: ITask[];
+// }): IBoard {
+//   const listIdToTasksMap = new Map<string, ITask[]>();
 
+//   // Group tasks by list ID
+//   tasks.forEach((task) => {
+//     const listId = task.list.toString();
+//     if (!listIdToTasksMap.has(listId)) {
+//       listIdToTasksMap.set(listId, []);
+//     }
+//     listIdToTasksMap.get(listId)!.push(task);
+//   });
+
+//   // Attach tasks to the matching lists
+//   const updatedLists = lists.map((list) => {
+//     const listWithTasks = {
+//       ...list.toObject(), // detach from Mongoose prototype
+//       tasks: listIdToTasksMap.get(list._id.toString()) || [],
+//     };
+//     return listWithTasks;
+//   });
+
+//   // Update and return board
+//   const updatedBoard = {
+//     ...board.toObject(),
+//     lists: updatedLists,
+//     tasks,
+//   };
+
+//   return updatedBoard;
+// }
 
 router.post('/',  async (req: Request, res: Response) => {
   try {
     const { title, style } = req.body as { title: string; style?: { backgroundImage?: string } };
     const board = await Board.create({
-      title,
-      style,
-      members: [{ user: req.user!.id, role: 'owner' }],
+      boardTitle: title,
+      boardStyle: style,
+      boardMembers: [{ user: req.user!.id, role: 'owner' }],
       createdBy: req.user!.id,
     });
     res.status(201).json(board);
@@ -28,18 +70,18 @@ router.post('/',  async (req: Request, res: Response) => {
 router.get('/:id',  async (req: Request, res: Response): Promise<any> => {
   try {
     const board = await Board.findById(req.params.id)
-      .populate({ path: 'members.user', select: 'fullName avatar' })
+      .populate({ path: 'boardMembers.user', select: 'fullName avatar' })
       .lean();
 
 
     if (!board) return res.status(404).json({ error: 'Board not found' });
 
-    const lists = await List.find({ board: board._id }).sort({ position: 1 }).lean();
+    const lists = await List.find({ taskListBoard: board._id })
+    // .sort({ indexInBoard: 1 })
+    .lean();
 
-
-
-
-     const tasks = await Task.find({ board: board._id }).lean();
+    const tasks = await Task.find({ board: board._id }).lean();
+    
     res.json({ board, lists, tasks });
   } catch (err: any) {
     console.error(err);

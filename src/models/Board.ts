@@ -21,24 +21,26 @@ const MemberSchema = new Schema<IBoardMember>({
   user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   role: { type: String, enum: ['owner', 'admin', 'member'], default: 'member' },
 });
-interface IBoard extends Document {
-  title: string;
-  style : Schema.Types.Mixed, 
+export interface IBoard extends Document {
+  boardTitle: string;
+  boardStyle : Schema.Types.Mixed, 
   isStarred: boolean;
   archivedAt?: Date;
-  labels: ILabel[];
-  members: IBoardMember[];
+  boardLabels: ILabel[];
+  boardMembers: IBoardMember[];
   createdBy: Types.ObjectId;
+  boardLists: Types.ObjectId[];
 }
 const BoardSchema = new Schema<IBoard>(
   {
-    title: { type: String, required: true },
-    style: { backgroundImage: String },
+    boardTitle: { type: String, required: true },
+    boardStyle: { backgroundImage: String },
     isStarred: { type: Boolean, default: false },
     archivedAt: Date,
-    labels: [LabelSchema],
-    members: [MemberSchema],
+    boardLabels: [LabelSchema],
+    boardMembers: [MemberSchema],
     createdBy: { type: Schema.Types.ObjectId, ref: 'User' },
+    boardLists: [{ type: Schema.Types.ObjectId, ref: 'List' }],
   },
   { timestamps: true }
 );
@@ -46,5 +48,5 @@ BoardSchema.index({ isStarred: 1 });
 export default mongoose.model<IBoard>(
    'Board',              // model name
    BoardSchema,
-   'boards'              //  explicit collection
+   'boardentries'              //  explicit collection
  );

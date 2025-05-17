@@ -49,9 +49,9 @@ router.post('/', async (req: Request, res: Response): Promise<any> => {
     }
 
     const task = await Task.create({
-      board: list.board,
+      board: list.taskListBoard,
       list: list._id,
-      title,
+      boardTitle: title,
       description,
       labels,
       members,
@@ -64,7 +64,7 @@ router.post('/', async (req: Request, res: Response): Promise<any> => {
     });
 
     await Activity.create({
-      board: list.board,
+      board: list.taskListBoard,
       user: req.user?.id || null,
       entity: { kind: 'task', id: task._id },
       action: 'created_task',

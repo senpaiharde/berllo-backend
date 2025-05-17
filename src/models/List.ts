@@ -1,20 +1,22 @@
 import mongoose, { model, Schema, Types } from 'mongoose';
 // hello
-interface IList extends Document {
-  board: Types.ObjectId;
-  title: string;
-  position: number;
+export interface IList extends Document {
+  taskListBoard: Types.ObjectId;
+  taskListTitle: string;
+  indexInBoard: number;
+  taskList: Types.ObjectId[];
   archivedAt?: Date;
-  style?: Record<string, unknown>;
+  listStyle?: Record<string, unknown>;
 }
 
 const ListSchema = new Schema<IList>(
   {
-    board: { type: Schema.Types.ObjectId, ref: 'Board', required: true, index: true },
-    title: { type: String, required: true },
-    position: { type: Number, default: 0 },
+    taskListBoard: { type: Schema.Types.ObjectId, ref: 'Board', required: true, index: true },
+    taskListTitle: { type: String, required: true },
+    indexInBoard: { type: Number, default: 0 },
+    taskList: [{ type: Schema.Types.ObjectId, ref: 'Task' }],
     archivedAt: Date,
-    style: Schema.Types.Mixed,
+    listStyle: Schema.Types.Mixed,
   },
   { timestamps: true }
 );
@@ -23,5 +25,5 @@ const ListSchema = new Schema<IList>(
  export default mongoose.model<IList>(
    'List',
    ListSchema,
-   'lists'
+   'listentries'
  );
