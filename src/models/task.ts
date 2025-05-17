@@ -44,30 +44,16 @@ interface ITaskCover {
   coverColor?: string;
   coverImg?: string;
 }
- 
-const AttachmentSchema = new Schema(
-  {
-    _id: {
-      type: Schema.Types.ObjectId,
-      default: () => new mongoose.Types.ObjectId(),
-    },
-    name:        { type: String, required: true },  //  filename
-    url:         { type: String, required: true },  // S3/CDN/path
-    contentType: { type: String },                  // e.g. 'image/png'
-    size:        { type: Number },                  // bytes
-    createdAt:   { type: Date, default: Date.now },
-  },
-  { _id: false }  
-)
+
 interface ITask extends Document {
-      attachments: Array<{
-    _id: Types.ObjectId
-    name: string
-    url: string
-    contentType?: string
-    size?: number
-    createdAt: Date
-  }>;
+  attachments: {
+    _id: Types.ObjectId;
+    name: string;
+    url: string;
+    contentType?: string;
+    size?: number;
+    createdAt: Date;
+  }[];
   board: Types.ObjectId;
   list: Types.ObjectId;
   title: string;
@@ -106,7 +92,19 @@ const TaskSchema = new Schema<ITask>(
     title: { type: String, required: true },
     description: String,
     attachments: {
-      type: [AttachmentSchema],
+      type: [
+        {
+          _id: {
+            type: Schema.Types.ObjectId,
+            default: () => new mongoose.Types.ObjectId(),
+          },
+          name: { type: String, required: true },
+          url: { type: String, required: true },
+          contentType: { type: String, default: '' },
+          size: { type: Number, default: 0 },
+          createdAt: { type: Date, default: Date.now },
+        },
+      ],
       default: [],
     },
     isWatching: { type: Boolean, default: false },
