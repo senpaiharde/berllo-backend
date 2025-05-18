@@ -46,6 +46,14 @@ interface ITaskCover {
 }
 
 interface ITask extends Document {
+  attachments: {
+    _id: Types.ObjectId;
+    name: string;
+    url: string;
+    contentType?: string;
+    size?: number;
+    createdAt: Date;
+  }[];
   board: Types.ObjectId;
   list: Types.ObjectId;
   title: string;
@@ -83,6 +91,22 @@ const TaskSchema = new Schema<ITask>(
     list: { type: Schema.Types.ObjectId, ref: 'List', required: true, index: true },
     title: { type: String, required: true },
     description: String,
+    attachments: {
+      type: [
+        {
+          _id: {
+            type: Schema.Types.ObjectId,
+            default: () => new mongoose.Types.ObjectId(),
+          },
+          name: { type: String, required: true },
+          url: { type: String, required: true },
+          contentType: { type: String, default: '' },
+          size: { type: Number, default: 0 },
+          createdAt: { type: Date, default: Date.now },
+        },
+      ],
+      default: [],
+    },
     isWatching: { type: Boolean, default: false },
     labels: [
       {
