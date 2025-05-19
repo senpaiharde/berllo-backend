@@ -24,7 +24,8 @@ router.post('/', async (req: Request, res: Response): Promise<any> => {
       position,
       isDueComplete,
       isWatching,
-      checklist
+      checklist,
+      attachments,
     } = req.body as {
       listId: string;
       title?: string;
@@ -35,8 +36,9 @@ router.post('/', async (req: Request, res: Response): Promise<any> => {
       dueDate?: Date;
       position?: number;
       isDueComplete?: boolean;
-      isWatching: Boolean,
-      checklist: string[]
+      isWatching: Boolean;
+      checklist: string[];
+      attachments: string[];
     };
 
     if (!listId) {
@@ -60,7 +62,8 @@ router.post('/', async (req: Request, res: Response): Promise<any> => {
       position,
       isDueComplete,
       isWatching,
-      checklist
+      checklist,
+      attachments,
     });
 
     await Activity.create({
@@ -82,8 +85,8 @@ router.get('/:id', async (req: Request, res: Response): Promise<any> => {
   try {
     console.log(` GET /tasks/${req.params.id}`);
     const task = await Task.findById(req.params.id).lean();
-    console.log('updating fetch',task)
-    
+    console.log('updating fetch', task);
+
     if (!task) {
       return res.status(404).json({ error: 'Task not found' });
     }
@@ -96,14 +99,15 @@ router.get('/:id', async (req: Request, res: Response): Promise<any> => {
 
 // UPDATE
 router.put('/:id', async (req: Request, res: Response): Promise<any> => {
+    
   try {
     const { id } = req.params;
-
+     console.log('REQ.BODY:', req.body);
     // 1) Validate Mongo ID
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({ error: 'Invalid task ID format' });
     }
-  
+
     // 1) map front-end keys → schema keys
     const aliasMap: Record<string, string> = {
       taskTitle: 'title',
@@ -121,7 +125,8 @@ router.put('/:id', async (req: Request, res: Response): Promise<any> => {
       isDueComplete: 'isDueComplete',
       archivedAt: 'archivedAt',
       position: 'position',
-      isWatching : 'isWatching',
+      isWatching: 'isWatching',
+      attachments: 'attachments',
     };
 
     // 2) whitelist schema fields
@@ -140,7 +145,8 @@ router.put('/:id', async (req: Request, res: Response): Promise<any> => {
       'isDueComplete',
       'archivedAt',
       'position',
-      'isWatching'
+      'isWatching',
+      'attachments',
     ]);
     const exists = await Task.findOne({ _id: new mongoose.Types.ObjectId(id) });
     console.log('TASK EXISTS?', exists ? ' YES' : ' NO');
@@ -155,30 +161,31 @@ router.put('/:id', async (req: Request, res: Response): Promise<any> => {
 
     // 5) Update document
     const task = await Task.findByIdAndUpdate(
-     { _id: id },
+      { _id: id },
       { $set: updates },
       { new: true, runValidators: true }
-    )
-    console.log('Incoming members:', req.body.members);
-    
+    );
+
+    console.log('REQ.BODY:', req.body);
+    console.log('CALCULATED UPDATES:', updates);
     // const task = await Task.findByIdAndUpdate(
     //   req.params.id,
     //   { $set: updates },
     //   { new: true, runValidators: true }
     //);
-    
+
     if (!task) {
       return res.status(404).json({ error: 'Task not found' });
     }
 
     await Activity.create({
       board: task.board,
-      user: req.user?.id || new mongoose.Types.ObjectId("000000000000000000000000"),
+      user: req.user?.id || new mongoose.Types.ObjectId('000000000000000000000000'),
       entity: { kind: 'task', id: task._id },
       action: 'updated_task',
       payload: updates,
     });
-   console.log('→ Sending task to frontend:', task);
+    console.log('→ Sending task to frontend:', task);
     res.json(task);
   } catch (err: any) {
     console.error(err);

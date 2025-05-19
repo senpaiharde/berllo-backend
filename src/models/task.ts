@@ -4,6 +4,7 @@ interface ICheckItem extends Document {
   boardTitle: string;
   items: [
     {
+      _id: mongoose.Types.ObjectId;
       text: string;
       done: Boolean;
     }
@@ -14,6 +15,7 @@ const CheckItemSchema = new Schema<ICheckItem>(
     boardTitle: { type: String, required: true },
     items: [
       {
+        _id: mongoose.Types.ObjectId,
         text: String,
         done: Boolean,
       },
@@ -43,7 +45,15 @@ interface ITaskCover {
   coverImg?: string;
 }
 
-export interface ITask extends Document {
+interface ITask extends Document {
+  attachments: {
+    _id: Types.ObjectId;
+    name: string;
+    url: string;
+    contentType?: string;
+    size?: number;
+    createdAt: Date;
+  }[];
   board: Types.ObjectId;
   list: Types.ObjectId;
   boardTitle: string;
@@ -81,6 +91,22 @@ const TaskSchema = new Schema<ITask>(
     list: { type: Schema.Types.ObjectId, ref: 'List', required: true, index: true },
     boardTitle: { type: String, required: true },
     description: String,
+    attachments: {
+      type: [
+        {
+          _id: {
+            type: Schema.Types.ObjectId,
+            default: () => new mongoose.Types.ObjectId(),
+          },
+          name: { type: String, required: true },
+          url: { type: String, required: true },
+          contentType: { type: String, default: '' },
+          size: { type: Number, default: 0 },
+          createdAt: { type: Date, default: Date.now },
+        },
+      ],
+      default: [],
+    },
     isWatching: { type: Boolean, default: false },
     labels: [
       {
@@ -105,7 +131,20 @@ const TaskSchema = new Schema<ITask>(
       validate: (v: number[]) => v.length === 2,
       index: '2dsphere',
     },
-    checklist: [CheckItemSchema],
+    checklist: {
+      type: [
+        new Schema({
+          title: { type: String, required: true },
+          items: [
+            {
+              text: { type: String, required: true },
+              done: { type: Boolean, default: false },
+            },
+          ],
+        }),
+      ],
+      default: [],
+    },
     cover: {
       type: {
         coverType: { type: String, enum: ['color', 'image'] },
