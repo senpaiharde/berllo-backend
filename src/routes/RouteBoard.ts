@@ -4,13 +4,13 @@ import  Board, {IBoard} from '../models/Board';
 import   List, {IList} from '../models/List';
 import  pick  from '../utils/pick';
 import Activity from '../models/activity';
-import Task, {ITask} from '../models/task';
+import Task from '../models/task';
 const router = Router();
-interface combineBoardFromgGetProps{
-  board: IBoard;
-  lists: IList;
-  tasks: ITask;
-}
+// interface combineBoardFromgGetProps{
+//   board: IBoard;
+//   lists: IList;
+//   tasks: ITask;
+// }
 // function combineBoardFromGet({
 //   board,
 //   lists,
