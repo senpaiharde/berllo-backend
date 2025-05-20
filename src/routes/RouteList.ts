@@ -6,72 +6,35 @@ import  pick  from '../utils/pick';
 import Activity from '../models/activity';
 import Task from '../models/task';
 const router = Router();
-// interface combineBoardFromgGetProps{
-//   board: IBoard;
-//   lists: IList;
-//   tasks: ITask;
-// }
-// function combineBoardFromGet({
-//   board,
-//   lists,
-//   tasks,
-// }: {
-//   board: IBoard;
-//   lists: IList[];
-//   tasks: ITask[];
-// }): IBoard {
-//   const listIdToTasksMap = new Map<string, ITask[]>();
 
-//   // Group tasks by list ID
-//   tasks.forEach((task) => {
-//     const listId = task.list.toString();
-//     if (!listIdToTasksMap.has(listId)) {
-//       listIdToTasksMap.set(listId, []);
-//     }
-//     listIdToTasksMap.get(listId)!.push(task);
-//   });
 
-//   // Attach tasks to the matching lists
-//   const updatedLists = lists.map((list) => {
-//     const listWithTasks = {
-//       ...list.toObject(), // detach from Mongoose prototype
-//       tasks: listIdToTasksMap.get(list._id.toString()) || [],
-//     };
-//     return listWithTasks;
-//   });
-
-//   // Update and return board
-//   const updatedBoard = {
-//     ...board.toObject(),
-//     lists: updatedLists,
-//     tasks,
-//   };
-
-//   return updatedBoard;
-// }
 // CREATE
-
 router.post("/", async (req: Request, res: Response) => {
   try {
-    const { boardTitle, style } = req.body as {
-      boardTitle: string
-      style?: { backgroundImage?: string }
+    const { taskListBoard ,taskListTitle,indexInBoard } = req.body as {
+      taskListBoard: string
+      taskListTitle: string
+      indexInBoard: number
+      // style?: { backgroundImage?: string }
     }
     console.log("req.body", req.body)
-    const boardLabels = [
-      { color: "#4BCE97", title: "" },
-      { color: "#F5CD47", title: "" },
-      { color: "#FEA362", title: "" },
-      { color: "#F87168", title: "" },
-      { color: "#9F8FEF", title: "" },
-      { color: "#6CC3E0", title: "" },
-      { color: "#0C66E4", title: "" },
-    ]
-    const board = await Board.create({
-      boardTitle: boardTitle,
-      boardLabels: boardLabels
+    // const boardLabels = [
+    //   { color: "#4BCE97", title: "" },
+    //   { color: "#F5CD47", title: "" },
+    //   { color: "#FEA362", title: "" },
+    //   { color: "#F87168", title: "" },
+    //   { color: "#9F8FEF", title: "" },
+    //   { color: "#6CC3E0", title: "" },
+    //   { color: "#0C66E4", title: "" },
+    // ]
+    const list = await List.create({
+      taskListBoard: taskListBoard,
+      taskListTitle: taskListTitle,
+      indexInBoard: indexInBoard,
+
+      // boardLabels: boardLabels
     })
-    res.status(201).json(board)
+    res.status(201).json(list)
   } catch (err: any) {
     console.error(err)
     res.status(500).json({ error: "Could not delete entry" })

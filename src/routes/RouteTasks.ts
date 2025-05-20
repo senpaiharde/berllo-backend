@@ -16,31 +16,23 @@ router.post('/', async (req: Request, res: Response): Promise<any> => {
     const {
       listId,
       title,
-      description,
-      labels,
-      members,
-      startDate,
-      dueDate,
-      position,
-      isDueComplete,
-      isWatching,
-      checklist,
-      attachments,
+      board
     } = req.body as {
       listId: string;
       title?: string;
-      description?: string;
-      labels?: string[];
-      members?: string[];
-      startDate?: Date;
-      dueDate?: Date;
-      position?: number;
-      isDueComplete?: boolean;
-      isWatching: Boolean;
-      checklist: string[];
-      attachments: string[];
+      board?: string;
+      // description?: string;
+      // labels?: string[];
+      // members?: string[];
+      // startDate?: Date;
+      // dueDate?: Date;
+      // position?: number;
+      // isDueComplete?: boolean;
+      // isWatching: Boolean;
+      // checklist: string[];
+      // attachments: string[];
     };
-
+    console.log('req.body', req.body);
     if (!listId) {
       return res.status(400).json({ error: 'listId is required' });
     }
@@ -52,26 +44,16 @@ router.post('/', async (req: Request, res: Response): Promise<any> => {
 
     const task = await Task.create({
       board: list.taskListBoard,
-      list: list._id,
-      boardTitle: title,
-      description,
-      labels,
-      members,
-      startDate,
-      dueDate,
-      position,
-      isDueComplete,
-      isWatching,
-      checklist,
-      attachments,
+      list: listId,
+      title: title,
     });
 
-    await Activity.create({
-      board: list.taskListBoard,
-      user: req.user?.id || null,
-      entity: { kind: 'task', id: task._id },
-      action: 'created_task',
-    });
+    // await Activity.create({
+    //   board: list.taskListBoard,
+    //   user: req.user?.id || null,
+    //   entity: { kind: 'task', id: task._id },
+    //   action: 'created_task',
+    // });
 
     res.status(201).json(task);
   } catch (err: any) {

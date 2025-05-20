@@ -5,6 +5,8 @@ import morgan from 'morgan';
 import dotenv from 'dotenv';
 import boardRouter from './routes/RouteBoard';
 import taskRouter from './routes/RouteTasks';
+import listRouter from './routes/RouteList';
+
 
 import authRoutes from './routes/Routeauth';
 
@@ -23,7 +25,7 @@ app.use(express.json());
 app.use('/auth', authRoutes);
 app.use('/board', boardRouter);
 app.use('/tasks', taskRouter);
-
+app.use('/list', listRouter);
 
 console.log('taskroute firing')
 
