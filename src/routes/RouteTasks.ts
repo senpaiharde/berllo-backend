@@ -99,10 +99,9 @@ router.get('/:id', async (req: Request, res: Response): Promise<any> => {
 
 // UPDATE
 router.put('/:id', async (req: Request, res: Response): Promise<any> => {
-    
   try {
     const { id } = req.params;
-     console.log('REQ.BODY:', req.body);
+    console.log('REQ.BODY:', req.body);
     // 1) Validate Mongo ID
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({ error: 'Invalid task ID format' });
@@ -111,7 +110,7 @@ router.put('/:id', async (req: Request, res: Response): Promise<any> => {
     // 1) map front-end keys → schema keys
     const aliasMap: Record<string, string> = {
       taskTitle: 'title',
-      taskDescription: 'description',
+      
       taskLabels: 'labels',
       taskMembers: 'members',
       taskStartDate: 'startDate',
@@ -127,6 +126,8 @@ router.put('/:id', async (req: Request, res: Response): Promise<any> => {
       position: 'position',
       isWatching: 'isWatching',
       attachments: 'attachments',
+      title: 'title',
+      description: 'description',
     };
 
     // 2) whitelist schema fields

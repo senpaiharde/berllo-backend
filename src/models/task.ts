@@ -1,7 +1,7 @@
 import mongoose, { model, Schema, Types } from 'mongoose';
 
 interface ICheckItem extends Document {
-  boardTitle: string;
+  title: string;
   items: [
     {
       _id: mongoose.Types.ObjectId;
@@ -12,7 +12,7 @@ interface ICheckItem extends Document {
 }
 const CheckItemSchema = new Schema<ICheckItem>(
   {
-    boardTitle: { type: String, required: true },
+    title: { type: String, required: true },
     items: [
       {
         _id: mongoose.Types.ObjectId,
@@ -56,7 +56,7 @@ interface ITask extends Document {
   }[];
   board: Types.ObjectId;
   list: Types.ObjectId;
-  boardTitle: string;
+  title: string;
   description?: string;
   labels: [
     {
@@ -89,7 +89,7 @@ const TaskSchema = new Schema<ITask>(
   {
     board: { type: Schema.Types.ObjectId, ref: 'Board', required: true, index: true },
     list: { type: Schema.Types.ObjectId, ref: 'List', required: true, index: true },
-    boardTitle: { type: String, required: true },
+    title: { type: String, required: true },
     description: String,
     attachments: {
       type: [
