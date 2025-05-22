@@ -21,4 +21,4 @@ const userSchema = new Schema<IUser>(
 );
 
 userSchema.index({ fullname: 'text' }); // optional search
-export default mongoose.model<IUser>('User', userSchema);
+export default mongoose.model<IUser>('User', userSchema, "users"); // explicit collection
