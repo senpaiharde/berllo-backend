@@ -6,6 +6,7 @@ import  pick  from '../utils/pick';
 import Activity from '../models/activity';
 import Task from '../models/task';
 const router = Router();
+router.use(authMiddleware)
 // interface combineBoardFromgGetProps{
 //   board: IBoard;
 //   lists: IList;

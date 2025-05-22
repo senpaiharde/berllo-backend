@@ -9,6 +9,7 @@ import Activity from '../models/activity';
 import pick from '../utils/pick';
 
 const router = Router();
+router.use(authMiddleware)
 
 // CREATE
 router.post('/', async (req: Request, res: Response): Promise<any> => {
