@@ -7,7 +7,7 @@ import Activity from '../models/activity';
 import Task from '../models/task';
 const router = Router();
 
-
+router.use(authMiddleware)
 // CREATE
 router.post("/", async (req: Request, res: Response) => {
   try {

@@ -36,7 +36,9 @@ router.post('/signup', async (req: Request, res: Response) :Promise<void>=> {
 // POST /auth/login
 router.post('/login', async (req: Request, res: Response):Promise<void> => {
   try {
+  
     const { email, password } = req.body;
+      console.log(req.body)
     const user = await User.findOne({ email });
     if (!user){ res.status(401).json({ error: 'Invalid credentials' }); return;}
 
