@@ -93,9 +93,9 @@ router.get("/", async (req: Request, res: Response): Promise<any> => {
 router.get("/:id", async (req: Request, res: Response): Promise<any> => {
   try {
     const board = await Board.findById(req.params.id)
-      .populate({ path: "boardMembers.user", select: "fullName avatar" })
+      // .populate({ path: "boardMembers.user", select: "fullName avatar" })
       .lean()
-
+      
     if (!board) return res.status(404).json({ error: "Board not found" })
 
     const lists = await List.find({ taskListBoard: board._id })
