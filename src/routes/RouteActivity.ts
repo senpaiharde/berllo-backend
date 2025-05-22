@@ -1,34 +1,51 @@
 import { Router, Request, Response } from 'express';
 import { authMiddleware } from '../middlewares/authmiddleware';
 import Activity from '../models/activity';
-import Board from '../models/Board';
+import { ObjectId }                  from 'mongoose';
 
+import mongoose from 'mongoose';
 const router = Router();
+interface ActivityDTO {
+  _id:       ObjectId;
+  user:      ObjectId;
+  entity:    { kind: string; id: ObjectId };
+  action:    string;
+  payload?:  Record<string, unknown>;
+  createdAt: Date;
+}
 
-router.use(authMiddleware);
-
-router.get('/boards/:boardId/activities', async (req: Request, res: Response): Promise<any> => {
+router.get('/:taskId', async (req: Request, res: Response): Promise<any> => {
   try {
-    const board = await Board.findOne({
-      _id: req.params._id,
-      'members-user': req.user!.id,
-    }).select('_id');
+    const { taskId } = req.params;
+    console.log('▶︎ taskId from params:', taskId);
 
-    if (!board) return res.status(403).json({ error: 'board missing' });
+    if (!taskId) {
+      return res.status(400).json({ error: 'taskId is required' });
+    }
 
-    const limit = Math.min(Number(req.query.limit) || 30, 100);
-    const skip = Number(req.query.skip) || 0;
-
-    const activities = await Activity.find({ board: board._id })
+    const activities = await Activity.find({
+      'entity.id': taskId,
+      'entity.kind': 'task',
+    })
       .sort({ createdAt: -1 })
-      .skip(skip)
-      .limit(limit)
-      .populate({ path: 'user', select: 'fullName avatar' })
-      .lean();
+       .select('_id user entity action payload createdAt')
+        .lean<ActivityDTO[]>();
+    
 
-      res.json(activities)
+       const result = activities.map(d => ({
+      id:        d._id.toString(),
+      user:      d.user.toString(),       
+      entityId:  d.entity.id.toString(),
+      action:    d.action,
+      payload:   d.payload,
+       createdAt: d.createdAt.toISOString()
+    }));
+    console.log('→ Sending activities to frontend:', result);
+    return res.json(result);
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ err: 'err' });
+    console.error('❌ Error loading activities:', err);
+    return res.status(500).json({ error: 'Failed to load task activity' });
   }
 });
+
+export default router;

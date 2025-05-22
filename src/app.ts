@@ -6,7 +6,7 @@ import dotenv from 'dotenv';
 import boardRouter from './routes/RouteBoard';
 import taskRouter from './routes/RouteTasks';
 import listRouter from './routes/RouteList';
-
+import activityRouter from './routes/RouteActivity';
 
 import authRoutes from './routes/Routeauth';
 
@@ -26,8 +26,9 @@ app.use('/auth', authRoutes);
 app.use('/board', boardRouter);
 app.use('/tasks', taskRouter);
 app.use('/list', listRouter);
+app.use('/activities', activityRouter);
 
-console.log('taskroute firing')
+console.log('taskroute firing');
 
 
 
