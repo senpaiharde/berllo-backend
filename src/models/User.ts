@@ -1,7 +1,6 @@
-// src/models/User.ts
+
 import mongoose, { Schema, Types } from 'mongoose';
 
-/* ---------- sub-document: User.ts ---------- */
 
 export interface IUser extends mongoose.Document {
   fullname: string;

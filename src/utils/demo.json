@@ -1,0 +1,47 @@
+[
+  {
+    "_id": { "$oid": "000000000000000000000001" },
+    "fullname": "ALi Demo",
+    "email": "alice@demo.local",
+    "passwordHash": "<bcrypt-hash-of-demo123>",
+    "avatar": "https://img.icons8.com/?size=100&id=bOXN3AZhMCek&format=png&color=000000",
+    "createdAt": { "$date": { "$numberLong": "0" } },
+    "updatedAt": { "$date": { "$numberLong": "0" } }
+  },
+  {
+    "_id": { "$oid": "000000000000000000000002" },
+    "fullname": "Slava Demo",
+    "email": "bob@demo.local",
+    "passwordHash": "<bcrypt-hash-of-demo123>",
+    "avatar": "https://img.icons8.com/?size=100&id=IerOpHeUt2OH&format=png&color=000000",
+    "createdAt": { "$date": { "$numberLong": "0" } },
+    "updatedAt": { "$date": { "$numberLong": "0" } }
+  },
+  {
+    "_id": { "$oid": "000000000000000000000003" },
+    "fullname": "Mark Demo",
+    "email": "carol@demo.local",
+    "passwordHash": "<bcrypt-hash-of-demo123>",
+    "avatar": "https://img.icons8.com/?size=100&id=123636&format=png&color=000000",
+    "createdAt": { "$date": { "$numberLong": "0" } },
+    "updatedAt": { "$date": { "$numberLong": "0" } }
+  },
+  {
+    "_id": { "$oid": "000000000000000000000004" },
+    "fullname": "Sam Demo",
+    "email": "dave@demo.local",
+    "passwordHash": "<bcrypt-hash-of-demo123>",
+    "avatar": "https://img.icons8.com/?size=100&id=118237&format=png&color=000000",
+    "createdAt": { "$date": { "$numberLong": "0" } },
+    "updatedAt": { "$date": { "$numberLong": "0" } }
+  },
+  {
+    "_id": { "$oid": "000000000000000000000005" },
+    "fullname": "Dima Demo",
+    "email": "eve@demo.local",
+    "passwordHash": "<bcrypt-hash-of-demo123>",
+    "avatar": "https://img.icons8.com/?size=100&id=skjSUPfBtF8I&format=png&color=000000",
+    "createdAt": { "$date": { "$numberLong": "0" } },
+    "updatedAt": { "$date": { "$numberLong": "0" } }
+  }
+]
