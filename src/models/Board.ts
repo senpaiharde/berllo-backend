@@ -14,12 +14,16 @@ const LabelSchema = new Schema<ILabel>({
 
 
 interface IBoardMember {
-  user: Types.ObjectId;
-  role: 'owner' | 'admin' | 'member';
+  _id: Types.ObjectId;
+  fullname: string;
+  avatar?: string;
+  // role: 'owner' | 'admin' | 'member';
 }
 const MemberSchema = new Schema<IBoardMember>({
-  user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
-  role: { type: String, enum: ['owner', 'admin', 'member'], default: 'member' },
+  _id: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+  fullname: { type: String, required: true },
+  avatar: { type: String, default: '' },
+  // role: { type: String, enum: ['owner', 'admin', 'member'], default: 'member' },
 });
 export interface IBoard extends Document {
   boardTitle: string;
