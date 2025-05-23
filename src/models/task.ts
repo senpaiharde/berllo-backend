@@ -69,8 +69,8 @@ interface ITask extends Document {
   members: [
     {
       _id: String;
-      title: String;
-      icon: String;
+      fullname: String;
+      avatar: String;
     }
   ];
   startDate?: Date;
@@ -83,6 +83,7 @@ interface ITask extends Document {
   archivedAt?: Date;
   isWatching: Boolean;
   position: number;
+  Activity: string;
 }
 
 const TaskSchema = new Schema<ITask>(
@@ -91,6 +92,7 @@ const TaskSchema = new Schema<ITask>(
     list: { type: Schema.Types.ObjectId, ref: 'List', required: true, index: true },
     title: { type: String, required: true },
     description: String,
+    Activity: String,
     attachments: {
       type: [
         {
@@ -119,8 +121,8 @@ const TaskSchema = new Schema<ITask>(
     members: [
       {
         _id: String,
-        title: String,
-        icon: String,
+        fullname: String,
+        avatar: String,
       },
     ],
     startDate: Date,
