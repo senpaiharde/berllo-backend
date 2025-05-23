@@ -113,25 +113,30 @@ router.get("/:id", async (req: Request, res: Response): Promise<any> => {
 // UPDATE
 router.put("/:id", async (req: Request, res: Response): Promise<any> => {
   try {
-    const allowed = ["title", "style", "isStarred", "archivedAt"] as const
+    const allowed = ["title", "style", "isStarred", "archivedAt","boardLists"] as const
     const updates = pick(req.body, allowed)
-
+    console.log("req.body", req.body)
+    console.log("updates", updates)
+    console.log("req.params.id", req.params.id)
     // Only owners/admins may update
     const board = await Board.findOneAndUpdate(
-      { _id: req.params.id, "members.user": req.user?.id },
+      { _id: req.params.id,
+        //  "members.user": req.user?.id
+
+       },
       { $set: updates },
       { new: true, runValidators: true }
     )
 
     if (!board) return res.status(403).json({ error: "Forbidden" })
 
-    await Activity.create({
-      board: board._id,
-      user: req.user?.id,
-      entity: { kind: "board", id: board._id },
-      action: "updated_board",
-      payload: updates,
-    })
+    // await Activity.create({
+    //   board: board._id,
+    //   user: req.user?.id,
+    //   entity: { kind: "board", id: board._id },
+    //   action: "updated_board",
+    //   payload: updates,
+    // })
 
     res.json(board)
   } catch (err: any) {

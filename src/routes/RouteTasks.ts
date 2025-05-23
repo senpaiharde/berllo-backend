@@ -17,11 +17,13 @@ router.post('/', async (req: Request, res: Response): Promise<any> => {
     const {
       listId,
       title,
-      board
+      board,
+      position,
     } = req.body as {
       listId: string;
       title?: string;
       board?: string;
+      position?: number;
       // description?: string;
       // labels?: string[];
       // members?: string[];
@@ -47,6 +49,7 @@ router.post('/', async (req: Request, res: Response): Promise<any> => {
       board: list.taskListBoard,
       list: listId,
       title: title,
+      position: position,
     });
 
     // await Activity.create({
@@ -93,7 +96,7 @@ router.put('/:id', async (req: Request, res: Response): Promise<any> => {
     // 1) map front-end keys → schema keys
     const aliasMap: Record<string, string> = {
       taskTitle: 'title',
-      
+      list : 'list',
       taskLabels: 'labels',
       taskMembers: 'members',
       taskStartDate: 'startDate',
@@ -116,6 +119,7 @@ router.put('/:id', async (req: Request, res: Response): Promise<any> => {
     // 2) whitelist schema fields
     const allowedFields = new Set([
       'title',
+      'list',
       'description',
       'labels',
       'members',
@@ -142,20 +146,20 @@ router.put('/:id', async (req: Request, res: Response): Promise<any> => {
         updates[field] = val;
       }
     }
-
+    console.log('task ',id,' put :updates', updates);
     // 5) Update document
+    // const task = await Task.findByIdAndUpdate(
+    //   { _id: id },
+    //   { $set: updates },
+    //   { new: true, runValidators: true }
+    // );
+
+   
     const task = await Task.findByIdAndUpdate(
-      { _id: id },
+      req.params.id,
       { $set: updates },
       { new: true, runValidators: true }
     );
-
-   
-    // const task = await Task.findByIdAndUpdate(
-    //   req.params.id,
-    //   { $set: updates },
-    //   { new: true, runValidators: true }
-    //);
 
     if (!task) {
       return res.status(404).json({ error: 'Task not found' });
@@ -169,7 +173,7 @@ router.put('/:id', async (req: Request, res: Response): Promise<any> => {
       payload: updates,
     });
     
-    res.json(task);
+    // res.json(task);
   } catch (err: any) {
     console.error(err);
     res.status(400).json({ error: err.message });

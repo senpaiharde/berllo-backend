@@ -1,6 +1,7 @@
 import { Router, Request, Response, NextFunction } from 'express';
 import { authMiddleware } from '../middlewares/authmiddleware';
 import  Board, {IBoard} from '../models/Board';
+import mongoose from 'mongoose';
 import   List, {IList} from '../models/List';
 import  pick  from '../utils/pick';
 import Activity from '../models/activity';
@@ -75,27 +76,29 @@ router.get("/:id", async (req: Request, res: Response): Promise<any> => {
 // UPDATE
 router.put("/:id", async (req: Request, res: Response): Promise<any> => {
   try {
-    const allowed = ["title", "style", "isStarred", "archivedAt"] as const
+    const allowed = ["title", "taskList"] as const
     const updates = pick(req.body, allowed)
-
+    const exists = await List.findOne({ _id: new mongoose.Types.ObjectId(req.params.id) });
+    console.log('List EXISTS?', exists ? ' YES' : ' NO');
+    console.log("req.body", req.body,"updates", updates)
     // Only owners/admins may update
-    const board = await Board.findOneAndUpdate(
-      { _id: req.params.id, "members.user": req.user?.id },
+    const list = await List.findOneAndUpdate(
+      { _id: req.params.id},
       { $set: updates },
       { new: true, runValidators: true }
     )
 
-    if (!board) return res.status(403).json({ error: "Forbidden" })
+    if (!list) return res.status(403).json({ error: "Forbidden" })
 
-    await Activity.create({
-      board: board._id,
-      user: req.user?.id,
-      entity: { kind: "board", id: board._id },
-      action: "updated_board",
-      payload: updates,
-    })
+    // await Activity.create({
+    //   board: list._id,
+    //   user: req.user?.id,
+    //   entity: { kind: "board", id: list._id },
+    //   action: "updated_board",
+    //   payload: updates,
+    // })
 
-    res.json(board)
+    res.json(list)
   } catch (err: any) {
     console.error(err)
     res.status(500).json({ error: "Could not delete entry" })
