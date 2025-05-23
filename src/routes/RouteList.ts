@@ -10,7 +10,7 @@ const router = Router();
 
 router.use(authMiddleware)
 // CREATE
-router.post("/", async (req: Request, res: Response) => {
+router.post("/", async (req: Request, res: Response): Promise<any> => {
   try {
     const { taskListBoard ,taskListTitle,indexInBoard } = req.body as {
       taskListBoard: string
@@ -32,9 +32,19 @@ router.post("/", async (req: Request, res: Response) => {
       taskListBoard: taskListBoard,
       taskListTitle: taskListTitle,
       indexInBoard: indexInBoard,
-
       // boardLabels: boardLabels
     })
+    if (!list) return res.status(404).json({ error: "problem creating list" }) 
+    //updating the board with the new list
+    let board = await Board.findOne({ _id: new mongoose.Types.ObjectId(taskListBoard) });
+    board?.boardLists.push(list._id);
+    const updates = { boardLists: board?.boardLists }
+    board = await Board.findOneAndUpdate(
+          { _id: taskListBoard,
+           },
+          { $set: updates },
+          { new: true, runValidators: true }
+        )
     res.status(201).json(list)
   } catch (err: any) {
     console.error(err)
