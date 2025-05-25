@@ -65,7 +65,9 @@ router.post('/', async (req: Request, res: Response): Promise<any> => {
     //   entity: { kind: 'task', id: task._id },
     //   action: 'created_task',
     // });
-
+     getIO()
+    .to(`board_${task.board}`)
+    .emit('taskCreated', task);
     res.status(201).json(task);
   } catch (err: any) {
     console.error(err);
@@ -179,6 +181,10 @@ router.put('/:id', async (req: Request, res: Response): Promise<any> => {
       action: 'updated_task',
       payload: updates,
     });
+     getIO()
+      .to(`task_${task!._id}`)
+      .emit('taskUpdated', task);
+
 
     res.json(task);
   } catch (err: any) {
@@ -219,7 +225,9 @@ router.delete('/:id', async (req: Request, res: Response): Promise<any> => {
       entity: { kind: 'task', id: task._id },
       action: 'deleted_task',
     });
-
+    getIO()
+    .to(`task_${req.params.id}`)
+    .emit('taskDeleted', { id: req.params.id });
     res.status(204).end();
   } catch (err: any) {
     console.error(err);
