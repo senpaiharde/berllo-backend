@@ -90,6 +90,7 @@ const TaskSchema = new Schema<ITask>(
   {
     board: { type: Schema.Types.ObjectId, ref: 'Board', required: true, index: true },
     list: { type: Schema.Types.ObjectId, ref: 'List', required: true, index: true },
+    
     title: { type: String, required: true },
     description: String,
     Activity: String,

@@ -5,13 +5,13 @@ import Board from '../models/Board';
 import List from '../models/List';
 import Task from '../models/task';
 import Activity from '../models/activity';
-
+import { getIO } from '../services/socket';
 import pick from '../utils/pick';
 
 const router = Router();
 router.use(authMiddleware);
 
-// CREATE
+
 router.post('/', async (req: Request, res: Response): Promise<any> => {
   try {
     const { listId, title, board, position } = req.body as {
@@ -73,7 +73,7 @@ router.post('/', async (req: Request, res: Response): Promise<any> => {
   }
 });
 
-// READ
+
 router.get('/:id', async (req: Request, res: Response): Promise<any> => {
   try {
     const task = await Task.findById(req.params.id).lean();
@@ -88,7 +88,7 @@ router.get('/:id', async (req: Request, res: Response): Promise<any> => {
   }
 });
 
-// UPDATE
+
 router.put('/:id', async (req: Request, res: Response): Promise<any> => {
   try {
     const { id } = req.params;
@@ -98,7 +98,7 @@ router.put('/:id', async (req: Request, res: Response): Promise<any> => {
       return res.status(400).json({ error: 'Invalid task ID format' });
     }
 
-    // 1) map front-end keys → schema keys
+    
     const aliasMap: Record<string, string> = {
       taskTitle: 'title',
       list: 'list',
@@ -122,7 +122,7 @@ router.put('/:id', async (req: Request, res: Response): Promise<any> => {
       Activity: 'Activity',
     };
 
-    // 2) whitelist schema fields
+   
     const allowedFields = new Set([
       'Activity',
       'title',
@@ -142,6 +142,7 @@ router.put('/:id', async (req: Request, res: Response): Promise<any> => {
       'position',
       'isWatching',
       'attachments',
+      'position',
     ]);
     const exists = await Task.findOne({ _id: new mongoose.Types.ObjectId(id) });
     console.log('TASK EXISTS?', exists ? ' YES' : ' NO');
@@ -179,7 +180,7 @@ router.put('/:id', async (req: Request, res: Response): Promise<any> => {
       payload: updates,
     });
 
-    // res.json(task);
+    res.json(task);
   } catch (err: any) {
     console.error(err);
     res.status(400).json({ error: err.message });
