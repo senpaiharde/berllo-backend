@@ -9,7 +9,7 @@ import listRouter from './routes/RouteList';
 import activityRouter from './routes/RouteActivity';
 
 import authRoutes from './routes/Routeauth';
-
+import RouteUsers from './routes/RouteUsers';
 dotenv.config();
 
 const app = express();
@@ -26,6 +26,7 @@ app.use(express.json({ limit: '20mb' }));
 
 app.use(express.urlencoded({ limit: '20mb', extended: true }));
 app.use('/auth', authRoutes);
+app.use('/user', RouteUsers);
 app.use('/board', boardRouter);
 app.use('/tasks', taskRouter);
 app.use('/list', listRouter);
