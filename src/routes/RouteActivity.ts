@@ -4,6 +4,8 @@ import Activity from '../models/activity';
 import { ObjectId } from 'mongoose';
 import User from '../models/User';
 import mongoose from 'mongoose';
+
+import { getIO } from '../services/socket';
 const router = Router();
 router.use(authMiddleware);
 
@@ -44,7 +46,10 @@ router.get('/:taskId', async (req: Request, res: Response): Promise<any> => {
         payload: d.payload,
         createdAt: d.createdAt.toISOString(),
       }));
-
+   getIO()
+         .to(`task_${taskId}`)
+         .emit('taskUpdated', taskId);
+   
     return res.json(result);
   } catch (err) {
     console.error('Error loading activities:', err);
