@@ -20,8 +20,11 @@ app.use((req, res, next) => {
 app.use(helmet());
 app.use(morgan('dev'));
 app.use(cors({ origin: ['http://localhost:5173'], credentials: true }));
-app.use(express.json());
 
+
+app.use(express.json({ limit: '20mb' }));
+
+app.use(express.urlencoded({ limit: '20mb', extended: true }));
 app.use('/auth', authRoutes);
 app.use('/board', boardRouter);
 app.use('/tasks', taskRouter);

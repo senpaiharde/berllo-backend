@@ -122,6 +122,8 @@ router.put('/:id', async (req: Request, res: Response): Promise<any> => {
       title: 'title',
       description: 'description',
       Activity: 'Activity',
+      startDate: 'startDate',
+      
     };
 
    
