@@ -5,6 +5,7 @@ import   List, {IList} from '../models/List';
 import  pick  from '../utils/pick';
 import Activity from '../models/activity';
 import Task from '../models/task';
+import User from '../models/User';
 const router = Router();
 router.use(authMiddleware)
 // interface combineBoardFromgGetProps{
@@ -97,7 +98,19 @@ router.get("/:id", async (req: Request, res: Response): Promise<any> => {
       .lean()
       
     if (!board) return res.status(404).json({ error: "Board not found" })
-
+    await User.findByIdAndUpdate(
+  req.user!.id,
+  {
+    $pull: { recentBoards: board._id },             // remove duplicates
+    $push: {
+      recentBoards: {
+        $each: [board._id],
+        $position: 0,                               // add to front
+        $slice: 5                                  // keep max 5 items
+      }
+    }
+  }
+);
     const lists = await List.find({ taskListBoard: board._id })
       // .sort({ indexInBoard: 1 })
       .lean()
