@@ -5,8 +5,15 @@ export interface IUser extends mongoose.Document {
   email: string;
   passwordHash: string;
   avatar: String;
-  lastBoardVisited?: Types.ObjectId;
-  starredBoards?: Types.ObjectId[];
+  lastBoardVisited: {
+    board: Types.ObjectId;
+    boardTitle: string;
+  }[];
+  starredBoards?: {
+    board: Types.ObjectId;
+    boardTitle: string;
+    isStarred: boolean;
+  }[];
 }
 
 const userSchema = new Schema<IUser>(
@@ -15,15 +22,17 @@ const userSchema = new Schema<IUser>(
     email: { type: String, required: true, unique: true },
     passwordHash: { type: String, required: true },
     avatar: String,
-    lastBoardVisited: {
-      type: Schema.Types.ObjectId,
-      ref: 'Board',
-      default: null,
-    },
+    lastBoardVisited: [
+      {
+        board: { type: Schema.Types.ObjectId, ref: 'Board' },
+        boardTitle: { type: String, required: true },
+      },
+    ],
     starredBoards: [
       {
-        type: Schema.Types.ObjectId,
-        ref: 'Board',
+        board: { type: Schema.Types.ObjectId, ref: 'Board' },
+        boardTitle: { type: String, required: true },
+        isStarred:  { type: Boolean, default: false }
       },
     ],
   },
