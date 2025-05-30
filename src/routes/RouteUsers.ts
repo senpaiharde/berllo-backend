@@ -7,6 +7,17 @@ import { authMiddleware } from '../middlewares/authmiddleware';
 const router = Router();
 router.use(authMiddleware);
 
+router.get('/', async (req: Request, res: Response): Promise<any> => {
+  try {
+    const users = await User.find().select('fullname email avatar').lean();
+    console.log(' router.get(/) boards', users);
+    res.json({ users: users });
+  } catch (err: any) {
+    console.error(err);
+    res.status(500).json({ error: 'Could not delete entry' });
+  }
+});
+
 // GET /users/me
 router.get('/me', async (req: Request, res: Response): Promise<any> => {
   try {
