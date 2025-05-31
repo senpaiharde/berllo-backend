@@ -195,7 +195,7 @@ router.post('/', async (req: Request, res: Response): Promise<any> => {
 
     // 2) Call OpenAI ChatCompletion
     const completion = await openai.chat.completions.create({
-  model: 'gpt-4o-mini',       // or "gpt-4o" if you have access
+  model: 'gpt-4.1 nano',       
   messages: [
     { role: 'system', content: '…your system instructions…' },
     { role: 'user',   content: '…your user prompt…' }
