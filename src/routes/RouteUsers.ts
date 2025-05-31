@@ -35,7 +35,7 @@ router.get('/me', async (req: Request, res: Response): Promise<any> => {
       fullname:     user.fullname,
       email:        user.email,
       avatar:       user.avatar,
-      recentBoards: recent,
+      lastBoardVisited: recent,
       starredBoards: starred
     });
   } catch (err) {
