@@ -21,7 +21,6 @@ const openai = new OpenAI({
 const router = Router();
 router.use(authMiddleware);
 
-
 /**
  * Utility to strip triple‐backtick fences if ChatGPT wraps its JSON in them.
  */
@@ -122,7 +121,7 @@ router.post('/', async (req: Request, res: Response): Promise<any> => {
     }
 
     // 1) Build the ChatGPT prompt messages
-   const systemMessage = {
+    const systemMessage = {
       role: 'system',
       content: `
 You are a helpful assistant that transforms a free-form instruction into a valid JSON payload
@@ -228,7 +227,6 @@ When you respond, output EXACTLY that JSON object and nothing else.
     // 5) Extract ChatGPT's raw response and strip ```json fences if present
     const rawOutput = completion.choices[0].message?.content || '';
     const jsonString = stripJSONFences(rawOutput);
-
 
     // 3) JSON.parse the output
     let payload: {
@@ -360,7 +358,7 @@ When you respond, output EXACTLY that JSON object and nothing else.
         }
 
         // Parse coordinates if present
-        let parsedCoordinates: [number, number] | null = null;
+        let parsedCoordinates: [number, number] | [] = [];
         if (
           Array.isArray(taskBlock.coordinates) &&
           taskBlock.coordinates.length === 2 &&
