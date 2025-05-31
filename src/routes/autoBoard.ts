@@ -7,7 +7,8 @@ import mongoose from 'mongoose';
 import Board from '../models/Board';
 import List from '../models/List';
 import Task from '../models/task';
-
+import { authMiddleware } from '../middlewares/authmiddleware';
+import { ChatCompletionMessage } from 'openai/resources/index';
 dotenv.config();
 if (!process.env.OPENAI_API_KEY) {
   throw new Error('Missing OPENAI_API_KEY in environment');
@@ -18,6 +19,8 @@ const openai = new OpenAI({
 });
 
 const router = Router();
+router.use(authMiddleware);
+
 
 /**
  * Utility to strip triple‐backtick fences if ChatGPT wraps its JSON in them.
@@ -119,92 +122,113 @@ router.post('/', async (req: Request, res: Response): Promise<any> => {
     }
 
     // 1) Build the ChatGPT prompt messages
-    const systemMessage = {
+   const systemMessage = {
       role: 'system',
       content: `
+You are a helpful assistant that transforms a free-form instruction into a valid JSON payload
+for creating a new Board, with Lists and Tasks, in Berllo.
+
+IMPORTANT: You MUST output only one JSON object (no extra explanation, no markdown fences),
+following exactly this schema below (valid JSON) and no other keys:
+
 {
-  "boardTitle": string,             
-  "description": string,           
+  "boardTitle": string,             // the title for the new Board
+  "description": string,            // a short description for the board
   "lists": [
     {
-      "title": string,            
-      "position": number,           
+      "title": string,              // List's title (e.g. "To Do", "Ideas")
+      "position": number,           // 0-based index of the list
       "tasks": [
         {
-          "title": string,        
-          "description": string,    
-          "dueDate": string|null,  
-          "startDate": string|null,
-          "reminder": string|null,  
-          "coordinates": [          
-            number,
-            number
-          ]|null,
+          "title": string,          // Task's title
+          "description": string,    // Task's description (can be empty "")
+          "dueDate": string|null,   // ISO date string, or null if none
+          "startDate": string|null, // ISO date string, or null
+          "reminder": string|null,  // ISO date string, or null
+          "coordinates": [number, number]|null, // [longitude, latitude] or null
           "members": [
             {
-              "_id": string,        
+              "_id": string,        // User's ObjectId as string
               "fullname": string,
               "avatar": string
             }
-           
+            // ... more members
           ],
           "checklist": [
             {
-              "title": string,    
+              "title": string,      // Checklist title
               "items": [
                 {
                   "text": string,
                   "done": boolean
                 }
-                
+                // ... more items
               ]
             }
-            
+            // ... more checklists
           ],
           "cover": {
-            "coverType": string,   
+            "coverType": string,   // enum: "color" or "image"
             "coverColor": string,
             "coverImg": string
           }|null,
           "comments": [
             {
-              "_id": string,        
-              "userId": string,     
+              "_id": string,        // Comment ID (string)
+              "userId": string,     // ID of user who commented
               "text": string,
-              "createdAt": string   
+              "createdAt": string   // ISO date string
             }
-            
+            // ... more comments
           ],
-          "archivedAt": string|null, 
-          "position": number,      
-          "isWatching": boolean    
+          "archivedAt": string|null, // ISO date string if archived, else null
+          "position": number,      // 0-based index of task within the list
+          "isWatching": boolean    // true if the user is watching this task
         }
-        
+        // ... more tasks
       ]
     }
-    
+    // ... more lists
   ]
 }
-    `,
+
+If the instruction doesn't specify some fields for a particular task (e.g., no checklist or no cover), set those fields to:
+• "dueDate": null
+• "startDate": null
+• "reminder": null
+• "coordinates": null
+• "members": []
+• "checklist": []
+• "cover": null
+• "comments": []
+• "archivedAt": null
+• Use "position": 0, 1, 2, … in ascending order for tasks within each list.
+• Use "isWatching": false by default (unless the user explicitly says to “watch” the task).
+
+You have to guess reasonable defaults if the users instruction does not explicitly provide these fields.
+
+When you respond, output EXACTLY that JSON object and nothing else.
+`.trim(),
     };
 
+    // 3) Build the "user" message as a plain object
     const userMessage = {
       role: 'user',
       content: `Please create a new board payload for: "${prompt.trim()}"`,
     };
 
-    // 2) Call OpenAI ChatCompletion
+    // 4) Call the ChatCompletion endpoint (cast messages to any[])
     const completion = await openai.chat.completions.create({
-  model: 'gpt-4.1 nano',       
-  messages: [
-    { role: 'system', content: '…your system instructions…' },
-    { role: 'user',   content: '…your user prompt…' }
-  ],
-  temperature: 0.2,
-  max_tokens: 1200,
-});
+      model: 'gpt-4.1-nano', // or 'gpt-4o-mini', etc.
+      messages: [systemMessage, userMessage] as any[],
+      temperature: 0.2,
+      max_tokens: 1200,
+    });
+
+    // 5) Extract ChatGPT's raw response and strip ```json fences if present
     const rawOutput = completion.choices[0].message?.content || '';
     const jsonString = stripJSONFences(rawOutput);
+
 
     // 3) JSON.parse the output
     let payload: {

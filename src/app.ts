@@ -32,7 +32,7 @@ app.use('/board', boardRouter);
 app.use('/tasks', taskRouter);
 app.use('/list', listRouter);
 app.use('/activities', activityRouter);
-//app.use('/autoBoard', autoBoardRouter);
+app.use('/autoBoard', autoBoardRouter);
 
 console.log('taskroute firing');
 
