@@ -27,19 +27,35 @@ const MemberSchema = new Schema<IBoardMember>({
 });
 export interface IBoard extends Document {
   boardTitle: string;
-  boardStyle : Schema.Types.Mixed, 
+  
   isStarred: boolean;
   archivedAt?: Date;
   boardLabels: ILabel[];
   boardMembers: IBoardMember[];
   createdBy: Types.ObjectId;
   boardLists: Types.ObjectId[];
+  boardStyle: {
+      type: {
+        boardType: { type: String, enum: ['color', 'image'] },
+        boardColor: String,
+        boardImg: String,
+      },
+      default: undefined,
+    },
 }
 const BoardSchema = new Schema<IBoard>(
   {
     boardTitle: { type: String, required: true },
-    boardStyle: { backgroundImage: String },
+    
     isStarred: { type: Boolean, default: false },
+    boardStyle: {
+      type: {
+        boardType: { type: String, enum: ['color', 'image'] },
+        boardColor: String,
+        boardImg: String,
+      },
+      default: undefined,
+    },
     archivedAt: Date,
     boardLabels: [LabelSchema],
     boardMembers: [MemberSchema],
