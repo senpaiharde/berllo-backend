@@ -92,14 +92,20 @@ router.post('/', async (req: Request, res: Response): Promise<any> => {
     const systemMessage = {
   role: 'system',
   content: `
-You are a helpful assistant that converts a free-form instruction into a single JSON object, strictly following the schema below. The user wants a board with exactly 3 or 4 lists, each list having exactly 2 tasks. Every field must appear (use null or empty arrays where needed). Return exactly one JSON object—no extra text, no code fences, no comments outside the JSON.
+You are a helpful assistant that converts a free-form instruction into a single JSON object, strictly following the schema below. The user wants a board with exactly 3 or 4 lists, each list having exactly 2 tasks. Every field must appear (use null or empty arrays when needed). Return exactly one JSON object—no extra text, no code fences, no comments outside the JSON.
 
 ***VERY IMPORTANT:***
-1. **Every task’s coverImg must be a unique, valid Unsplash URL** (never reuse the same link). Before choosing any Unsplash link, ensure it resolves to a real image (i.e., test that the URL is correct). Pick an Unsplash photo whose subject exactly matches that task’s title.
-   • If the task is “Book Flight to Frankfurt,” choose a working Unsplash URL showing an airplane ticket, Frankfurt Airport, or planes taking off.  
-   • If the task is “Visit Palmengarten,” choose a working Unsplash URL showing visitors walking in a botanical garden or close‐ups of Palmengarten paths.  
-   • If the task is “Try Frankfurter Rippchen,” choose a working Unsplash URL showing traditional German pork ribs or a typical Frankfurt plate.  
-   • Each task must get its own distinct Unsplash URL appropriate to the topic. Do not reuse or copy any previous coverImg.
+1. **NEW RULES FOR IMAGES & ATTACHMENTS:**
+   1. **cover**: For each task, attempt to provide a valid Unsplash or Wikimedia Commons URL that directly matches the task’s subject. If the URL is invalid, 404, or is the placeholder “https://images.unsplash.com/photo-1549924231-f129b911e442”, then instead set:
+      
+      "cover": {
+        "coverType": "color",
+        "coverColor": "<randomly chosen hex from [#FF5733, #33FF57, #3357FF, #F333FF, #FFC300, #900C3F, #4A90E2, #27AE60]>",
+        "coverImg": ""
+      }
+      
+      Each task’s cover must be either a valid image object or this fallback color object. Do not leave "cover": null.
+   2. **attachments**: Always set "attachments": [] for every task. Do not attempt to fill attachments.
 
 2. **Every task’s checklist must contain at least 3 mission-specific steps** (not generic placeholders). For example:
    • “Book Flight” checklist might have:
@@ -115,16 +121,25 @@ You are a helpful assistant that converts a free-form instruction into a single 
      2. Choose a bakery near your location.
      3. Place order with pickup/delivery instructions.
 
-3. **Attachments must be real, valid image URLs (JPEG/PNG)**. Do NOT include any PDFs or dummy domains. Each task needs at least one attachment pointing to a real image (for example, a map of a location or a relevant photograph). Ensure each attachment URL actually resolves:
-   • For “Find Hotel,” attach a working Unsplash URL showing a hotel exterior or interior.
-   • For “Visit Römerberg Square,” attach a working Unsplash URL showing the square or its iconic buildings.
-   • For “Try Frankfurter Rippchen,” attach a working Unsplash URL showing the dish on a plate.
+3. **All dates (“startDate” and “dueDate”) must be present in ISO-8601 (YYYY-MM-DD)**. They should reflect a realistic timeline based on the user’s instruction. Do not omit “startDate” under any circumstance.
+   • If the prompt specifies a timeframe (e.g., “June 1 to June 30, 2025”), assign "startDate" on or shortly after June 1, 2025 and "dueDate" on or before June 30, 2025, spacing tasks logically.
+   • If no explicit dates appear, choose plausible dates (e.g. if the user says “in one month,” set startDate = 30 days from today, dueDate = 40 days from today).
+   • Do NOT omit "startDate" under any circumstance. Ensure **startDate ≤ dueDate**.
 
-4. **All dates (“startDate” and “dueDate”) must be present in ISO-8601 (YYYY-MM-DD)**. They should reflect a realistic timeline based on the user’s instruction. Do not omit “startDate” under any circumstance.
+4. **Board title** should be short and simple (no dates—just a phrase like “Trip Schedule,” “Germany Trip,” or “Grandma’s Birthday”).
 
-5. **Board title** should be short and simple (no dates—just a phrase like “Trip Schedule,” “Germany Trip,” or “Grandma’s Birthday”).
+5. **Use exactly 2 or 3 lists**. If the user’s prompt implies “Flights,” “Accommodation,” “Sightseeing,” “Local Dining,” those can be the four. If only three categories apply, omit the fourth.
 
-6. **Use exactly 3 or 4 lists**. If the user’s prompt implies “Flights,” “Accommodation,” “Sightseeing,” “Local Dining,” those can be the four. If only three categories apply, omit the fourth.
+6. **Board Style Fallback:**
+   • For boardStyle.boardImg: attempt to use a valid Unsplash URL matching the overall theme. If invalid, 404, or the placeholder “https://images.unsplash.com/photo-1549924231-f129b911e442”, then set:
+    
+     "boardStyle": {
+       "boardType": "color",
+       "boardImg": "",
+       "boardColor": "<randomly chosen hex from [#FF5733, #33FF57, #3357FF, #F333FF, #FFC300, #900C3F, #4A90E2, #27AE60]>"
+     }
+    
+   • Otherwise, set "boardType": "image" with a valid Unsplash URL and pick any complementary hex for "boardColor".
 
 ---
 
@@ -135,7 +150,7 @@ You are a helpful assistant that converts a free-form instruction into a single 
   "description": string,          // short description of the board’s purpose
   "boardStyle": {
     "boardType": "image" | "color",
-    "boardImg": string,           // if boardType="image", a real Unsplash URL matching the overall board theme
+    "boardImg": string,           // if boardType="image", a valid Unsplash URL; else ""
     "boardColor": string          // hex color, e.g. "#4A90E2"
   },
   "lists": [
@@ -165,10 +180,10 @@ You are a helpful assistant that converts a free-form instruction into a single 
             }
           ],
           "cover": {
-            "coverType": "image",
-            "coverColor": string,  // e.g. "#FFFFFF"
-            "coverImg": string     // must be a unique, valid Unsplash URL matching this task’s title
-          }|null,
+            "coverType": "image" | "color",
+            "coverColor": string,  // hex (if coverType="color")
+            "coverImg": string     // valid Unsplash URL or ""
+          },
           "comments": [           // always present (can be empty array)
             { "_id": string, "userId": string, "text": string, "createdAt": string }
           ],
@@ -182,14 +197,7 @@ You are a helpful assistant that converts a free-form instruction into a single 
             { "id": string, "color": string, "title": string },
             { "id": string, "color": string, "title": string }
           ],
-          "attachments": [        // at least one image attachment (JPEG/PNG)
-            {
-              "name": string,      // e.g. "Flight Ticket Photo"
-              "url": string,       // a real, valid Unsplash or Wikimedia Commons JPEG/PNG URL
-              "contentType": "image/jpeg" | "image/png",
-              "size": number       // approximate file size in bytes
-            }
-          ]
+          "attachments": []       // always empty
         },
         {
           /* second task (same schema) */
@@ -201,9 +209,6 @@ You are a helpful assistant that converts a free-form instruction into a single 
     },
     {
       /* third list with 2 tasks */
-    },
-    {
-      /* (Optional) fourth list with 2 tasks */
     }
   ]
 }
@@ -212,7 +217,7 @@ You are a helpful assistant that converts a free-form instruction into a single 
 
 Whether the user asked “Fly to USA,” “Birthday for Grandma,” or “Plan Germany Trip,” GPT should:
 
-1. **Decide on 3 or 4 topical lists**—for example:
+1. **Decide on 2 or 3 topical lists**—for example:
    • If “Fly to USA,” lists might be:
      1. “Flights”
      2. “Accommodation”
@@ -225,27 +230,16 @@ Whether the user asked “Fly to USA,” “Birthday for Grandma,” or “Plan 
      4. “Guest List & Invitations”
 
 2. **For each task (exactly two per list)**:
-   • Pick a distinct, valid cover image (Unsplash URL)—**no two tasks share the same URL**. Verify each link loads an actual image.  
-   • Write a mission-specific checklist of at least three concrete steps:
-     – e.g. “Gifts → Order Gift Online”:
-       1. Choose gift style.
-       2. Compare prices on Amazon.
-       3. Complete order and add gift wrap.
-     – e.g. “Packing & Documentation → Prepare Travel Documents”:
-       1. Print passport copy.
-       2. Scan driver’s license.
-       3. Purchase travel insurance.
-   • Provide at least one real image attachment (JPEG/PNG) that directly relates to that task’s subject:
-     – e.g. “Visit Palmengarten” might attach a botanical garden photo.
-     – e.g. “Order Cake” might attach a bakery storefront photo.
+   • Attempt to pick a valid cover image URL. If it fails or is the placeholder “https://images.unsplash.com/photo-1549924231-f129b911e442”, use a random cover color from the eight provided.  
+   • Write a mission-specific checklist of at least three concrete steps.  
+   • Set "attachments": [].
 
-3. **Ensure every task has both startDate and dueDate**. If the user mentions “in June” or “next month,” pick plausible dates. Do NOT leave startDate blank.
+3. **Ensure every task has both startDate and dueDate**. If the user mentions “in June” or “next month,” pick plausible dates. Do NOT leave startDate blank. Always maintain **startDate ≤ dueDate**.
 
-4. **Labels**: Give each task exactly 4 labels (id + unique hex color + title). The titles should reflect categories (e.g. “Urgent,” “Booking,” “Travel,” “Leisure”), chosen to help organize tasks.
+4. **Labels**: Give each task exactly 4 labels (id + unique hex color + title). The titles should reflect categories related to the task’s title (e.g. “Urgent,” “Booking,” “Travel,” “Leisure”).
 
 5. **Board Style**:
-   • If the user’s instruction implies a themeable image (e.g. “Germany Trip”), set boardType = "image" and choose one Unsplash URL for boardImg that matches the overall theme (e.g. a Frankfurt skyline). Ensure that URL resolves correctly.
-   • Otherwise, set boardType = "color" and pick a hex color that complements the topic (e.g. "#4A90E2").
+   • Attempt to choose a valid Unsplash URL for "boardImg". If it fails or is invalid, set "boardType": "color", "boardImg": "", and choose a random hex from the eight provided for "boardColor".
 
 Return only the JSON object above. Do NOT add any additional text or explanation—just the JSON.
 `.trim()
@@ -254,17 +248,16 @@ Return only the JSON object above. Do NOT add any additional text or explanation
 
 const userMessage = {
   role: 'user',
-  content: `Please create a new board payload for: "${prompt.trim()}"`,
+  content: `Please create a new board payload for: "${prompt.trim()}"`
 };
 
+const completion = await openai.chat.completions.create({
+  model:       'gpt-4.1-nano',
+  messages:    [systemMessage, userMessage] as any[],
+  temperature: 0.2,
+  max_tokens:  5500,
+});
 
-
-    const completion = await openai.chat.completions.create({
-      model:       'gpt-4.1-nano',
-      messages:    [systemMessage, userMessage] as any[],
-      temperature: 0.2,
-      max_tokens:  5500,
-    });
 
     // 3) Extract raw response
     const rawOutput = completion.choices[0].message?.content || '';
