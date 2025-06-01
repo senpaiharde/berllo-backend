@@ -8,7 +8,6 @@ import Board from '../models/Board';
 import List from '../models/List';
 import Task from '../models/task';
 import { authMiddleware } from '../middlewares/authmiddleware';
-import { ChatCompletionMessage } from 'openai/resources/index';
 dotenv.config();
 if (!process.env.OPENAI_API_KEY) {
   throw new Error('Missing OPENAI_API_KEY in environment');
@@ -22,336 +21,385 @@ const router = Router();
 router.use(authMiddleware);
 
 /**
- * Utility to strip triple‐backtick fences if ChatGPT wraps its JSON in them.
+ * If ChatGPT wraps JSON in triple‐backticks, this will remove them.
  */
 function stripJSONFences(raw: string): string {
-  let text = raw.trim();
-  if (text.startsWith('```')) {
-    // Look for ```json ... ``` or ```
-    const match = text.match(/```(?:json)?\n([\s\S]*?)```/i);
-    if (match && match[1]) {
-      return match[1].trim();
-    }
+  const trimmed = raw.trim();
+  const fenceRegex = /```(?:json)?\s*([\s\S]*?)\s*```/i;
+  const match = trimmed.match(fenceRegex);
+  if (match && match[1]) {
+    return match[1].trim();
   }
-  return text;
+  return trimmed;
 }
 
 /**
- * POST /api/autoBoard
- *
- * Body: { prompt: string }
- *
- * Returns: { boardId: string }
- *
- * This route uses ChatGPT to generate a fully‐populated Board → Lists → Tasks payload,
- * including ALL fields from the `Task` schema (members, startDate, dueDate, reminder,
- * coordinates, checklist, cover, comments, archivedAt, position, isWatching). Any fields
- * GPT does not supply will be defaulted.
- *
- * The exact JSON structure GPT must output is:
- * {
- *   "boardTitle": string,
- *   "description": string,
- *   "lists": [
- *     {
- *       "title": string,
- *       "position": number,
- *       "tasks": [
- *         {
- *           "title": string,
- *           "description": string,
- *           "dueDate": string | null,
- *           "startDate": string | null,
- *           "reminder": string | null,
- *           "coordinates": [number, number] | null,
- *           "members": [
- *             {
- *               "_id": string,
- *               "fullname": string,
- *               "avatar": string
- *             }
- *             // … more members
- *           ],
- *           "checklist": [
- *             {
- *               "title": string,
- *               "items": [
- *                 {
- *                   "text": string,
- *                   "done": boolean
- *                 }
- *                 // … more items
- *               ]
- *             }
- *             // … more checklists
- *           ],
- *           "cover": {
- *             "coverType": string,   // enum: ['color','image']
- *             "coverColor": string,
- *             "coverImg": string
- *           } | null,
- *           "comments": [
- *             {
- *               "_id": string,
- *               "userId": string,
- *               "text": string,
- *               "createdAt": string
- *             }
- *             // … more comments
- *           ],
- *           "archivedAt": string | null,
- *           "position": number,
- *           "isWatching": boolean
- *         }
- *         // … more tasks
- *       ]
- *     }
- *     // … more lists
- *   ]
- * }
- *
- * When ChatGPT responds, it must return **only** this JSON object—no extra text, no markdown fences.
+ * If GPT doesn’t return labels, we generate a set of fallback labels
+ * based on words in the board’s title.
  */
+function generateTopicLabels(boardTitle: string): Array<{ title: string; color: string; id: string }> {
+  const colorPalette = [
+    '#1E90FF',
+    '#32CD32',
+    '#FFD700',
+    '#C19A6B',
+    '#8A2BE2',
+    '#FF8C00',
+    '#DC143C',
+  ];
+
+  const rawWords = boardTitle
+    .split(/[\s\-:,_]+/)
+    .map(w => w.toLowerCase())
+    .filter(w => w.length > 2);
+
+  const capitalizedWords = rawWords.map(w => w.charAt(0).toUpperCase() + w.slice(1));
+
+  const labels: string[] = [];
+  for (let i = 0; i < capitalizedWords.length && labels.length < 4; i++) {
+    const word = capitalizedWords[i];
+    if (!labels.includes(word)) {
+      labels.push(word);
+    }
+  }
+
+  const fallback = ['Travel', 'History', 'Sightseeing', 'Logistics', 'Culture', 'Planning', 'MustSee'];
+  let idx = 0;
+  while (labels.length < 7 && idx < fallback.length) {
+    if (!labels.includes(fallback[idx])) {
+      labels.push(fallback[idx]);
+    }
+    idx++;
+  }
+
+  return labels.slice(0, 7).map((title, i) => ({
+    id:    new mongoose.Types.ObjectId().toString(),
+    title,
+    color: colorPalette[i % colorPalette.length],
+  }));
+}
+
 router.post('/', async (req: Request, res: Response): Promise<any> => {
   try {
     const { prompt } = req.body as { prompt?: string };
-
     if (!prompt || typeof prompt !== 'string' || !prompt.trim()) {
       return res.status(400).json({ error: '`prompt` (string) is required.' });
     }
 
-    // 1) Build the ChatGPT prompt messages
+    // 1) Build the ChatGPT prompt
+    //    We explicitly say “at least 4 lists” (Flights, Accommodation, Best Places, Local Cuisine, etc.),
+    //    but we no longer hard‐fail if GPT returns 4 instead of 5.
     const systemMessage = {
-      role: 'system',
-      content: `
-You are a helpful assistant that transforms a free-form instruction into a valid JSON payload
-for creating a new Board, with Lists and Tasks, in Berllo.
+  role: 'system',
+  content: `
+You are a helpful assistant that converts a free-form instruction into a single JSON object, strictly following the schema below. The user wants a board with exactly 3 or 4 lists, each list having exactly 2 tasks. Every field must appear (use null or empty arrays where needed). Return exactly one JSON object—no extra text, no code fences, no comments outside the JSON.
 
-IMPORTANT: You MUST output only one JSON object (no extra explanation, no markdown fences),
-following exactly this schema below (valid JSON) and no other keys:
+***VERY IMPORTANT:***
+1. **Every task’s coverImg must be a unique, valid Unsplash URL** (never reuse the same link). Before choosing any Unsplash link, ensure it resolves to a real image (i.e., test that the URL is correct). Pick an Unsplash photo whose subject exactly matches that task’s title.
+   • If the task is “Book Flight to Frankfurt,” choose a working Unsplash URL showing an airplane ticket, Frankfurt Airport, or planes taking off.  
+   • If the task is “Visit Palmengarten,” choose a working Unsplash URL showing visitors walking in a botanical garden or close‐ups of Palmengarten paths.  
+   • If the task is “Try Frankfurter Rippchen,” choose a working Unsplash URL showing traditional German pork ribs or a typical Frankfurt plate.  
+   • Each task must get its own distinct Unsplash URL appropriate to the topic. Do not reuse or copy any previous coverImg.
+
+2. **Every task’s checklist must contain at least 3 mission-specific steps** (not generic placeholders). For example:
+   • “Book Flight” checklist might have:
+     1. Compare round-trip fares on Skyscanner.
+     2. Check baggage allowance and seat options.
+     3. Complete payment and download e-ticket.
+   • “Visit Palmengarten” checklist might have:
+     1. Enter through the Palmengarten main gate on Bockenheimer Anlage.
+     2. Spend 30 minutes in the Glasshouse (Palmenhaus).
+     3. Walk through the Rose Garden section and take photos.
+   • If the user’s prompt is “Birthday for Grandma,” then a task like “Order Cake” might have:
+     1. Select cake style and flavor.
+     2. Choose a bakery near your location.
+     3. Place order with pickup/delivery instructions.
+
+3. **Attachments must be real, valid image URLs (JPEG/PNG)**. Do NOT include any PDFs or dummy domains. Each task needs at least one attachment pointing to a real image (for example, a map of a location or a relevant photograph). Ensure each attachment URL actually resolves:
+   • For “Find Hotel,” attach a working Unsplash URL showing a hotel exterior or interior.
+   • For “Visit Römerberg Square,” attach a working Unsplash URL showing the square or its iconic buildings.
+   • For “Try Frankfurter Rippchen,” attach a working Unsplash URL showing the dish on a plate.
+
+4. **All dates (“startDate” and “dueDate”) must be present in ISO-8601 (YYYY-MM-DD)**. They should reflect a realistic timeline based on the user’s instruction. Do not omit “startDate” under any circumstance.
+
+5. **Board title** should be short and simple (no dates—just a phrase like “Trip Schedule,” “Germany Trip,” or “Grandma’s Birthday”).
+
+6. **Use exactly 3 or 4 lists**. If the user’s prompt implies “Flights,” “Accommodation,” “Sightseeing,” “Local Dining,” those can be the four. If only three categories apply, omit the fourth.
+
+---
+
+### REQUIRED SCHEMA (all fields must exist—use null or [] when appropriate):
 
 {
-  "boardTitle": string,             // the title for the new Board
-  "description": string,            // a short description for the board
+  "boardTitle": string,           // e.g. "Trip Schedule"
+  "description": string,          // short description of the board’s purpose
+  "boardStyle": {
+    "boardType": "image" | "color",
+    "boardImg": string,           // if boardType="image", a real Unsplash URL matching the overall board theme
+    "boardColor": string          // hex color, e.g. "#4A90E2"
+  },
   "lists": [
     {
-      "title": string,              // List's title (e.g. "To Do", "Ideas")
-      "position": number,           // 0-based index of the list
+      "title": string,            // list name (e.g. "Flights")
+      "position": number,         // 0-based index of this list
       "tasks": [
         {
-          "title": string,          // Task's title
-          "description": string,    // Task's description (can be empty "")
-          "dueDate": string|null,   // ISO date string, or null if none
-          "startDate": string|null, // ISO date string, or null
-          "reminder": string|null,  // ISO date string, or null
-          "coordinates": [number, number]|null, // [longitude, latitude] or null
-          "members": [
-            {
-              "_id": string,        // User's ObjectId as string
-              "fullname": string,
-              "avatar": string
-            }
-            // ... more members
+          "title": string,        // e.g. "Book Flight to Frankfurt"
+          "description": string,  // detailed task description
+          "Activity": string,     // one-sentence summary (e.g. "Flight Booking")
+          "startDate": string,    // ISO date (e.g. "2025-06-01")
+          "dueDate": string,      // ISO date (e.g. "2025-06-05")
+          "reminder": string|null,// ISO date/time or null
+          "coordinates": [number, number]|null, // [latitude, longitude] if location-based, else null
+          "members": [            // 0 or more
+            { "_id": string, "fullname": string, "avatar": string }
           ],
-          "checklist": [
+          "checklist": [          // exactly one object in this array, with at least 3 items
             {
-              "title": string,      // Checklist title
+              "title": string,    // e.g. "Flight Booking Steps"
               "items": [
-                {
-                  "text": string,
-                  "done": boolean
-                }
-                // ... more items
+                { "text": string, "done": boolean },
+                { "text": string, "done": boolean },
+                { "text": string, "done": boolean }
               ]
             }
-            // ... more checklists
           ],
           "cover": {
-            "coverType": string,   // enum: "color" or "image"
-            "coverColor": string,
-            "coverImg": string
+            "coverType": "image",
+            "coverColor": string,  // e.g. "#FFFFFF"
+            "coverImg": string     // must be a unique, valid Unsplash URL matching this task’s title
           }|null,
-          "comments": [
-            {
-              "_id": string,        // Comment ID (string)
-              "userId": string,     // ID of user who commented
-              "text": string,
-              "createdAt": string   // ISO date string
-            }
-            // ... more comments
+          "comments": [           // always present (can be empty array)
+            { "_id": string, "userId": string, "text": string, "createdAt": string }
           ],
-          "archivedAt": string|null, // ISO date string if archived, else null
-          "position": number,      // 0-based index of task within the list
-          "isWatching": boolean    // true if the user is watching this task
+          "archivedAt": string|null,
+          "position": number,     // 0-based index within its list
+          "isWatching": boolean,
+          "isDueComplete": boolean,
+          "labels": [             // exactly 4 label objects
+            { "id": string, "color": string, "title": string },
+            { "id": string, "color": string, "title": string },
+            { "id": string, "color": string, "title": string },
+            { "id": string, "color": string, "title": string }
+          ],
+          "attachments": [        // at least one image attachment (JPEG/PNG)
+            {
+              "name": string,      // e.g. "Flight Ticket Photo"
+              "url": string,       // a real, valid Unsplash or Wikimedia Commons JPEG/PNG URL
+              "contentType": "image/jpeg" | "image/png",
+              "size": number       // approximate file size in bytes
+            }
+          ]
+        },
+        {
+          /* second task (same schema) */
         }
-        // ... more tasks
       ]
+    },
+    {
+      /* second list with 2 tasks */
+    },
+    {
+      /* third list with 2 tasks */
+    },
+    {
+      /* (Optional) fourth list with 2 tasks */
     }
-    // ... more lists
   ]
 }
 
-If the instruction doesn't specify some fields for a particular task (e.g., no checklist or no cover), set those fields to:
-• "dueDate": null
-• "startDate": null
-• "reminder": null
-• "coordinates": null
-• "members": []
-• "checklist": []
-• "cover": null
-• "comments": []
-• "archivedAt": null
-• Use "position": 0, 1, 2, … in ascending order for tasks within each list.
-• Use "isWatching": false by default (unless the user explicitly says to “watch” the task).
+#### GENERIC TOPIC GUIDANCE
 
-You have to guess reasonable defaults if the users instruction does not explicitly provide these fields.
+Whether the user asked “Fly to USA,” “Birthday for Grandma,” or “Plan Germany Trip,” GPT should:
 
-When you respond, output EXACTLY that JSON object and nothing else.
-`.trim(),
-    };
+1. **Decide on 3 or 4 topical lists**—for example:
+   • If “Fly to USA,” lists might be:
+     1. “Flights”
+     2. “Accommodation”
+     3. “Sightseeing”
+     4. “Packing & Documentation”
+   • If “Birthday for Grandma,” lists might be:
+     1. “Gifts”
+     2. “Decorations”
+     3. “Menu & Cake”
+     4. “Guest List & Invitations”
 
-    // 3) Build the "user" message as a plain object
-    const userMessage = {
-      role: 'user',
-      content: `Please create a new board payload for: "${prompt.trim()}"`,
-    };
+2. **For each task (exactly two per list)**:
+   • Pick a distinct, valid cover image (Unsplash URL)—**no two tasks share the same URL**. Verify each link loads an actual image.  
+   • Write a mission-specific checklist of at least three concrete steps:
+     – e.g. “Gifts → Order Gift Online”:
+       1. Choose gift style.
+       2. Compare prices on Amazon.
+       3. Complete order and add gift wrap.
+     – e.g. “Packing & Documentation → Prepare Travel Documents”:
+       1. Print passport copy.
+       2. Scan driver’s license.
+       3. Purchase travel insurance.
+   • Provide at least one real image attachment (JPEG/PNG) that directly relates to that task’s subject:
+     – e.g. “Visit Palmengarten” might attach a botanical garden photo.
+     – e.g. “Order Cake” might attach a bakery storefront photo.
 
-    // 4) Call the ChatCompletion endpoint (cast messages to any[])
+3. **Ensure every task has both startDate and dueDate**. If the user mentions “in June” or “next month,” pick plausible dates. Do NOT leave startDate blank.
+
+4. **Labels**: Give each task exactly 4 labels (id + unique hex color + title). The titles should reflect categories (e.g. “Urgent,” “Booking,” “Travel,” “Leisure”), chosen to help organize tasks.
+
+5. **Board Style**:
+   • If the user’s instruction implies a themeable image (e.g. “Germany Trip”), set boardType = "image" and choose one Unsplash URL for boardImg that matches the overall theme (e.g. a Frankfurt skyline). Ensure that URL resolves correctly.
+   • Otherwise, set boardType = "color" and pick a hex color that complements the topic (e.g. "#4A90E2").
+
+Return only the JSON object above. Do NOT add any additional text or explanation—just the JSON.
+`.trim()
+};
+
+
+const userMessage = {
+  role: 'user',
+  content: `Please create a new board payload for: "${prompt.trim()}"`,
+};
+
+
+
     const completion = await openai.chat.completions.create({
-      model: 'gpt-4.1-nano', // or 'gpt-4o-mini', etc.
-      messages: [systemMessage, userMessage] as any[],
+      model:       'gpt-4.1-nano',
+      messages:    [systemMessage, userMessage] as any[],
       temperature: 0.2,
-      max_tokens: 1200,
+      max_tokens:  5500,
     });
 
-    // 5) Extract ChatGPT's raw response and strip ```json fences if present
+    // 3) Extract raw response
     const rawOutput = completion.choices[0].message?.content || '';
-    const jsonString = stripJSONFences(rawOutput);
+    console.log('⏺ Raw GPT response:\n', rawOutput);
 
-    // 3) JSON.parse the output
+    // 4) Strip any ```json fences```
+    const jsonString = stripJSONFences(rawOutput);
+    console.log('⏺ Stripped JSON string:\n', jsonString);
+
+    // 5) Attempt to JSON.parse
     let payload: {
       boardTitle: string;
       description: string;
+      boardStyle: { boardType: 'image' | 'color'; boardImg: string; boardColor: string };
       lists: Array<{
         title: string;
         position: number;
         tasks: Array<{
           title: string;
           description: string;
+          Activity: string;
           dueDate: string | null;
           startDate: string | null;
           reminder: string | null;
           coordinates: [number, number] | null;
-          members: Array<{
-            _id: string;
-            fullname: string;
-            avatar: string;
-          }>;
-          checklist: Array<{
-            title: string;
-            items: Array<{
-              text: string;
-              done: boolean;
-            }>;
-          }>;
-          cover: {
-            coverType: string;
-            coverColor: string;
-            coverImg: string;
-          } | null;
-          comments: Array<{
-            _id: string;
-            userId: string;
-            text: string;
-            createdAt: string;
-          }>;
+          members: Array<{ _id: string; fullname: string; avatar: string }>;
+          checklist: Array<{ title: string; items: Array<{ text: string; done: boolean }> }>;
+          cover: { coverType: 'image' | 'color'; coverColor: string; coverImg: string } | null;
+          comments: Array<{ _id: string; userId: string; text: string; createdAt: string }>;
           archivedAt: string | null;
           position: number;
           isWatching: boolean;
+          isDueComplete: boolean;
+          labels: Array<{ id: string; color: string; title: string }>;
+          attachments: Array<{ name: string; url: string; contentType: string; size: number }>;
         }>;
       }>;
     };
 
     try {
       payload = JSON.parse(jsonString);
-    } catch (parseErr) {
-      console.error('❌ Failed to parse GPT output as JSON:', rawOutput);
+    } catch {
+      console.error('‼️ Failed to parse JSON from ChatGPT:\n', jsonString);
       return res.status(500).json({ error: 'Failed to parse JSON from ChatGPT.' });
     }
 
-    // 4) Validate minimal structure
-    if (typeof payload.boardTitle !== 'string' || !Array.isArray(payload.lists)) {
-      return res.status(500).json({ error: 'Generated JSON did not match expected schema.' });
+    // 6) Validate minimal structure: at least 1 list with 2 tasks
+    if (
+      typeof payload.boardTitle !== 'string' ||
+      typeof payload.boardStyle !== 'object' ||
+      !Array.isArray(payload.lists) ||
+      payload.lists.some((lst) => !Array.isArray(lst.tasks) || lst.tasks.length < 2)
+    ) {
+      return res.status(500).json({ error: 'Generated JSON did not match the expected schema.' });
     }
 
-    // 5) Create the new Board
+    // 7) Ensure boardType is either 'image' or 'color'
+    let boardType: 'image' | 'color' = 'color';
+    if (payload.boardStyle.boardImg && payload.boardStyle.boardImg.trim() !== '') {
+      boardType = 'image';
+    }
+
+    // 8) Generate fallback labels for the board itself (in case GPT didn’t return any)
+    const topicLabels = generateTopicLabels(payload.boardTitle);
+
+    // 9) Create the new Board
     const newBoard = new Board({
-      boardTitle: payload.boardTitle,
-      // Note: your Board schema does not have a “description” field by default;
-      // if you want to store payload.description, you could push it into another field or ignore it.
+      boardTitle:  payload.boardTitle,
+      description: payload.description || '',
+      boardLabels: topicLabels,
+      boardStyle: {
+        boardType,
+        boardImg:    payload.boardStyle.boardImg,
+        boardColor: payload.boardStyle.boardColor,
+      },
     });
     await newBoard.save();
 
     const createdListIds: mongoose.Types.ObjectId[] = [];
 
-    // 6) For each list in the payload, create a List document
+    // 10) For each list, create a List document
     for (const listBlock of payload.lists) {
       if (
         typeof listBlock.title !== 'string' ||
         typeof listBlock.position !== 'number' ||
-        !Array.isArray(listBlock.tasks)
+        !Array.isArray(listBlock.tasks) ||
+        listBlock.tasks.length < 2
       ) {
-        continue; // skip invalid list
+        continue; // skip if it doesn’t have at least 2 tasks
       }
 
-      // 6.1) Create List
       const newList = new List({
         taskListBoard: newBoard._id,
         taskListTitle: listBlock.title,
-        indexInBoard: listBlock.position,
-        // listStyle: {} // optional default styling
+        indexInBoard:  listBlock.position,
       });
       await newList.save();
       createdListIds.push(newList._id);
 
       const createdTaskIds: mongoose.Types.ObjectId[] = [];
 
-      // 6.2) For each task in this list, create a Task document
+      // 11) For each task in this list, create a Task document
       for (const taskBlock of listBlock.tasks) {
-        if (typeof taskBlock.title !== 'string' || typeof taskBlock.position !== 'number') {
-          continue; // skip invalid task
+        if (
+          typeof taskBlock.title !== 'string' ||
+          typeof taskBlock.position !== 'number'
+        ) {
+          continue;
         }
 
-        // Parse each optional date field (dueDate, startDate, reminder, archivedAt)
-        let parsedDueDate: Date | null = null;
-        let parsedStartDate: Date | null = null;
-        let parsedReminder: Date | null = null;
+        // Parse optional date fields
+        let parsedDueDate:    Date | null = null;
+        let parsedStartDate:  Date | null = null;
+        let parsedReminder:   Date | null = null;
         let parsedArchivedAt: Date | null = null;
-
         if (
           taskBlock.dueDate &&
-          typeof taskBlock.dueDate === 'string' &&
           !Number.isNaN(new Date(taskBlock.dueDate).getTime())
         ) {
           parsedDueDate = new Date(taskBlock.dueDate);
         }
         if (
           taskBlock.startDate &&
-          typeof taskBlock.startDate === 'string' &&
           !Number.isNaN(new Date(taskBlock.startDate).getTime())
         ) {
           parsedStartDate = new Date(taskBlock.startDate);
         }
         if (
           taskBlock.reminder &&
-          typeof taskBlock.reminder === 'string' &&
           !Number.isNaN(new Date(taskBlock.reminder).getTime())
         ) {
           parsedReminder = new Date(taskBlock.reminder);
         }
         if (
           taskBlock.archivedAt &&
-          typeof taskBlock.archivedAt === 'string' &&
           !Number.isNaN(new Date(taskBlock.archivedAt).getTime())
         ) {
           parsedArchivedAt = new Date(taskBlock.archivedAt);
@@ -368,7 +416,7 @@ When you respond, output EXACTLY that JSON object and nothing else.
           parsedCoordinates = [taskBlock.coordinates[0], taskBlock.coordinates[1]];
         }
 
-        // Parse members array, converting each to ObjectId
+        // Parse members into ObjectId[]
         const parsedMemberIds: mongoose.Types.ObjectId[] = [];
         if (Array.isArray(taskBlock.members)) {
           for (const m of taskBlock.members) {
@@ -378,49 +426,40 @@ When you respond, output EXACTLY that JSON object and nothing else.
           }
         }
 
-        // Parse checklist: an array of { title, items: [ { text, done } ] }
-        const parsedChecklists: mongoose.HydratedDocument<any>[] = [];
+        // Parse checklist items
+        const parsedChecklists: any[] = [];
         if (Array.isArray(taskBlock.checklist)) {
           for (const cl of taskBlock.checklist) {
             if (cl && typeof cl.title === 'string' && Array.isArray(cl.items)) {
-              // Each checklist item is just plain JSON; we can store it verbatim in the subdocument array.
               parsedChecklists.push({
                 title: cl.title,
                 items: cl.items.map((it: any) => ({
-                  _id: new mongoose.Types.ObjectId(), // generate a new ObjectId for each checklist item
-                  text: typeof it.text === 'string' ? it.text : '',
-                  done: typeof it.done === 'boolean' ? it.done : false,
+                  _id:    new mongoose.Types.ObjectId(),
+                  text:   typeof it.text === 'string' ? it.text : '',
+                  done:   typeof it.done === 'boolean' ? it.done : false,
                 })),
-              } as any);
+              });
             }
           }
         }
 
-        // Parse cover (if provided)
-        let parsedCover: {
-          coverType: string;
-          coverColor: string;
-          coverImg: string;
-        } | null = null;
+        // Parse cover object if provided
+        let parsedCover: { coverType: 'image' | 'color'; coverColor: string; coverImg: string } | null = null;
         if (
           taskBlock.cover &&
-          typeof taskBlock.cover.coverType === 'string' &&
-          ['color', 'image'].includes(taskBlock.cover.coverType) &&
+          (taskBlock.cover.coverType === 'image' || taskBlock.cover.coverType === 'color') &&
           typeof taskBlock.cover.coverColor === 'string' &&
           typeof taskBlock.cover.coverImg === 'string'
         ) {
           parsedCover = {
-            coverType: taskBlock.cover.coverType,
+            coverType:  taskBlock.cover.coverType,
             coverColor: taskBlock.cover.coverColor,
-            coverImg: taskBlock.cover.coverImg,
+            coverImg:   taskBlock.cover.coverImg,
           };
         }
 
-        // Parse comments array (each comment: { _id, userId, text, createdAt })
+        // Parse comments array into ObjectId[]
         const parsedComments: mongoose.Types.ObjectId[] = [];
-        // If your Comment schema requires more fields, you could expand here.
-        // For now, we store each comment’s _id in an array. If you want full subdocuments,
-        // adapt per how CommentSchema is defined.
         if (Array.isArray(taskBlock.comments)) {
           for (const c of taskBlock.comments) {
             if (c && typeof c._id === 'string' && mongoose.isValidObjectId(c._id)) {
@@ -429,45 +468,87 @@ When you respond, output EXACTLY that JSON object and nothing else.
           }
         }
 
-        // Finally, create the new Task using ALL possible fields
-        const newTask = new Task({
-          board: newBoard._id,
-          list: newList._id,
-          title: taskBlock.title,
-          description: taskBlock.description || '',
-          startDate: parsedStartDate,
-          dueDate: parsedDueDate,
-          reminder: parsedReminder,
-          coordinates: parsedCoordinates,
-          members: parsedMemberIds,
-          checklist: parsedChecklists,
-          cover: parsedCover,
-          comments: parsedComments,
-          archivedAt: parsedArchivedAt,
-          position: taskBlock.position,
-          isWatching: typeof taskBlock.isWatching === 'boolean' ? taskBlock.isWatching : false,
-        });
+        // Parse labels array
+        const parsedLabels: Array<{ id: string; color: string; title: string }> = [];
+        if (Array.isArray(taskBlock.labels)) {
+          for (const lbl of taskBlock.labels) {
+            if (
+              lbl &&
+              typeof lbl.id === 'string' &&
+              typeof lbl.color === 'string' &&
+              typeof lbl.title === 'string'
+            ) {
+              parsedLabels.push({
+                id:    lbl.id,
+                color: lbl.color,
+                title: lbl.title,
+              });
+            }
+          }
+        }
+
+        // Parse attachments array
+        const parsedAttachments: Array<{ name: string; url: string; contentType: string; size: number }> = [];
+        if (Array.isArray(taskBlock.attachments)) {
+          for (const att of taskBlock.attachments) {
+            if (att && typeof att.name === 'string' && typeof att.url === 'string') {
+              parsedAttachments.push({
+                name:        att.name,
+                url:         att.url,
+                contentType: typeof att.contentType === 'string' ? att.contentType : '',
+                size:        typeof att.size === 'number' ? att.size : 0,
+              });
+            }
+          }
+        }
+
+        // Build the Task document data
+        const dataForTask: any = {
+          board:         newBoard._id,
+          list:          newList._id,
+          title:         taskBlock.title,
+          description:   taskBlock.description || '',
+          Activity:      taskBlock.Activity || '',
+          startDate:     parsedStartDate,
+          dueDate:       parsedDueDate,
+          reminder:      parsedReminder,
+          members:       parsedMemberIds,
+          checklist:     parsedChecklists,
+          cover:         parsedCover,
+          comments:      parsedComments,
+          archivedAt:    parsedArchivedAt,
+          position:      taskBlock.position,
+          isWatching:    typeof taskBlock.isWatching === 'boolean' ? taskBlock.isWatching : false,
+          isDueComplete: typeof taskBlock.isDueComplete === 'boolean' ? taskBlock.isDueComplete : false,
+          labels:        parsedLabels,
+          attachments:   parsedAttachments,
+        };
+
+        if (parsedCoordinates.length === 2) {
+          dataForTask.coordinates = parsedCoordinates;
+        }
+
+        const newTask = new Task(dataForTask);
         await newTask.save();
         createdTaskIds.push(newTask._id);
       }
 
-      // 6.3) Push all newTask IDs into newList.taskList
       if (createdTaskIds.length > 0) {
         newList.taskList = createdTaskIds;
         await newList.save();
       }
     }
 
-    // 7) Push all newList IDs into newBoard.boardLists
+    // 12) Push all createdList IDs into newBoard.boardLists
     if (createdListIds.length > 0) {
       newBoard.boardLists = createdListIds;
       await newBoard.save();
     }
 
-    // 8) Return the new board's ID to the client
+    // 13) Return the new boardId
     return res.status(201).json({ boardId: newBoard._id });
   } catch (err) {
-    console.error('❌ Error in POST /api/autoBoard:', err);
+    console.error('Error in POST /api/autoBoard:', err);
     return res.status(500).json({ error: 'Internal server error' });
   }
 });
