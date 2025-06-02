@@ -10,6 +10,7 @@ import activityRouter from './routes/RouteActivity';
 
 import authRoutes from './routes/Routeauth';
 import RouteUsers from './routes/RouteUsers';
+import autoBoardRouter from './routes/autoBoard';
 dotenv.config();
 
 const app = express();
@@ -31,6 +32,7 @@ app.use('/board', boardRouter);
 app.use('/tasks', taskRouter);
 app.use('/list', listRouter);
 app.use('/activities', activityRouter);
+app.use('/autoBoard', autoBoardRouter);
 
 console.log('taskroute firing');
 
