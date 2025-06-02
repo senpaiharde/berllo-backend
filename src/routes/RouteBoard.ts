@@ -133,10 +133,10 @@ router.get('/:id', async (req: Request, res: Response): Promise<any> => {
 // UPDATE
 router.put('/:id', async (req: Request, res: Response): Promise<any> => {
   try {
-    const allowed = ['title', 'style', 'isStarred', 'archivedAt', 'boardLists'] as const;
+    const allowed = ['boardTitle', 'style', 'isStarred', 'archivedAt', 'boardLists','boardStyle'] as const;
     const updates = pick(req.body, allowed);
-    // console.log("req.body", req.body)
-    // console.log("updates", updates)
+    console.log("req.body", req.body)
+    console.log("updates", updates)
     // console.log("req.params.id", req.params.id)
     // Only owners/admins may update
     const board = await Board.findOneAndUpdate(

@@ -86,7 +86,7 @@ router.get("/:id", async (req: Request, res: Response): Promise<any> => {
 // UPDATE
 router.put("/:id", async (req: Request, res: Response): Promise<any> => {
   try {
-    const allowed = ["title", "taskList"] as const
+    const allowed = ["taskListTitle", "taskList"] as const
     const updates = pick(req.body, allowed)
     const exists = await List.findOne({ _id: new mongoose.Types.ObjectId(req.params.id) });
     console.log('List EXISTS?', exists ? ' YES' : ' NO');
@@ -117,40 +117,17 @@ router.put("/:id", async (req: Request, res: Response): Promise<any> => {
 
 router.delete("/:id", async (req: Request, res: Response): Promise<any> => {
   try {
-    const board = await Board.findOne({
-      _id: req.params.id,
-      "members.user": req.user?.id,
+    const list = await List.findOne({
+      _id: req.params.id
     })
-    if (!board) return res.status(403).json({ error: "Forbidden" })
-
-    // Soft-delete (archive)
-    if (req.query.hard !== "true") {
-      board.archivedAt = new Date()
-      await board.save()
-
-      await Activity.create({
-        board: board._id,
-        user: req.user?.id,
-        entity: { kind: "board", id: board._id },
-        action: "archived_board",
-      })
-      return res.json({ message: "Board archived" })
-    }
-
-    // Hard-delete – wipe board + children in one go
+    if (!list) return res.status(403).json({ error: "Forbidden" })
+    // console.log("delete list", list)
+    // Hard-delete – wipe list + children in one go
     await Promise.all([
-      List.deleteMany({ board: board._id }),
-      Task.deleteMany({ board: board._id }),
-      Activity.deleteMany({ board: board._id }),
-      Board.deleteOne({ _id: board._id }),
+      List.deleteOne({ _id: list._id }),
+      Task.deleteMany({ list: list._id }),
+      // Activity.deleteMany({ board: board._id }), add to activity field with list._id
     ])
-
-    await Activity.create({
-      board: board._id,
-      user: req.user?.id,
-      entity: { kind: "board", id: board._id },
-      action: "deleted_board",
-    })
 
     res.status(204).end()
   } catch (err: any) {

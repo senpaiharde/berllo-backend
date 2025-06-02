@@ -238,38 +238,40 @@ router.put("/:id", async (req: Request, res: Response): Promise<any> => {
 // DELETE (soft/hard)
 router.delete("/:id", async (req: Request, res: Response): Promise<any> => {
   try {
+    console.log("req.params.id", req.params.id)
+    // const {
+    //   listId 
+    // } = req.body as {
+    //   listId: string
+    // };
+    
+
     const task = await Task.findById(req.params.id)
     if (!task) {
       return res.status(404).json({ error: "Task not found" })
     }
-
-    // soft-delete if ?hard !== 'true'
-    if (req.query.hard !== "true") {
-      task.archivedAt = new Date()
-      await task.save()
-      await Activity.create({
-        board: task.board,
-        user: req.user?.id || null,
-        entity: { kind: "task", id: task._id },
-        action: "archived_task",
-      })
-      return res.json({ message: "Task archived" })
-    }
-
+    console.log("task", task)
+    // let list = await List.findById(listId)
+    // if (!list) {
+    //   return res.status(404).json({ error: "List not found" })
+    // }
+    // list?.taskList.filter(tasklist => tasklist === task._id)
+    //   const updates = { taskList: list?.taskList }
+    //   console.log("new list.taskList", list?.taskList)
+      // list = await List.findOneAndUpdate(
+      //   { _id: listId },
+      //   { $set: updates },
+      //   { new: true, runValidators: true }
+      // )
     // hard-delete
     await Promise.all([
       Activity.deleteMany({ "entity.id": task._id }),
       Task.deleteOne({ _id: task._id }),
     ])
-    await Activity.create({
-      board: task.board,
-      user: req.user!.id,
-      entity: { kind: "task", id: task._id },
-      action: "deleted_task",
-    })
-    getIO()
-      .to(`task_${req.params.id}`)
-      .emit("taskDeleted", { id: req.params.id })
+    
+    // getIO()
+    //   .to(`task_${req.params.id}`)
+    //   .emit("taskDeleted", { id: req.params.id })
     res.status(204).end()
   } catch (err: any) {
     console.error(err)
