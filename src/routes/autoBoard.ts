@@ -96,7 +96,7 @@ You are a helpful assistant that converts a free-form instruction into a single 
 
 ***VERY IMPORTANT:***
 1. **NEW RULES FOR IMAGES & ATTACHMENTS:**
-   1. **cover**: For each task, attempt to provide a valid Unsplash or Wikimedia Commons URL that directly matches the task’s subject. If the URL is invalid, 404, or is the placeholder “https://images.unsplash.com/photo-1549924231-f129b911e442”, then instead set:
+   1. **cover**: set only coverColor form the randomly hex :
       
       "cover": {
         "coverType": "color",
@@ -104,10 +104,10 @@ You are a helpful assistant that converts a free-form instruction into a single 
         "coverImg": ""
       }
       
-      Each task’s cover must be either a valid image object or this fallback color object. Do not leave "cover": null.
+      Each tasks cover must be either a valid image object or this fallback color object. Do not leave "cover": null.
    2. **attachments**: Always set "attachments": [] for every task. Do not attempt to fill attachments.
 
-2. **Every task’s checklist must contain at least 3 mission-specific steps** (not generic placeholders). For example:
+2. **Every tasks checklist must contain at least 3 mission-specific steps** (not generic placeholders). For example:
    • “Book Flight” checklist might have:
      1. Compare round-trip fares on Skyscanner.
      2. Check baggage allowance and seat options.
@@ -116,30 +116,68 @@ You are a helpful assistant that converts a free-form instruction into a single 
      1. Enter through the Palmengarten main gate on Bockenheimer Anlage.
      2. Spend 30 minutes in the Glasshouse (Palmenhaus).
      3. Walk through the Rose Garden section and take photos.
-   • If the user’s prompt is “Birthday for Grandma,” then a task like “Order Cake” might have:
+   • If the user's prompt is “Birthday for Grandma,” then a task like “Order Cake” might have:
      1. Select cake style and flavor.
      2. Choose a bakery near your location.
      3. Place order with pickup/delivery instructions.
 
-3. **All dates (“startDate” and “dueDate”) must be present in ISO-8601 (YYYY-MM-DD)**. They should reflect a realistic timeline based on the user’s instruction. Do not omit “startDate” under any circumstance.
+3. **All dates (“startDate” and “dueDate”) must be present in ISO-8601 (YYYY-MM-DD)**. They should reflect a realistic timeline based on the user's instruction. Do not omit “startDate” under any circumstance.
    • If the prompt specifies a timeframe (e.g., “June 1 to June 30, 2025”), assign "startDate" on or shortly after June 1, 2025 and "dueDate" on or before June 30, 2025, spacing tasks logically.
    • If no explicit dates appear, choose plausible dates (e.g. if the user says “in one month,” set startDate = 30 days from today, dueDate = 40 days from today).
    • Do NOT omit "startDate" under any circumstance. Ensure **startDate ≤ dueDate**.
+   • Ensure the right timeframe when the meesage been sent ** do not go back in the date example if today is 2025-06-03 do not place startDate pr dueDate before this date,
 
-4. **Board title** should be short and simple (no dates—just a phrase like “Trip Schedule,” “Germany Trip,” or “Grandma’s Birthday”).
+4. **Board title** should be short and simple (no dates—just a phrase like “Trip Schedule,” “Germany Trip,” or “Grandma's Birthday”).
 
-5. **Use exactly 2 or 3 lists**. If the user’s prompt implies “Flights,” “Accommodation,” “Sightseeing,” “Local Dining,” those can be the four. If only three categories apply, omit the fourth.
+5. **Use exactly 2 or 3 list's**. If the users prompt implies “Flights,” “Accommodation,” “Sightseeing,” “Local Dining,” those can be the four. If only three categories apply, omit the fourth.
 
 6. **Board Style Fallback:**
-   • For boardStyle.boardImg: attempt to use a valid Unsplash URL matching the overall theme. If invalid, 404, or the placeholder “https://images.unsplash.com/photo-1549924231-f129b911e442”, then set:
+   • 
+   Boardstyle "<randomly chosen hex from [
+   {https://images.unsplash.com/photo-1748372928120-6543f1c68da0?q=80&w=2136&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D,
+   #966726} 
+   {https://images.unsplash.com/photo-1748372928129-5d6cbc4729b9?q=80&w=2085&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D,
+   #87CEEB}
+   {https://images.unsplash.com/photo-1748632799967-63f8c53d69c1?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D,
+   #87CEEB}
+   {https://images.unsplash.com/photo-1748719151811-60692f7f439c?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D,
+   #cca064}
+   {https://images.unsplash.com/photo-1748632800124-dc5874469774?q=80&w=2151&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D,
+#20a7db}
+   {https://images.unsplash.com/photo-1748632799979-76e04dde23a8?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D,
+   #ec6ef5}
+   {https://images.unsplash.com/photo-1748534515437-d8077c27311d?q=80&w=1976&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D,
+   #3f3f3f}
+   {https://images.unsplash.com/photo-1748372928129-5d6cbc4729b9?q=80&w=2085&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D,
+   #87CEEB}
+   {https://images.unsplash.com/photo-1743024282286-5bfecf55a834?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D,
+   #131862}
+   {https://images.unsplash.com/photo-1748818328832-73aa4d129903?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D,
+   #7f7f7f}
+   {https://plus.unsplash.com/premium_photo-1746420145979-f53c38fa829c?q=80&w=1973&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D,
+   #f5ca6e}
+   {https://plus.unsplash.com/premium_photo-1748729621135-57a3168c9fbd?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D,
+   #73c4e6}
+   {https://plus.unsplash.com/premium_photo-1748729621256-d7612f6d1550?q=80&w=2013&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D,
+   #D29034}
+   {https://plus.unsplash.com/premium_photo-1748729874878-7f56dce2cddb?q=80&w=2012&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D,
+   #cf9d59}
+   {https://plus.unsplash.com/premium_photo-1748729883233-390c46f9e669?q=80&w=2001&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D,
+   #cf9d59}
+   {https://plus.unsplash.com/premium_photo-1748729621110-2a54d1167ba7?q=80&w=2013&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D,
+   #73c4e6}
+
+
+   ]>"
     
      "boardStyle": {
-       "boardType": "color",
-       "boardImg": "",
-       "boardColor": "<randomly chosen hex from [#FF5733, #33FF57, #3357FF, #F333FF, #FFC300, #900C3F, #4A90E2, #27AE60]>"
+       "boardType": "img",
+       "boardImg": "Boardstyle",
+       "boardColor": "Boardstyle"
      }
     
-   • Otherwise, set "boardType": "image" with a valid Unsplash URL and pick any complementary hex for "boardColor".
+   •  set "boardType": "image" pick ramdomly from Boardstyle array choose 1 link and color , link put inside boardImg
+   boardColor put same link of link the color that presenets there .
 
 ---
 
@@ -230,7 +268,7 @@ Whether the user asked “Fly to USA,” “Birthday for Grandma,” or “Plan 
      4. “Guest List & Invitations”
 
 2. **For each task (exactly two per list)**:
-   • Attempt to pick a valid cover image URL. If it fails or is the placeholder “https://images.unsplash.com/photo-1549924231-f129b911e442”, use a random cover color from the eight provided.  
+   •  use a random cover color from the eight provided.  
    • Write a mission-specific checklist of at least three concrete steps.  
    • Set "attachments": [].
 
@@ -239,7 +277,7 @@ Whether the user asked “Fly to USA,” “Birthday for Grandma,” or “Plan 
 4. **Labels**: Give each task exactly 4 labels (id + unique hex color + title). The titles should reflect categories related to the task’s title (e.g. “Urgent,” “Booking,” “Travel,” “Leisure”).
 
 5. **Board Style**:
-   • Attempt to choose a valid Unsplash URL for "boardImg". If it fails or is invalid, set "boardType": "color", "boardImg": "", and choose a random hex from the eight provided for "boardColor".
+   •   choose a random hex from the array that provided for "boardColor" and "boardImg" use same line of link(img) and color that displayes.
 
 Return only the JSON object above. Do NOT add any additional text or explanation—just the JSON.
 `.trim()
