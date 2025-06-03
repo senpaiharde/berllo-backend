@@ -131,55 +131,78 @@ You are a helpful assistant that converts a free-form instruction into a single 
 
 5. **Use exactly 2 or 3 list's**. If the users prompt implies “Flights,” “Accommodation,” “Sightseeing,” “Local Dining,” those can be the four. If only three categories apply, omit the fourth.
 
-6. **Board Style Fallback:**
-   • 
-   Boardstyle "<randomly chosen hex from [
-   {https://images.unsplash.com/photo-1748372928120-6543f1c68da0?q=80&w=2136&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D,
-   #966726} 
-   {https://images.unsplash.com/photo-1748372928129-5d6cbc4729b9?q=80&w=2085&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D,
-   #87CEEB}
-   {https://images.unsplash.com/photo-1748632799967-63f8c53d69c1?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D,
-   #87CEEB}
-   {https://images.unsplash.com/photo-1748719151811-60692f7f439c?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D,
-   #cca064}
-   {https://images.unsplash.com/photo-1748632800124-dc5874469774?q=80&w=2151&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D,
-#20a7db}
-   {https://images.unsplash.com/photo-1748632799979-76e04dde23a8?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D,
-   #ec6ef5}
-   {https://images.unsplash.com/photo-1748534515437-d8077c27311d?q=80&w=1976&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D,
-   #3f3f3f}
-   {https://images.unsplash.com/photo-1748372928129-5d6cbc4729b9?q=80&w=2085&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D,
-   #87CEEB}
-   {https://images.unsplash.com/photo-1743024282286-5bfecf55a834?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D,
-   #131862}
-   {https://images.unsplash.com/photo-1748818328832-73aa4d129903?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D,
-   #7f7f7f}
-   {https://plus.unsplash.com/premium_photo-1746420145979-f53c38fa829c?q=80&w=1973&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D,
-   #f5ca6e}
-   {https://plus.unsplash.com/premium_photo-1748729621135-57a3168c9fbd?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D,
-   #73c4e6}
-   {https://plus.unsplash.com/premium_photo-1748729621256-d7612f6d1550?q=80&w=2013&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D,
-   #D29034}
-   {https://plus.unsplash.com/premium_photo-1748729874878-7f56dce2cddb?q=80&w=2012&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D,
-   #cf9d59}
-   {https://plus.unsplash.com/premium_photo-1748729883233-390c46f9e669?q=80&w=2001&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D,
-   #cf9d59}
-   {https://plus.unsplash.com/premium_photo-1748729621110-2a54d1167ba7?q=80&w=2013&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D,
-   #73c4e6}
-
-
-   ]>"
+**Board Style Fallback:**  
+   • We maintain this fixed array of (Unsplash URL + hex color) pairs for fallback. Before generating the JSON, choose exactly one of these pairs at random. Let’s call it pair.  
     
-     "boardStyle": {
-       "boardType": "img",
-       "boardImg": "Boardstyle",
-       "boardColor": "Boardstyle"
-     }
+     [
+       {
+         "url": "https://images.unsplash.com/photo-1748372928120-6543f1c68da0?q=80&w=2136&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+         "color": "#966726"
+       },
+       {
+         "url": "https://images.unsplash.com/photo-1748372928129-5d6cbc4729b9?q=80&w=2085&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+         "color": "#87CEEB"
+       },
+       {
+         "url": "https://images.unsplash.com/photo-1748632799967-63f8c53d69c1?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+         "color": "#87CEEB"
+       },
+       {
+         "url": "https://images.unsplash.com/photo-1748719151811-60692f7f439c?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+         "color": "#CCA064"
+       },
+       {
+         "url": "https://images.unsplash.com/photo-1748632800124-dc5874469774?q=80&w=2151&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+         "color": "#20A7DB"
+       },
+       {
+         "url": "https://images.unsplash.com/photo-1748632799979-76e04dde23a8?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+         "color": "#EC6EF5"
+       },
+       {
+         "url": "https://images.unsplash.com/photo-1748534515437-d8077c27311d?q=80&w=1976&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+         "color": "#3F3F3F"
+       },
+       {
+         "url": "https://images.unsplash.com/photo-1743024282286-5bfecf55a834?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+         "color": "#131862"
+       },
+       {
+         "url": "https://images.unsplash.com/photo-1748818328832-73aa4d129903?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+         "color": "#7F7F7F"
+       },
+       {
+         "url": "https://plus.unsplash.com/premium_photo-1746420145979-f53c38fa829c?q=80&w=1973&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+         "color": "#F5CA6E"
+       },
+       {
+         "url": "https://plus.unsplash.com/premium_photo-1748729621135-57a3168c9fbd?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+         "color": "#73C4E6"
+       },
+       {
+         "url": "https://plus.unsplash.com/premium_photo-1748729621256-d7612f6d1550?q=80&w=2013&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+         "color": "#D29034"
+       },
+       {
+         "url": "https://plus.unsplash.com/premium_photo-1748729874878-7f56dce2cddb?q=80&w=2012&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+         "color": "#CF9D59"
+       },
+       {
+         "url": "https://plus.unsplash.com/premium_photo-1748729883233-390c46f9e669?q=80&w=2001&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+         "color": "#CF9D59"
+       },
+       {
+         "url": "https://plus.unsplash.com/premium_photo-1748729621110-2a54d1167ba7?q=80&w=2013&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+         "color": "#73C4E6"
+       }
+     ]
     
-   •  set "boardType": "image" pick ramdomly from Boardstyle array choose 1 link and color , link put inside boardImg
-   boardColor put same link of link the color that presenets there .
+   • After listing these 15 objects, immediately say:  
+     “**Select exactly one** of these objects at random. Let’s call that pair. Then in your output JSON, set 
+       - "boardStyle": { "boardType": "image", "boardImg": pair.url, "boardColor": pair.color }.”  
+     • If for some reason the chosen pair.url fails to load, you may instead output  
+       "boardStyle": { "boardType": "color", "boardImg": "", "boardColor": <randomly chosen hex from the same list> }.  
 
----
 
 ### REQUIRED SCHEMA (all fields must exist—use null or [] when appropriate):
 
@@ -188,7 +211,7 @@ You are a helpful assistant that converts a free-form instruction into a single 
   "description": string,          // short description of the board’s purpose
   "boardStyle": {
     "boardType": "image" | "color",
-    "boardImg": string,           // if boardType="image", a valid Unsplash URL; else ""
+    "boardImg": string,           // if boardType="image", the chosen Unsplash URL; if "color", ""
     "boardColor": string          // hex color, e.g. "#4A90E2"
   },
   "lists": [
