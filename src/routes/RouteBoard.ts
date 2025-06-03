@@ -57,7 +57,7 @@ router.post('/', async (req: Request, res: Response) => {
   try {
     const { boardTitle, boardStyle } = req.body as {
       boardTitle: string;
-       boardStyle?: { boardType: 'color' | 'image'; boardColor?: string; boardImg?: string };
+      boardStyle?: { boardType: 'color' | 'image'; boardColor?: string; boardImg?: string };
     };
     console.log('req.body', req.body);
     const boardLabels = [
@@ -72,7 +72,29 @@ router.post('/', async (req: Request, res: Response) => {
     const board = await Board.create({
       boardTitle: boardTitle,
       boardLabels: boardLabels,
-      boardStyle : boardStyle,
+      boardStyle: boardStyle,
+    });
+
+
+    await User.findByIdAndUpdate(req.user!.id, {
+      $pull: { lastBoardVisited: { board: board._id } },
+    });
+
+    // 2) add it to the front and slice to 25
+    await User.findByIdAndUpdate(req.user!.id, {
+      $push: {
+        lastBoardVisited: {
+          $each: [
+            {
+              board: board._id,
+              boardTitle: board.boardTitle,
+              boardStyle: board.boardStyle,
+            },
+          ],
+          $position: 0,
+          $slice: 25,
+        },
+      },
     });
     res.status(201).json(board);
   } catch (err: any) {
@@ -99,7 +121,6 @@ router.get('/:id', async (req: Request, res: Response): Promise<any> => {
 
     if (!board) return res.status(404).json({ error: 'Board not found' });
 
-
     //pulling the user with the old data
     await User.findByIdAndUpdate(req.user!.id, {
       $pull: { lastBoardVisited: { board: board._id } },
@@ -109,12 +130,15 @@ router.get('/:id', async (req: Request, res: Response): Promise<any> => {
     await User.findByIdAndUpdate(req.user!.id, {
       $push: {
         lastBoardVisited: {
-          $each: [{
-            board:      board._id,
-            boardTitle: board.boardTitle   
-          }],
+          $each: [
+            {
+              board: board._id,
+              boardTitle: board.boardTitle,
+              boardStyle: board.boardStyle,
+            },
+          ],
           $position: 0,
-          $slice:    25
+          $slice: 25,
         },
       },
     });
