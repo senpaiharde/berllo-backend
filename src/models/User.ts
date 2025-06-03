@@ -8,11 +8,27 @@ export interface IUser extends mongoose.Document {
   lastBoardVisited: {
     board: Types.ObjectId;
     boardTitle: string;
+    boardStyle: {
+      type: {
+        boardType: { type: String; enum: ['color', 'image'] };
+        boardColor: String;
+        boardImg: String;
+      };
+      default: undefined;
+    };
   }[];
   starredBoards?: {
     board: Types.ObjectId;
     boardTitle: string;
     isStarred: boolean;
+    boardStyle: {
+      type: {
+        boardType: { type: String; enum: ['color', 'image'] };
+        boardColor: String;
+        boardImg: String;
+      };
+      default: undefined;
+    };
   }[];
 }
 
@@ -27,29 +43,28 @@ const userSchema = new Schema<IUser>(
         board: { type: Schema.Types.ObjectId, ref: 'Board' },
         boardTitle: { type: String, required: true },
         boardStyle: {
-      type: {
-        boardType: { type: String, enum: ['color', 'image'] },
-        boardColor: String,
-        boardImg: String,
-      },
-      default: undefined,
-    },
-        
+          type: {
+            boardType: { type: String, enum: ['color', 'image'] },
+            boardColor: String,
+            boardImg: String,
+          },
+          default: undefined,
+        },
       },
     ],
     starredBoards: [
       {
         board: { type: Schema.Types.ObjectId, ref: 'Board' },
         boardTitle: { type: String, required: true },
-        isStarred:  { type: Boolean, default: false },
+        isStarred: { type: Boolean, default: false },
         boardStyle: {
-      type: {
-        boardType: { type: String, enum: ['color', 'image'] },
-        boardColor: String,
-        boardImg: String,
-      },
-      default: undefined,
-    },
+          type: {
+            boardType: { type: String, enum: ['color', 'image'] },
+            boardColor: String,
+            boardImg: String,
+          },
+          default: undefined,
+        },
       },
     ],
   },

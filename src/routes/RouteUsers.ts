@@ -33,7 +33,7 @@ router.get('/me', async (req: Request, res: Response): Promise<any> => {
     // safely default to [] so TS knows it's an array
     const recent = (user.lastBoardVisited  ?? []).map(entry => ({
       id:         entry.board,
-      
+      boardStyle: entry.boardStyle,
       boardTitle: entry.boardTitle,
       
     }));
@@ -41,6 +41,7 @@ router.get('/me', async (req: Request, res: Response): Promise<any> => {
     const starred = (user.starredBoards   ?? []).map(entry => ({
       id:         entry.board,
       boardTitle: entry.boardTitle,
+      boardStyle: entry.boardStyle,
       isStarred:  entry.isStarred,
       
     }));
