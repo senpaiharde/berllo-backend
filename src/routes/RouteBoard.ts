@@ -55,9 +55,9 @@ router.use(authMiddleware);
 
 router.post('/', async (req: Request, res: Response) => {
   try {
-    const { boardTitle, style } = req.body as {
+    const { boardTitle, boardStyle } = req.body as {
       boardTitle: string;
-      style?: { backgroundImage?: string };
+       boardStyle?: { boardType: 'color' | 'image'; boardColor?: string; boardImg?: string };
     };
     console.log('req.body', req.body);
     const boardLabels = [
@@ -72,6 +72,7 @@ router.post('/', async (req: Request, res: Response) => {
     const board = await Board.create({
       boardTitle: boardTitle,
       boardLabels: boardLabels,
+      boardStyle : boardStyle,
     });
     res.status(201).json(board);
   } catch (err: any) {
