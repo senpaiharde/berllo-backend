@@ -30,6 +30,7 @@ router.get('/:taskId', async (req: Request, res: Response): Promise<any> => {
       'entity.kind': 'task',
     })
       .sort({ createdAt: -1 })
+      .limit(30)
       .select('_id user entity action payload createdAt')
       .populate({ path: 'user', select: 'fullname email avatar' })
       .lean<ActivityDTO[]>();
