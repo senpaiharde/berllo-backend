@@ -168,40 +168,20 @@ router.put('/:id', async (req: Request, res: Response): Promise<any> => {
 
 router.delete('/:id', async (req: Request, res: Response): Promise<any> => {
   try {
+    console.log("req.params.id", req.params);
     const board = await Board.findOne({
       _id: req.params.id,
-      'members.user': req.user?.id,
     });
     if (!board) return res.status(403).json({ error: 'Forbidden' });
-
-    // Soft-delete (archive)
-    if (req.query.hard !== 'true') {
-      board.archivedAt = new Date();
-      await board.save();
-
-      await Activity.create({
-        board: board._id,
-        user: req.user?.id,
-        entity: { kind: 'board', id: board._id },
-        action: 'archived_board',
-      });
-      return res.json({ message: 'Board archived' });
-    }
-
+    console.log("delete board", board);
+    
     // Hard-delete – wipe board + children in one go
     await Promise.all([
-      List.deleteMany({ board: board._id }),
+      List.deleteMany({ taskListBoard: board._id }),
       Task.deleteMany({ board: board._id }),
       Activity.deleteMany({ board: board._id }),
       Board.deleteOne({ _id: board._id }),
     ]);
-
-    await Activity.create({
-      board: board._id,
-      user: req.user?.id,
-      entity: { kind: 'board', id: board._id },
-      action: 'deleted_board',
-    });
 
     res.status(204).end();
   } catch (err: any) {
