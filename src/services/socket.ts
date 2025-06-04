@@ -4,10 +4,15 @@ import { Server as HTTPServer } from 'http';
 let io: IOServer;
 
 export function intiSocket(server: HTTPServer) {
+  // Build an array of allowed origins from the env var
+  const raw = process.env.FRONTEND_URL || 'http://localhost:5173';
+  const allowed = raw.split(',').map((origin) => origin.trim());
+
   io = new IOServer(server, {
     cors: {
-      origin: [process.env.FRONTEND_URL || 'http://localhost:3000', 'http://localhost:5173'],
+      origin: allowed,
       methods: ['GET', 'POST'],
+      credentials: true,
     },
   });
 
