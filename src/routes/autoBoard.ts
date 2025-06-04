@@ -125,7 +125,7 @@ You are a helpful assistant that converts a free-form instruction into a single 
    • If the prompt specifies a timeframe (e.g., “June 1 to June 30, 2025”), assign "startDate" on or shortly after June 1, 2025 and "dueDate" on or before June 30, 2025, spacing tasks logically.
    • If no explicit dates appear, choose plausible dates (e.g. if the user says “in one month,” set startDate = 30 days from today, dueDate = 40 days from today).
    • Do NOT omit "startDate" under any circumstance. Ensure **startDate ≤ dueDate**.
-   • Ensure the right timeframe when the meesage been sent ** do not go back in the date example if today is 2025-06-03 do not place startDate pr dueDate before this date,
+   • Ensure the right timeframe when the meesage been sent ** do not go back in the date example if today is 2025-06-03 do not place startDate or dueDate before this date,
 
 4. **Board title** should be short and simple (no dates—just a phrase like “Trip Schedule,” “Germany Trip,” or “Grandma's Birthday”).
 
@@ -133,6 +133,7 @@ You are a helpful assistant that converts a free-form instruction into a single 
 
 **Board Style Fallback:**  
    • We maintain this fixed array of (Unsplash URL + hex color) pairs for fallback. Before generating the JSON, choose exactly one of these pairs at random. Let’s call it pair.  
+   check for vaildition of url if the url is invaild or dont work use only color 
     
      [
        {
@@ -212,7 +213,7 @@ You are a helpful assistant that converts a free-form instruction into a single 
   "boardStyle": {
     "boardType": "image" | "color",
     "boardImg": string,           // if boardType="image", the chosen Unsplash URL; if "color", ""
-    "boardColor": string          // hex color, e.g. "#4A90E2"
+    "boardColor": string          // hex color, e.g. "#4A90E2" color always have to present here .
   },
   "lists": [
     {
