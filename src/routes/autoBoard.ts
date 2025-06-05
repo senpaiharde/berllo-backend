@@ -273,7 +273,7 @@ You are a helpful assistant that converts a free-form instruction into a single 
       /* third list with 3-4 tasks */
     }
       {
-      /* 4 list with 3-4 tasks */
+      /* four with 3-4 tasks */
     }
       {
       /* five list with 3-4 tasks */
@@ -323,7 +323,7 @@ const completion = await openai.chat.completions.create({
   model:       'gpt-4.1-nano',
   messages:    [systemMessage, userMessage] as any[],
   temperature: 0.2,
-  max_tokens:  5500,
+  max_tokens:  8000,
 });
 
 
