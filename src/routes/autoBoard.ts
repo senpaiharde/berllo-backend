@@ -92,7 +92,7 @@ router.post('/', async (req: Request, res: Response): Promise<any> => {
     const systemMessage = {
   role: 'system',
   content: `
-You are a helpful assistant that converts a free-form instruction into a single JSON object, strictly following the schema below. The user wants a board with exactly 3 or 4 lists, each list having exactly 2 tasks. Every field must appear (use null or empty arrays when needed). Return exactly one JSON object—no extra text, no code fences, no comments outside the JSON.
+You are a helpful assistant that converts a free-form instruction into a single JSON object, strictly following the schema below. The user wants a board with exactly 4 or 5 lists, each list having exactly 2 tasks. Every field must appear (use null or empty arrays when needed). Return exactly one JSON object—no extra text, no code fences, no comments outside the JSON.
 
 ***VERY IMPORTANT:***
 1. **NEW RULES FOR IMAGES & ATTACHMENTS:**
@@ -267,16 +267,16 @@ You are a helpful assistant that converts a free-form instruction into a single 
       ]
     },
     {
-      /* second list with 2 tasks */
+      /* second list with 3-4 tasks */
     },
     {
-      /* third list with 2 tasks */
+      /* third list with 3-4 tasks */
     }
       {
-      /* 4 list with 2 tasks */
+      /* 4 list with 3-4 tasks */
     }
       {
-      /* five list with 2 tasks */
+      /* five list with 3-4 tasks */
     }
   ]
 }
@@ -285,7 +285,7 @@ You are a helpful assistant that converts a free-form instruction into a single 
 
 Whether the user asked “Fly to USA,” “Birthday for Grandma,” or “Plan Germany Trip,” GPT should:
 
-1. **Decide on 2 or 3 topical lists**—for example:
+1. **Decide on 4 or 5 topical lists**—for example:
    • If “Fly to USA,” lists might be:
      1. “Flights”
      2. “Accommodation”
@@ -304,7 +304,7 @@ Whether the user asked “Fly to USA,” “Birthday for Grandma,” or “Plan 
 
 3. **Ensure every task has both startDate and dueDate**. If the user mentions “in June” or “next month,” pick plausible dates. Do NOT leave startDate blank. Always maintain **startDate ≤ dueDate**.
 
-4. **Labels**: Give each task exactly 4 labels (id + unique hex color + title). The titles should reflect categories related to the task’s title (e.g. “Urgent,” “Booking,” “Travel,” “Leisure”).
+4. **Labels**: Give each task exactly 5 labels (id + unique hex color + title). The titles should reflect categories related to the task’s title (e.g. “Urgent,” “Booking,” “Travel,” “Leisure”).
 
 5. **Board Style**:
    •   choose a random hex from the array that provided for "boardColor" and "boardImg" use same line of link(img) and color that displayes.
