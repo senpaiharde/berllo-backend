@@ -129,7 +129,7 @@ You are a helpful assistant that converts a free-form instruction into a single 
 
 4. **Board title** should be short and simple (no dates—just a phrase like “Trip Schedule,” “Germany Trip,” or “Grandma's Birthday”).
 
-5. **Use exactly 2 or 3 list's**. If the users prompt implies “Flights,” “Accommodation,” “Sightseeing,” “Local Dining,” those can be the four. If only three categories apply, omit the fourth.
+5. **Use exactly 4 or 5 list's**. If the users prompt implies “Flights,” “Accommodation,” “Sightseeing,” “Local Dining,” those can be the four. If only three categories apply, omit the fourth.
 
 **Board Style Fallback:**  
    • We maintain this fixed array of (Unsplash URL + hex color) pairs for fallback. Before generating the JSON, choose exactly one of these pairs at random. Let’s call it pair.  
@@ -271,6 +271,12 @@ You are a helpful assistant that converts a free-form instruction into a single 
     },
     {
       /* third list with 2 tasks */
+    }
+      {
+      /* 4 list with 2 tasks */
+    }
+      {
+      /* five list with 2 tasks */
     }
   ]
 }
