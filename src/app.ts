@@ -7,10 +7,12 @@ import boardRouter from './routes/RouteBoard';
 import taskRouter from './routes/RouteTasks';
 import listRouter from './routes/RouteList';
 import activityRouter from './routes/RouteActivity';
-
+import cron    from 'node-cron';
 import authRoutes from './routes/Routeauth';
 import RouteUsers from './routes/RouteUsers';
 import autoBoardRouter from './routes/autoBoard';
+import { wipeActivity } from './resetData/WipeActivity';
+import { resetDatabase } from './resetData/resetDatabase';
 dotenv.config();
 
 const app = express();
@@ -39,7 +41,21 @@ app.use('/tasks', taskRouter);
 app.use('/list', listRouter);
 app.use('/activities', activityRouter);
 app.use('/autoBoard', autoBoardRouter);
-
+app.post('/admin/wipe-activity', async (_req, res) => {
+  await wipeActivity();
+  res.json({ ok: true });
+});
+app.post('/admin/reset-db', async (_req, res) => {
+  await resetDatabase();
+  res.json({ ok: true });
+});
+cron.schedule(
+  '0 */2 * * *',      // “At minute 0 past every 2nd hour” (00:00, 02:00, 04:00, …)
+  () => void wipeActivity()
+);
+cron.schedule('0,30 * * * *', () => {
+  void resetDatabase();
+});
 console.log('taskroute firing');
 
 

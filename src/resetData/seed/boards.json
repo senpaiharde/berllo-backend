@@ -1,0 +1,1194 @@
+[{
+  "_id": {
+    "$oid": "6823323354ef930c2637dc8e"
+  },
+  "isStarred": true,
+  "archivedAt": {
+    "$date": "2024-03-20T14:30:00.000Z"
+  },
+  "createdAt": {
+    "$date": "2025-05-13T11:51:15.463Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-04T15:53:36.255Z"
+  },
+  "__v": 0,
+  "boardLabels": [
+    {
+      "color": "#4BCE97",
+      "title": "",
+      "id": {
+        "$oid": "6829cd7a91a03d97775c0b76"
+      }
+    },
+    {
+      "id": {
+        "$oid": "6829ce3191a03d97775c0b77"
+      },
+      "title": "",
+      "color": "#F5CD47"
+    },
+    {
+      "id": {
+        "$oid": "6829ce8991a03d97775c0b78"
+      },
+      "title": "",
+      "color": "#FEA362"
+    },
+    {
+      "id": {
+        "$oid": "6829cedb91a03d97775c0b79"
+      },
+      "title": "",
+      "color": "#F87168"
+    },
+    {
+      "id": {
+        "$oid": "6829cf1c91a03d97775c0b7a"
+      },
+      "title": "",
+      "color": "#9F8FEF"
+    },
+    {
+      "id": {
+        "$oid": "6829cf5791a03d97775c0b7b"
+      },
+      "title": "",
+      "color": "#6CC3E0"
+    },
+    {
+      "id": {
+        "$oid": "6829cf8f91a03d97775c0b7c"
+      },
+      "title": "",
+      "color": "#0C66E4"
+    }
+  ],
+  "boardMembers": [
+    {
+      "_id": {
+        "$oid": "000000000000000000000002"
+      },
+      "fullname": "Slava Demo",
+      "avatar": "https://img.icons8.com/?size=100&id=IerOpHeUt2OH&format=png&color=000000"
+    },
+    {
+      "_id": {
+        "$oid": "000000000000000000000003"
+      },
+      "fullname": "Mark Demo",
+      "avatar": "https://img.icons8.com/?size=100&id=123636&format=png&color=000000"
+    },
+    {
+      "_id": {
+        "$oid": "000000000000000000000004"
+      },
+      "fullname": "Sam Demo",
+      "avatar": "https://img.icons8.com/?size=100&id=118237&format=png&color=000000"
+    },
+    {
+      "_id": {
+        "$oid": "000000000000000000000005"
+      },
+      "fullname": "Dima Demo",
+      "avatar": "https://img.icons8.com/?size=100&id=skjSUPfBtF8I&format=png&color=000000"
+    }
+  ],
+  "boardStyle": {
+    "boardType": "image",
+    "boardColor": "#87CEEB",
+    "boardImg": "https://images.unsplash.com/photo-1748632799967-63f8c53d69c1?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "_id": {
+      "$oid": "68406c007092e0676810698d"
+    }
+  },
+  "boardTitle": "testBoard",
+  "boardLists": [
+    {
+      "$oid": "6823323354ef930c2637dc91"
+    },
+    {
+      "$oid": "6823323354ef930c2637dc93"
+    },
+    {
+      "$oid": "6823323354ef930c2637dc92"
+    },
+    {
+      "$oid": "682c9318364c4b2d427352fa"
+    },
+    {
+      "$oid": "682c9772364c4b2d42735310"
+    },
+    {
+      "$oid": "683094bbcc01478533198ab8"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "682b120c80be8be01782eadb"
+  },
+  "boardTitle": "Work Flow",
+  "isStarred": true,
+  "boardLabels": [
+    {
+      "color": "#4BCE97",
+      "title": "",
+      "_id": {
+        "$oid": "682b120c80be8be01782eadc"
+      }
+    },
+    {
+      "color": "#F5CD47",
+      "title": "",
+      "_id": {
+        "$oid": "682b120c80be8be01782eadd"
+      }
+    },
+    {
+      "color": "#FEA362",
+      "title": "",
+      "_id": {
+        "$oid": "682b120c80be8be01782eade"
+      }
+    },
+    {
+      "color": "#F87168",
+      "title": "",
+      "_id": {
+        "$oid": "682b120c80be8be01782eadf"
+      }
+    },
+    {
+      "color": "#9F8FEF",
+      "title": "",
+      "_id": {
+        "$oid": "682b120c80be8be01782eae0"
+      }
+    },
+    {
+      "color": "#6CC3E0",
+      "title": "",
+      "_id": {
+        "$oid": "682b120c80be8be01782eae1"
+      }
+    },
+    {
+      "color": "#0C66E4",
+      "title": "",
+      "_id": {
+        "$oid": "682b120c80be8be01782eae2"
+      }
+    }
+  ],
+  "boardLists": [
+    {
+      "$oid": "683eb3fda085d9899f4f58d0"
+    },
+    {
+      "$oid": "683ead843992f941c048623b"
+    },
+    {
+      "$oid": "683ead2b3992f941c0486034"
+    },
+    {
+      "$oid": "683f0750ac2ef56648aca96f"
+    },
+    {
+      "$oid": "683f143aac2ef56648acb609"
+    }
+  ],
+  "boardMembers": [
+    {
+      "_id": {
+        "$oid": "000000000000000000000002"
+      },
+      "fullname": "Slava Demo",
+      "avatar": "https://img.icons8.com/?size=100&id=IerOpHeUt2OH&format=png&color=000000"
+    },
+    {
+      "_id": {
+        "$oid": "000000000000000000000003"
+      },
+      "fullname": "Mark Demo",
+      "avatar": "https://img.icons8.com/?size=100&id=123636&format=png&color=000000"
+    },
+    {
+      "_id": {
+        "$oid": "000000000000000000000004"
+      },
+      "fullname": "Sam Demo",
+      "avatar": "https://img.icons8.com/?size=100&id=118237&format=png&color=000000"
+    },
+    {
+      "_id": {
+        "$oid": "000000000000000000000005"
+      },
+      "fullname": "Dima Demo",
+      "avatar": "https://img.icons8.com/?size=100&id=skjSUPfBtF8I&format=png&color=000000"
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-05-19T11:12:12.907Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-05T13:25:39.492Z"
+  },
+  "__v": 0,
+  "boardStyle": {
+    "boardType": "image",
+    "boardColor": "#87CEEB",
+    "boardImg": "https://images.unsplash.com/photo-1748632799967-63f8c53d69c1?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "_id": {
+      "$oid": "68419ad3a1526355733f4f76"
+    }
+  }
+},
+{
+  "_id": {
+    "$oid": "683c7618f290707e7f86f97f"
+  },
+  "boardTitle": "Frankfurt Trip Planning",
+  "isStarred": false,
+  "boardStyle": {
+    "boardType": "image",
+    "boardColor": "#4A90E2",
+    "boardImg": "https://images.unsplash.com/photo-1506744038136-46273834b3fb?ixlib=rb-4.0.0&auto=format&fit=crop&w=1600&q=80",
+    "_id": {
+      "$oid": "683c7618f290707e7f86f980"
+    }
+  },
+  "boardLabels": [
+    {
+      "color": "#1E90FF",
+      "title": "Frankfurt",
+      "_id": {
+        "$oid": "683c7618f290707e7f86f981"
+      }
+    },
+    {
+      "color": "#32CD32",
+      "title": "Trip",
+      "_id": {
+        "$oid": "683c7618f290707e7f86f982"
+      }
+    },
+    {
+      "color": "#FFD700",
+      "title": "Planning",
+      "_id": {
+        "$oid": "683c7618f290707e7f86f983"
+      }
+    },
+    {
+      "color": "#C19A6B",
+      "title": "Travel",
+      "_id": {
+        "$oid": "683c7618f290707e7f86f984"
+      }
+    },
+    {
+      "color": "#8A2BE2",
+      "title": "History",
+      "_id": {
+        "$oid": "683c7618f290707e7f86f985"
+      }
+    },
+    {
+      "color": "#FF8C00",
+      "title": "Sightseeing",
+      "_id": {
+        "$oid": "683c7618f290707e7f86f986"
+      }
+    },
+    {
+      "color": "#DC143C",
+      "title": "Logistics",
+      "_id": {
+        "$oid": "683c7618f290707e7f86f987"
+      }
+    }
+  ],
+  "boardLists": [
+    {
+      "$oid": "683c7618f290707e7f86f989"
+    },
+    {
+      "$oid": "68403ee53ba80f2002f7a38f"
+    },
+    {
+      "$oid": "683c7619f290707e7f86f9aa"
+    }
+  ],
+  "boardMembers": [],
+  "createdAt": {
+    "$date": "2025-06-01T15:47:36.313Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-04T12:41:24.182Z"
+  },
+  "__v": 1
+},
+{
+  "_id": {
+    "$oid": "683c769cf290707e7f86fa56"
+  },
+  "boardTitle": "QA Team Full Plan",
+  "isStarred": false,
+  "boardStyle": {
+    "boardType": "color",
+    "boardColor": "#5A9",
+    "boardImg": null,
+    "_id": {
+      "$oid": "683c769cf290707e7f86fa57"
+    }
+  },
+  "boardLabels": [
+    {
+      "color": "#1E90FF",
+      "title": "Team",
+      "_id": {
+        "$oid": "683c769cf290707e7f86fa58"
+      }
+    },
+    {
+      "color": "#32CD32",
+      "title": "Full",
+      "_id": {
+        "$oid": "683c769cf290707e7f86fa59"
+      }
+    },
+    {
+      "color": "#FFD700",
+      "title": "Plan",
+      "_id": {
+        "$oid": "683c769cf290707e7f86fa5a"
+      }
+    },
+    {
+      "color": "#C19A6B",
+      "title": "Travel",
+      "_id": {
+        "$oid": "683c769cf290707e7f86fa5b"
+      }
+    },
+    {
+      "color": "#8A2BE2",
+      "title": "History",
+      "_id": {
+        "$oid": "683c769cf290707e7f86fa5c"
+      }
+    },
+    {
+      "color": "#FF8C00",
+      "title": "Sightseeing",
+      "_id": {
+        "$oid": "683c769cf290707e7f86fa5d"
+      }
+    },
+    {
+      "color": "#DC143C",
+      "title": "Logistics",
+      "_id": {
+        "$oid": "683c769cf290707e7f86fa5e"
+      }
+    }
+  ],
+  "boardLists": [
+    {
+      "$oid": "683c769cf290707e7f86fa60"
+    },
+    {
+      "$oid": "683c769df290707e7f86fa81"
+    },
+    {
+      "$oid": "683c769ef290707e7f86faa2"
+    }
+  ],
+  "boardMembers": [],
+  "createdAt": {
+    "$date": "2025-06-01T15:49:48.703Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-01T15:49:50.826Z"
+  },
+  "__v": 1
+},
+{
+  "_id": {
+    "$oid": "683cc1f078c345e90aecb39e"
+  },
+  "boardTitle": "Team Schedule",
+  "isStarred": false,
+  "boardStyle": {
+    "boardType": "image",
+    "boardColor": "#20a7db",
+    "boardImg": "https://images.unsplash.com/photo-1748632800124-dc5874469774?q=80&w=2151&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "_id": {
+      "$oid": "68406c247092e06768106a59"
+    }
+  },
+  "boardLabels": [
+    {
+      "color": "#1E90FF",
+      "title": "Team",
+      "_id": {
+        "$oid": "683cc1f078c345e90aecb3a0"
+      }
+    },
+    {
+      "color": "#32CD32",
+      "title": "Schedule",
+      "_id": {
+        "$oid": "683cc1f078c345e90aecb3a1"
+      }
+    },
+    {
+      "color": "#FFD700",
+      "title": "Travel",
+      "_id": {
+        "$oid": "683cc1f078c345e90aecb3a2"
+      }
+    },
+    {
+      "color": "#C19A6B",
+      "title": "History",
+      "_id": {
+        "$oid": "683cc1f078c345e90aecb3a3"
+      }
+    },
+    {
+      "color": "#8A2BE2",
+      "title": "Sightseeing",
+      "_id": {
+        "$oid": "683cc1f078c345e90aecb3a4"
+      }
+    },
+    {
+      "color": "#FF8C00",
+      "title": "Logistics",
+      "_id": {
+        "$oid": "683cc1f078c345e90aecb3a5"
+      }
+    },
+    {
+      "color": "#DC143C",
+      "title": "Culture",
+      "_id": {
+        "$oid": "683cc1f078c345e90aecb3a6"
+      }
+    }
+  ],
+  "boardLists": [
+    {
+      "$oid": "683cc1f178c345e90aecb3c7"
+    },
+    {
+      "$oid": "683cc1f078c345e90aecb3a8"
+    }
+  ],
+  "boardMembers": [],
+  "createdAt": {
+    "$date": "2025-06-01T21:11:12.408Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-04T15:54:12.678Z"
+  },
+  "__v": 1
+},
+{
+  "_id": {
+    "$oid": "683ef7608da3ed0566db6b5e"
+  },
+  "boardTitle": "Dog Birthday Planning",
+  "isStarred": false,
+  "boardStyle": {
+    "boardType": "image",
+    "boardColor": "#966726",
+    "boardImg": "https://images.unsplash.com/photo-1748372928120-6543f1c68da0?q=80&w=2136&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "_id": {
+      "$oid": "683ef8898da3ed0566db6d1b"
+    }
+  },
+  "boardLabels": [
+    {
+      "color": "#1E90FF",
+      "title": "Dog",
+      "_id": {
+        "$oid": "683ef7608da3ed0566db6b60"
+      }
+    },
+    {
+      "color": "#32CD32",
+      "title": "Birthday",
+      "_id": {
+        "$oid": "683ef7608da3ed0566db6b61"
+      }
+    },
+    {
+      "color": "#FFD700",
+      "title": "Planning",
+      "_id": {
+        "$oid": "683ef7608da3ed0566db6b62"
+      }
+    },
+    {
+      "color": "#C19A6B",
+      "title": "Travel",
+      "_id": {
+        "$oid": "683ef7608da3ed0566db6b63"
+      }
+    },
+    {
+      "color": "#8A2BE2",
+      "title": "History",
+      "_id": {
+        "$oid": "683ef7608da3ed0566db6b64"
+      }
+    },
+    {
+      "color": "#FF8C00",
+      "title": "Sightseeing",
+      "_id": {
+        "$oid": "683ef7608da3ed0566db6b65"
+      }
+    },
+    {
+      "color": "#DC143C",
+      "title": "Logistics",
+      "_id": {
+        "$oid": "683ef7608da3ed0566db6b66"
+      }
+    }
+  ],
+  "boardLists": [
+    {
+      "$oid": "683ef7618da3ed0566db6b68"
+    },
+    {
+      "$oid": "683ef7618da3ed0566db6b87"
+    },
+    {
+      "$oid": "683ef7628da3ed0566db6ba6"
+    }
+  ],
+  "boardMembers": [],
+  "createdAt": {
+    "$date": "2025-06-03T13:23:44.976Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-03T13:28:41.068Z"
+  },
+  "__v": 1
+},
+{
+  "_id": {
+    "$oid": "683efad268529ea54517817e"
+  },
+  "boardTitle": "Birthday Planning",
+  "isStarred": false,
+  "boardStyle": {
+    "boardType": "color",
+    "boardColor": "#87CEEB",
+    "boardImg": "",
+    "_id": {
+      "$oid": "683efad268529ea54517817f"
+    }
+  },
+  "boardLabels": [
+    {
+      "color": "#1E90FF",
+      "title": "Birthday",
+      "_id": {
+        "$oid": "683efad268529ea545178180"
+      }
+    },
+    {
+      "color": "#32CD32",
+      "title": "Planning",
+      "_id": {
+        "$oid": "683efad268529ea545178181"
+      }
+    },
+    {
+      "color": "#FFD700",
+      "title": "Travel",
+      "_id": {
+        "$oid": "683efad268529ea545178182"
+      }
+    },
+    {
+      "color": "#C19A6B",
+      "title": "History",
+      "_id": {
+        "$oid": "683efad268529ea545178183"
+      }
+    },
+    {
+      "color": "#8A2BE2",
+      "title": "Sightseeing",
+      "_id": {
+        "$oid": "683efad268529ea545178184"
+      }
+    },
+    {
+      "color": "#FF8C00",
+      "title": "Logistics",
+      "_id": {
+        "$oid": "683efad268529ea545178185"
+      }
+    },
+    {
+      "color": "#DC143C",
+      "title": "Culture",
+      "_id": {
+        "$oid": "683efad268529ea545178186"
+      }
+    }
+  ],
+  "boardLists": [
+    {
+      "$oid": "683efad268529ea545178188"
+    },
+    {
+      "$oid": "683efad268529ea5451781a7"
+    },
+    {
+      "$oid": "683efad368529ea5451781c6"
+    }
+  ],
+  "boardMembers": [],
+  "createdAt": {
+    "$date": "2025-06-03T13:38:26.236Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-03T13:38:28.091Z"
+  },
+  "__v": 1
+},
+{
+  "_id": {
+    "$oid": "683f52420e42642d989de2e1"
+  },
+  "boardTitle": "Dog Birthday Party",
+  "isStarred": false,
+  "boardStyle": {
+    "boardType": "color",
+    "boardColor": "#D29034",
+    "boardImg": "",
+    "_id": {
+      "$oid": "6841a2bea1526355733f59bf"
+    }
+  },
+  "boardLabels": [
+    {
+      "color": "#1E90FF",
+      "title": "Dog",
+      "_id": {
+        "$oid": "683f52420e42642d989de2e3"
+      }
+    },
+    {
+      "color": "#32CD32",
+      "title": "Birthday",
+      "_id": {
+        "$oid": "683f52420e42642d989de2e4"
+      }
+    },
+    {
+      "color": "#FFD700",
+      "title": "Party",
+      "_id": {
+        "$oid": "683f52420e42642d989de2e5"
+      }
+    },
+    {
+      "color": "#C19A6B",
+      "title": "Travel",
+      "_id": {
+        "$oid": "683f52420e42642d989de2e6"
+      }
+    },
+    {
+      "color": "#8A2BE2",
+      "title": "History",
+      "_id": {
+        "$oid": "683f52420e42642d989de2e7"
+      }
+    },
+    {
+      "color": "#FF8C00",
+      "title": "Sightseeing",
+      "_id": {
+        "$oid": "683f52420e42642d989de2e8"
+      }
+    },
+    {
+      "color": "#DC143C",
+      "title": "Logistics",
+      "_id": {
+        "$oid": "683f52420e42642d989de2e9"
+      }
+    }
+  ],
+  "boardLists": [
+    {
+      "$oid": "683f52430e42642d989de2eb"
+    },
+    {
+      "$oid": "68404c123ba80f2002f7c015"
+    },
+    {
+      "$oid": "683f52440e42642d989de30a"
+    }
+  ],
+  "boardMembers": [
+    {
+      "_id": {
+        "$oid": "000000000000000000000001"
+      },
+      "fullname": "ALi Demo",
+      "avatar": "https://img.icons8.com/?size=100&id=bOXN3AZhMCek&format=png&color=000000"
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-06-03T19:51:30.896Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-05T13:59:26.306Z"
+  },
+  "__v": 1
+},
+{
+  "_id": {
+    "$oid": "68403f7c3ba80f2002f7a7d8"
+  },
+  "boardTitle": "Travel to Israel",
+  "isStarred": false,
+  "boardStyle": {
+    "boardType": "image",
+    "boardColor": "#73C4E6",
+    "boardImg": "https://images.unsplash.com/photo-1748729621135-57a3168c9fbd?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "_id": {
+      "$oid": "68403f7c3ba80f2002f7a7d9"
+    }
+  },
+  "boardLabels": [
+    {
+      "color": "#1E90FF",
+      "title": "Travel",
+      "_id": {
+        "$oid": "68403f7c3ba80f2002f7a7da"
+      }
+    },
+    {
+      "color": "#32CD32",
+      "title": "Israel",
+      "_id": {
+        "$oid": "68403f7c3ba80f2002f7a7db"
+      }
+    },
+    {
+      "color": "#FFD700",
+      "title": "History",
+      "_id": {
+        "$oid": "68403f7c3ba80f2002f7a7dc"
+      }
+    },
+    {
+      "color": "#C19A6B",
+      "title": "Sightseeing",
+      "_id": {
+        "$oid": "68403f7c3ba80f2002f7a7dd"
+      }
+    },
+    {
+      "color": "#8A2BE2",
+      "title": "Logistics",
+      "_id": {
+        "$oid": "68403f7c3ba80f2002f7a7de"
+      }
+    },
+    {
+      "color": "#FF8C00",
+      "title": "Culture",
+      "_id": {
+        "$oid": "68403f7c3ba80f2002f7a7df"
+      }
+    },
+    {
+      "color": "#DC143C",
+      "title": "Planning",
+      "_id": {
+        "$oid": "68403f7c3ba80f2002f7a7e0"
+      }
+    }
+  ],
+  "boardLists": [
+    {
+      "$oid": "68403f7c3ba80f2002f7a7e2"
+    },
+    {
+      "$oid": "68403f7d3ba80f2002f7a801"
+    }
+  ],
+  "boardMembers": [
+    {
+      "_id": {
+        "$oid": "000000000000000000000001"
+      },
+      "fullname": "ALi Demo",
+      "avatar": "https://img.icons8.com/?size=100&id=bOXN3AZhMCek&format=png&color=000000"
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-06-04T12:43:40.785Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-04T12:44:24.926Z"
+  },
+  "__v": 1
+},
+{
+  "_id": {
+    "$oid": "684152898f84192a6785b584"
+  },
+  "boardTitle": "Android Texting App Sprint",
+  "isStarred": false,
+  "boardStyle": {
+    "boardType": "color",
+    "boardColor": "#4A90E2",
+    "boardImg": "",
+    "_id": {
+      "$oid": "684152898f84192a6785b585"
+    }
+  },
+  "boardLabels": [
+    {
+      "color": "#1E90FF",
+      "title": "Android",
+      "_id": {
+        "$oid": "684152898f84192a6785b586"
+      }
+    },
+    {
+      "color": "#32CD32",
+      "title": "Texting",
+      "_id": {
+        "$oid": "684152898f84192a6785b587"
+      }
+    },
+    {
+      "color": "#FFD700",
+      "title": "App",
+      "_id": {
+        "$oid": "684152898f84192a6785b588"
+      }
+    },
+    {
+      "color": "#C19A6B",
+      "title": "Sprint",
+      "_id": {
+        "$oid": "684152898f84192a6785b589"
+      }
+    },
+    {
+      "color": "#8A2BE2",
+      "title": "Travel",
+      "_id": {
+        "$oid": "684152898f84192a6785b58a"
+      }
+    },
+    {
+      "color": "#FF8C00",
+      "title": "History",
+      "_id": {
+        "$oid": "684152898f84192a6785b58b"
+      }
+    },
+    {
+      "color": "#DC143C",
+      "title": "Sightseeing",
+      "_id": {
+        "$oid": "684152898f84192a6785b58c"
+      }
+    }
+  ],
+  "boardLists": [
+    {
+      "$oid": "6841528a8f84192a6785b58e"
+    },
+    {
+      "$oid": "6841528b8f84192a6785b5af"
+    },
+    {
+      "$oid": "6841528c8f84192a6785b5d0"
+    }
+  ],
+  "boardMembers": [],
+  "createdAt": {
+    "$date": "2025-06-05T08:17:13.836Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-05T08:17:17.442Z"
+  },
+  "__v": 1
+},
+{
+  "_id": {
+    "$oid": "6841698f3ece4e1fb2813bfa"
+  },
+  "boardTitle": "Cloth Shopping",
+  "isStarred": false,
+  "boardStyle": {
+    "boardType": "color",
+    "boardColor": "#87CEEB",
+    "boardImg": "",
+    "_id": {
+      "$oid": "6841698f3ece4e1fb2813bfb"
+    }
+  },
+  "boardLabels": [
+    {
+      "color": "#1E90FF",
+      "title": "Cloth",
+      "_id": {
+        "$oid": "6841698f3ece4e1fb2813bfc"
+      }
+    },
+    {
+      "color": "#32CD32",
+      "title": "Shopping",
+      "_id": {
+        "$oid": "6841698f3ece4e1fb2813bfd"
+      }
+    },
+    {
+      "color": "#FFD700",
+      "title": "Travel",
+      "_id": {
+        "$oid": "6841698f3ece4e1fb2813bfe"
+      }
+    },
+    {
+      "color": "#C19A6B",
+      "title": "History",
+      "_id": {
+        "$oid": "6841698f3ece4e1fb2813bff"
+      }
+    },
+    {
+      "color": "#8A2BE2",
+      "title": "Sightseeing",
+      "_id": {
+        "$oid": "6841698f3ece4e1fb2813c00"
+      }
+    },
+    {
+      "color": "#FF8C00",
+      "title": "Logistics",
+      "_id": {
+        "$oid": "6841698f3ece4e1fb2813c01"
+      }
+    },
+    {
+      "color": "#DC143C",
+      "title": "Culture",
+      "_id": {
+        "$oid": "6841698f3ece4e1fb2813c02"
+      }
+    }
+  ],
+  "boardLists": [
+    {
+      "$oid": "684169903ece4e1fb2813c04"
+    },
+    {
+      "$oid": "684169913ece4e1fb2813c29"
+    },
+    {
+      "$oid": "684169923ece4e1fb2813c83"
+    }
+  ],
+  "boardMembers": [],
+  "createdAt": {
+    "$date": "2025-06-05T09:55:27.765Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-05T09:55:31.322Z"
+  },
+  "__v": 1
+},
+{
+  "_id": {
+    "$oid": "68416b9a3ece4e1fb2813ee1"
+  },
+  "boardTitle": "Grocery Shopping List",
+  "isStarred": false,
+  "boardStyle": {
+    "boardType": "color",
+    "boardColor": "#4A90E2",
+    "boardImg": "",
+    "_id": {
+      "$oid": "68416b9a3ece4e1fb2813ee2"
+    }
+  },
+  "boardLabels": [
+    {
+      "color": "#1E90FF",
+      "title": "Grocery",
+      "_id": {
+        "$oid": "68416b9a3ece4e1fb2813ee3"
+      }
+    },
+    {
+      "color": "#32CD32",
+      "title": "Shopping",
+      "_id": {
+        "$oid": "68416b9a3ece4e1fb2813ee4"
+      }
+    },
+    {
+      "color": "#FFD700",
+      "title": "List",
+      "_id": {
+        "$oid": "68416b9a3ece4e1fb2813ee5"
+      }
+    },
+    {
+      "color": "#C19A6B",
+      "title": "Travel",
+      "_id": {
+        "$oid": "68416b9a3ece4e1fb2813ee6"
+      }
+    },
+    {
+      "color": "#8A2BE2",
+      "title": "History",
+      "_id": {
+        "$oid": "68416b9a3ece4e1fb2813ee7"
+      }
+    },
+    {
+      "color": "#FF8C00",
+      "title": "Sightseeing",
+      "_id": {
+        "$oid": "68416b9a3ece4e1fb2813ee8"
+      }
+    },
+    {
+      "color": "#DC143C",
+      "title": "Logistics",
+      "_id": {
+        "$oid": "68416b9a3ece4e1fb2813ee9"
+      }
+    }
+  ],
+  "boardLists": [
+    {
+      "$oid": "68416b9b3ece4e1fb2813eeb"
+    },
+    {
+      "$oid": "68416b9c3ece4e1fb2813f0c"
+    },
+    {
+      "$oid": "68416b9d3ece4e1fb2813f2d"
+    }
+  ],
+  "boardMembers": [],
+  "createdAt": {
+    "$date": "2025-06-05T10:04:10.830Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-05T11:33:23.021Z"
+  },
+  "__v": 1
+},
+{
+  "_id": {
+    "$oid": "6841a5eda1526355733f5bff"
+  },
+  "boardTitle": "Japan Travel Planning",
+  "isStarred": false,
+  "boardStyle": {
+    "boardType": "image",
+    "boardColor": "#73C4E6",
+    "boardImg": "https://images.unsplash.com/photo-1748729621135-57a3168c9fbd?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "_id": {
+      "$oid": "6841a5eda1526355733f5c00"
+    }
+  },
+  "boardLabels": [
+    {
+      "color": "#1E90FF",
+      "title": "Japan",
+      "_id": {
+        "$oid": "6841a5eda1526355733f5c01"
+      }
+    },
+    {
+      "color": "#32CD32",
+      "title": "Travel",
+      "_id": {
+        "$oid": "6841a5eda1526355733f5c02"
+      }
+    },
+    {
+      "color": "#FFD700",
+      "title": "Planning",
+      "_id": {
+        "$oid": "6841a5eda1526355733f5c03"
+      }
+    },
+    {
+      "color": "#C19A6B",
+      "title": "History",
+      "_id": {
+        "$oid": "6841a5eda1526355733f5c04"
+      }
+    },
+    {
+      "color": "#8A2BE2",
+      "title": "Sightseeing",
+      "_id": {
+        "$oid": "6841a5eda1526355733f5c05"
+      }
+    },
+    {
+      "color": "#FF8C00",
+      "title": "Logistics",
+      "_id": {
+        "$oid": "6841a5eda1526355733f5c06"
+      }
+    },
+    {
+      "color": "#DC143C",
+      "title": "Culture",
+      "_id": {
+        "$oid": "6841a5eda1526355733f5c07"
+      }
+    }
+  ],
+  "boardLists": [
+    {
+      "$oid": "6841a5eda1526355733f5c09"
+    },
+    {
+      "$oid": "6841a5eea1526355733f5c2a"
+    },
+    {
+      "$oid": "6841a5efa1526355733f5c4b"
+    },
+    {
+      "$oid": "6841a5f0a1526355733f5c6c"
+    }
+  ],
+  "boardMembers": [],
+  "createdAt": {
+    "$date": "2025-06-05T14:13:01.278Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-05T14:13:05.899Z"
+  },
+  "__v": 1
+}]
