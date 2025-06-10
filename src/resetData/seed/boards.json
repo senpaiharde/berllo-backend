@@ -1,10 +1,170 @@
 [{
   "_id": {
+    "$oid": "6848533e3aad8926108c3694"
+  },
+  "boardTitle": "slava",
+  "isStarred": false,
+  "boardStyle": {
+    "boardType": "image",
+    "boardColor": "#7a4203",
+    "boardImg": "https://images.unsplash.com/photo-1748372928120-6543f1c68da0?q=80&w=2136&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "_id": {
+      "$oid": "6848533e3aad8926108c3695"
+    }
+  },
+  "boardLabels": [
+    {
+      "color": "#4BCE97",
+      "title": "",
+      "_id": {
+        "$oid": "6848533e3aad8926108c3696"
+      }
+    },
+    {
+      "color": "#F5CD47",
+      "title": "",
+      "_id": {
+        "$oid": "6848533f3aad8926108c3697"
+      }
+    },
+    {
+      "color": "#FEA362",
+      "title": "",
+      "_id": {
+        "$oid": "6848533f3aad8926108c3698"
+      }
+    },
+    {
+      "color": "#F87168",
+      "title": "",
+      "_id": {
+        "$oid": "6848533f3aad8926108c3699"
+      }
+    },
+    {
+      "color": "#9F8FEF",
+      "title": "",
+      "_id": {
+        "$oid": "6848533f3aad8926108c369a"
+      }
+    },
+    {
+      "color": "#6CC3E0",
+      "title": "",
+      "_id": {
+        "$oid": "6848533f3aad8926108c369b"
+      }
+    },
+    {
+      "color": "#0C66E4",
+      "title": "",
+      "_id": {
+        "$oid": "6848533f3aad8926108c369c"
+      }
+    }
+  ],
+  "boardLists": [],
+  "boardMembers": [],
+  "createdAt": {
+    "$date": "2025-06-10T15:46:07.039Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-10T15:46:07.039Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6848537d3aad8926108c3769"
+  },
+  "boardTitle": "Work Flow",
+  "isStarred": false,
+  "boardStyle": {
+    "boardType": "image",
+    "boardColor": "#73C4E6",
+    "boardImg": "https://images.unsplash.com/photo-1748729621135-57a3168c9fbd?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    "_id": {
+      "$oid": "6848537d3aad8926108c376a"
+    }
+  },
+  "boardLabels": [
+    {
+      "color": "#1E90FF",
+      "title": "Work",
+      "_id": {
+        "$oid": "6848537d3aad8926108c376b"
+      }
+    },
+    {
+      "color": "#32CD32",
+      "title": "Flow",
+      "_id": {
+        "$oid": "6848537d3aad8926108c376c"
+      }
+    },
+    {
+      "color": "#FFD700",
+      "title": "Travel",
+      "_id": {
+        "$oid": "6848537d3aad8926108c376d"
+      }
+    },
+    {
+      "color": "#C19A6B",
+      "title": "History",
+      "_id": {
+        "$oid": "6848537d3aad8926108c376e"
+      }
+    },
+    {
+      "color": "#8A2BE2",
+      "title": "Sightseeing",
+      "_id": {
+        "$oid": "6848537d3aad8926108c376f"
+      }
+    },
+    {
+      "color": "#FF8C00",
+      "title": "Logistics",
+      "_id": {
+        "$oid": "6848537d3aad8926108c3770"
+      }
+    },
+    {
+      "color": "#DC143C",
+      "title": "Culture",
+      "_id": {
+        "$oid": "6848537d3aad8926108c3771"
+      }
+    }
+  ],
+  "boardLists": [
+    {
+      "$oid": "6848537e3aad8926108c3773"
+    },
+    {
+      "$oid": "6848537f3aad8926108c3794"
+    },
+    {
+      "$oid": "684853803aad8926108c37b5"
+    }
+  ],
+  "boardMembers": [],
+  "createdAt": {
+    "$date": "2025-06-10T15:47:09.834Z"
+  },
+  "updatedAt": {
+    "$date": "2025-06-10T15:47:13.347Z"
+  },
+  "__v": 1
+},
+{
+  "_id": {
     "$oid": "6823323354ef930c2637dc8e"
   },
   "isStarred": true,
   "archivedAt": {
-    "$date": "2024-03-20T14:30:00.000Z"
+    "$date": "2024-03-20T14:30:00Z"
   },
   "createdAt": {
     "$date": "2025-05-13T11:51:15.463Z"
