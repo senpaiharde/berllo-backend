@@ -1,29 +1,36 @@
-import fs from 'fs/promises';
-import path from 'path';
+
 import Board from '../models/Board';
-import List from '../models/List';
-import Task from '../models/task';
+import List  from '../models/List';
+import Task  from '../models/task';
+import mongoose from 'mongoose';
 
-async function loadSeed(name: 'boards' | 'lists' | 'tasks'): Promise<any[]> {
-  const filePath = path.join(__dirname, './seed', `${name}.json`);
-  const raw = await fs.readFile(filePath, 'utf8');
-  return JSON.parse(raw);
-}
+const backupConn = mongoose.connection; // same DB, so same conn
 
-// Wipes and re-seeds Board, List, and Task collections.
+export async function restoreFromBackup(): Promise<void> {
+  console.log(`[${new Date().toISOString()}]  restoreFromBackup`);
 
-export async function resetDatabase(): Promise<void> {
-  console.log(`[${new Date().toISOString()}]  resetDatabase: wiping & re-importing seed data`);
-  // 1) delete all existing docs
-  await Promise.all([Board.deleteMany({}), List.deleteMany({}), Task.deleteMany({})]);
-
-  // 2) load and re-insert from seed files
-  const [boards, lists, tasks] = await Promise.all([
-    loadSeed('boards'),
-    loadSeed('lists'),
-    loadSeed('tasks'),
+  // 1) wipe live collections
+  await Promise.all([
+    Board.deleteMany({}),
+    List.deleteMany({}),
+    Task.deleteMany({}),
   ]);
-  await Promise.all([Board.insertMany(boards), List.insertMany(lists), Task.insertMany(tasks)]);
 
-  console.log(`[${new Date().toISOString()}]  resetDatabase: complete`);
+  // 2) copy from backup_* using MongoDB’s aggregation $merge
+  await Promise.all([
+    backupConn.collection('boards_backup')
+              .aggregate([{ $match: {} },
+                          { $merge: { into: 'boardentries' } }])
+              .toArray(),   // need to exhaust cursor
+    backupConn.collection('lists_backup')
+              .aggregate([{ $match: {} },
+                          { $merge: { into: 'listentries' } }])
+              .toArray(),
+    backupConn.collection('tasks_backup')
+              .aggregate([{ $match: {} },
+                          { $merge: { into: 'taskentries' } }])
+              .toArray(),
+  ]);
+
+  console.log(`[${new Date().toISOString()}]  restore complete`);
 }

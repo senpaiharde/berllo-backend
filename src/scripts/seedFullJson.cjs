@@ -1,4 +1,4 @@
-// scripts/seedFullJson.cjs
+
 require('ts-node/register');     // load TS models on-the-fly
 require('dotenv').config();
 
