@@ -86,7 +86,7 @@ router.post('/template/:templateId', async (req: Request, res: Response):Promise
     const taskDocs: any[] = template.tasks.map((t, idx) => ({
       board: board._id,
       list: createdLists[t.listIndex]._id,
-      taskTitle: t.title,
+      title: t.title,
       taskDescription: '',
       isDueComplete: false,
       position: idx,
