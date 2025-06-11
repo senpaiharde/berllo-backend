@@ -37,15 +37,11 @@ const boardTemplates: Record<
 
 const router = Router();
 
-/**
- * POST /boards/template/:templateId
- * Body: { title: string }
- */
+
 router.post('/template/:templateId', async (req: Request, res: Response):Promise<any> => {
   const { templateId } = req.params;
   const { title } = req.body as { title?: string };
 
-  // 1) Validate inputs
   if (!title || typeof title !== 'string') {
     return res.status(400).json({ error: 'Missing or invalid board title' });
   }
@@ -54,7 +50,72 @@ router.post('/template/:templateId', async (req: Request, res: Response):Promise
     return res.status(404).json({ error: 'Template not found' });
   }
 
-  
+  try {
+    //  Create the Board
+    const board = await Board.create({
+      boardTitle: title,
+      boardStyle: template.style,
+      createdBy: req.user!.id,      
+      boardLists: [],                
+      
+    });
+
+    //  Bulk‐insert Lists
+    const listDocs = template.lists.map((listTitle, idx) => ({
+      taskListBoard: board._id,
+      taskListTitle: listTitle,
+      indexInBoard: idx,
+      taskList: [],     
+      // archivedAt
+    }));
+    const createdLists = await List.insertMany(listDocs);
+
+    //  Bulk‐insert Tasks
+    const taskDocs: any[] = template.tasks.map((t, idx) => ({
+      board: board._id,
+      list: createdLists[t.listIndex]._id,
+      taskTitle: t.title,
+      taskDescription: '',
+      isDueComplete: false,
+      position: idx,
+      dueDate:
+        t.dueDaysFromNow != null
+          ? new Date(Date.now() + t.dueDaysFromNow * 86400000)
+          : null,
+      // attachments, labels, comments etc. 
+    }));
+    const createdTasks = await Task.insertMany(taskDocs);
+
+    //  Update the Board’s boardLists to reference the new lists
+    board.boardLists = createdLists.map((l) => l._id);
+    await board.save();
+
+    // 
+    //    
+    // for (const list of createdLists) {
+    //   const tasksForList = createdTasks
+    //     .filter((t) => t.list.toString() === list._id.toString())
+    //     .map((t) => t._id);
+    //   await List.findByIdAndUpdate(list._id, { $set: { taskList: tasksForList } });
+    // }
+
+    //  Emit a socket 
+   // getIO().emit('boardCreated', {
+    //  board,
+    //  lists: createdLists,
+   //   tasks: createdTasks,
+   // });
+
+    //  Return 
+    return res.status(201).json({
+      board,
+      lists: createdLists,
+      tasks: createdTasks,
+    });
+  } catch (err) {
+    console.error('Error creating board from template:', err);
+    return res.status(500).json({ error: 'Failed to create board' });
+  }
 });
 
 export default router;
