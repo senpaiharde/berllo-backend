@@ -7,6 +7,16 @@ import Task from '../models/task';
 import { getIO } from '../services/socket';
 
 // Define your templates somewhere centrally:
+
+interface TemplateTask {
+  listIndex: number;
+  title: string;
+  dueDaysFromNow?: number;
+  attachments?: { url: string; name?: string }[];
+  coverUrl?: string;
+  checklist?: { text: string; checked: boolean }[];
+}
+
 const boardTemplates: Record<
   string,
   {
