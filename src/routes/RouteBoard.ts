@@ -8,49 +8,7 @@ import Task from '../models/task';
 import User from '../models/User';
 const router = Router();
 router.use(authMiddleware);
-// interface combineBoardFromgGetProps{
-//   board: IBoard;
-//   lists: IList;
-//   tasks: ITask;
-// }
-// function combineBoardFromGet({
-//   board,
-//   lists,
-//   tasks,
-// }: {
-//   board: IBoard;
-//   lists: IList[];
-//   tasks: ITask[];
-// }): IBoard {
-//   const listIdToTasksMap = new Map<string, ITask[]>();
 
-//   // Group tasks by list ID
-//   tasks.forEach((task) => {
-//     const listId = task.list.toString();
-//     if (!listIdToTasksMap.has(listId)) {
-//       listIdToTasksMap.set(listId, []);
-//     }
-//     listIdToTasksMap.get(listId)!.push(task);
-//   });
-
-//   // Attach tasks to the matching lists
-//   const updatedLists = lists.map((list) => {
-//     const listWithTasks = {
-//       ...list.toObject(), // detach from Mongoose prototype
-//       tasks: listIdToTasksMap.get(list._id.toString()) || [],
-//     };
-//     return listWithTasks;
-//   });
-
-//   // Update and return board
-//   const updatedBoard = {
-//     ...board.toObject(),
-//     lists: updatedLists,
-//     tasks,
-//   };
-
-//   return updatedBoard;
-// }
 // CREATE
 
 router.post('/', async (req: Request, res: Response) => {
@@ -124,7 +82,7 @@ router.get('/:id', async (req: Request, res: Response): Promise<any> => {
     //pulling the user with the old data
     await User.findByIdAndUpdate(req.user!.id, {
       $pull: { lastBoardVisited: { board: board._id } },
-    });
+    }).exec();;
 
     // 2) add it to the front and slice to 25
     await User.findByIdAndUpdate(req.user!.id, {
@@ -138,10 +96,10 @@ router.get('/:id', async (req: Request, res: Response): Promise<any> => {
             },
           ],
           $position: 0,
-          $slice: 25,
+          $slice: 8,
         },
       },
-    });
+    }).exec();;
 
     const lists = await List.find({ taskListBoard: board._id })
       // .sort({ indexInBoard: 1 })
@@ -162,7 +120,7 @@ router.put('/:id', async (req: Request, res: Response): Promise<any> => {
     const updates = pick(req.body, allowed);
     console.log("req.body", req.body)
     console.log("updates", updates)
-    // console.log("req.params.id", req.params.id)
+    
     // Only owners/admins may update
     const board = await Board.findOneAndUpdate(
       {
@@ -175,14 +133,7 @@ router.put('/:id', async (req: Request, res: Response): Promise<any> => {
 
     if (!board) return res.status(403).json({ error: 'Forbidden' });
 
-    // await Activity.create({
-    //   board: board._id,
-    //   user: req.user?.id,
-    //   entity: { kind: "board", id: board._id },
-    //   action: "updated_board",
-    //   payload: updates,
-    // })
-
+  
     res.json(board);
   } catch (err: any) {
     console.error(err);
