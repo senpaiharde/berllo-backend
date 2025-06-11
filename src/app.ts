@@ -13,6 +13,7 @@ import RouteUsers from './routes/RouteUsers';
 import autoBoardRouter from './routes/autoBoard';
 import { wipeActivity } from './resetData/WipeActivity';
 import {  restoreFromBackup } from './resetData/resetDatabase';
+import TempleBoard from './routes/RouteTemplates'
 dotenv.config();
 
 const app = express();
@@ -41,6 +42,11 @@ app.use('/tasks', taskRouter);
 app.use('/list', listRouter);
 app.use('/activities', activityRouter);
 app.use('/autoBoard', autoBoardRouter);
+app.use('/boards', TempleBoard);
+
+
+
+
 app.post('/admin/wipe-activity', async (_req, res) => {
   await wipeActivity();
   res.json({ ok: true });
