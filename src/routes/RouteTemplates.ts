@@ -5,6 +5,7 @@ import Board from '../models/Board';
 import List from '../models/List';
 import Task from '../models/task';
 import { getIO } from '../services/socket';
+import { authMiddleware } from '../middlewares/authmiddleware';
 
 // Define your templates somewhere centrally:
 
@@ -46,7 +47,7 @@ const boardTemplates: Record<
 };
 
 const router = Router();
-
+router.use(authMiddleware)
 
 router.post('/template/:templateId', async (req: Request, res: Response):Promise<any> => {
   const { templateId } = req.params;
