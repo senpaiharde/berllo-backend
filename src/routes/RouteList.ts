@@ -16,18 +16,9 @@ router.post("/", async (req: Request, res: Response): Promise<any> => {
       taskListBoard: string
       taskListTitle: string
       indexInBoard: number
-      // style?: { backgroundImage?: string }
     }
     console.log("req.body", req.body)
-    // const boardLabels = [
-    //   { color: "#4BCE97", title: "" },
-    //   { color: "#F5CD47", title: "" },
-    //   { color: "#FEA362", title: "" },
-    //   { color: "#F87168", title: "" },
-    //   { color: "#9F8FEF", title: "" },
-    //   { color: "#6CC3E0", title: "" },
-    //   { color: "#0C66E4", title: "" },
-    // ]
+    
     const list = await List.create({
       taskListBoard: taskListBoard,
       taskListTitle: taskListTitle,
@@ -99,14 +90,6 @@ router.put("/:id", async (req: Request, res: Response): Promise<any> => {
     )
 
     if (!list) return res.status(403).json({ error: "Forbidden" })
-
-    // await Activity.create({
-    //   board: list._id,
-    //   user: req.user?.id,
-    //   entity: { kind: "board", id: list._id },
-    //   action: "updated_board",
-    //   payload: updates,
-    // })
 
     res.json(list)
   } catch (err: any) {
