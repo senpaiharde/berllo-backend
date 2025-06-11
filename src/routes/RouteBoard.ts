@@ -50,7 +50,7 @@ router.post('/', async (req: Request, res: Response) => {
             },
           ],
           $position: 0,
-          $slice: 25,
+          $slice: 8,
         },
       },
     });
