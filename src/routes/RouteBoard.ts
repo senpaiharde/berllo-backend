@@ -50,7 +50,7 @@ router.post('/', async (req: Request, res: Response) => {
             },
           ],
           $position: 0,
-          $slice: 25,
+          $slice: 8,
         },
       },
     });
@@ -73,6 +73,7 @@ router.get('/', async (req: Request, res: Response): Promise<any> => {
 // Boards – fetch one with lists + tasks
 router.get('/:id', async (req: Request, res: Response): Promise<any> => {
   try {
+
     const boardId = req.params.id;
     if (!mongoose.isValidObjectId(boardId)) {
       return res.status(400).json({ error: 'Invalid board ID' });
@@ -90,6 +91,7 @@ router.get('/:id', async (req: Request, res: Response): Promise<any> => {
       $pull: { lastBoardVisited: { board: board._id } }
     });
     await User.findByIdAndUpdate(userId, {
+
       $push: {
         lastBoardVisited: {
           $each: [{
@@ -98,10 +100,12 @@ router.get('/:id', async (req: Request, res: Response): Promise<any> => {
             boardStyle: board.boardStyle
           }],
           $position: 0,
-          $slice: 25
-        }
-      }
-    });
+
+          $slice: 8,
+        },
+      },
+    }).exec();
+
 
     // 3) In parallel, fetch only the “title” for each list and only the minimal fields for tasks:
     const [lists, tasks] = await Promise.all([
@@ -125,6 +129,7 @@ router.put('/:id', async (req: Request, res: Response): Promise<any> => {
     const updates = pick(req.body, allowed);
     console.log("req.body", req.body)
     console.log("updates", updates)
+
     // Only owners/admins may update
     console.log("req.params.id", req.params.id);
     const board = await Board.findOneAndUpdate(

@@ -6,6 +6,7 @@ import List from '../models/List';
 import Task from '../models/task';
 import { getIO } from '../services/socket';
 import { authMiddleware } from '../middlewares/authmiddleware';
+import User from '../models/User';
 
 // Define your templates somewhere centrally:
 
@@ -118,6 +119,26 @@ router.post('/template/:templateId', async (req: Request, res: Response):Promise
    // });
 
     //  Return 
+    await User.findByIdAndUpdate(req.user!.id, {
+          $pull: { lastBoardVisited: { board: board._id } },
+        });
+    
+        // 2) add it to the front and slice to 25
+        await User.findByIdAndUpdate(req.user!.id, {
+          $push: {
+            lastBoardVisited: {
+              $each: [
+                {
+                  board: board._id,
+                  boardTitle: board.boardTitle,
+                  boardStyle: board.boardStyle,
+                },
+              ],
+              $position: 0,
+              $slice: 8,
+            },
+          },
+        });
     return res.status(201).json({
       board,
       lists: createdLists,
