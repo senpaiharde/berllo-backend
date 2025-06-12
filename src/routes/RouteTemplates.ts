@@ -163,6 +163,333 @@ Move topics that are closed to "Done"`,
       },
     ],
   },
+
+  '3': {
+    boardStyle: {
+      boardColor: '#1f381d',
+      boardType: 'image',
+      boardImg:
+        'https://images.unsplash.com/photo-1540690574994-69de75ab59da?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    },
+    lists: ['Teams', 'Up Next', 'Current Projects', 'Completed Projects', 'Bravos'],
+    tasks: [
+      { listIndex: 0, title: 'Product', dueDaysFromNow: 2 },
+      { listIndex: 0, title: 'Marketing', dueDaysFromNow: 2 },
+      { listIndex: 0, title: 'Sales', dueDaysFromNow: 2 },
+      { listIndex: 0, title: 'TBC Webinar: Ship Now, Not Later', dueDaysFromNow: 2 },
+      { listIndex: 0, title: 'Support', dueDaysFromNow: 2 },
+      { listIndex: 0, title: 'People', dueDaysFromNow: 2 },
+      { listIndex: 0, title: 'IT', dueDaysFromNow: 2 },
+
+      { listIndex: 1, title: 'Increase sales revenue by 30% in Q3', dueDaysFromNow: 1 },
+      { listIndex: 1, title: 'Ship iOS app', dueDaysFromNow: 1 },
+      { listIndex: 1, title: 'Increase conversion rate by 20% by Q3', dueDaysFromNow: 1 },
+
+      { listIndex: 2, title: 'Develop Engineering Blog', dueDaysFromNow: 0 },
+      { listIndex: 2, title: 'Brand Guidelines', dueDaysFromNow: 0 },
+      { listIndex: 2, title: 'Analytics Data', dueDaysFromNow: 0 },
+      { listIndex: 3, title: 'Website Redesign', dueDaysFromNow: 0 },
+      { listIndex: 3, title: 'Social Media Campaign', dueDaysFromNow: 0 },
+      { listIndex: 3, title: 'Update Help Documentation', dueDaysFromNow: 0 },
+
+      {
+        listIndex: 4,
+        title:
+          'Bravo to Tom for answering the most Customer Support emails ever received in one day!',
+        dueDaysFromNow: 0,
+      },
+      {
+        listIndex: 4,
+        title: 'Bravo to Lauren for taking the lead and finishing the new landing page design!',
+        dueDaysFromNow: 0,
+      },
+    ],
+  },
+
+  '4': {
+    boardStyle: {
+      boardColor: '#b5833e',
+      boardType: 'image',
+      boardImg:
+        'https://images.unsplash.com/photo-1653022860307-0ccb6379f78b?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    },
+    lists: [
+      'Concept',
+      '📝 Notes',
+      '👍 Positives',
+      '👎 Negatives',
+      '🙋 Questions',
+      '🤔 Have You Considered?',
+      '❌ Potential Blockers',
+    ],
+    tasks: [
+      { listIndex: 0, title: 'Huddle Template :: [Presenter(s)] - [Project]', dueDaysFromNow: 2 },
+      { listIndex: 0, title: 'Video Call Link', dueDaysFromNow: 2 },
+      { listIndex: 0, title: 'Design Prototype Link', dueDaysFromNow: 2 },
+
+      { listIndex: 1, title: 'General Notes:', dueDaysFromNow: 1 },
+      { listIndex: 1, title: '--', dueDaysFromNow: 1 },
+      { listIndex: 1, title: 'Action Items', dueDaysFromNow: 1 },
+      { listIndex: 1, title: '--', dueDaysFromNow: 1 },
+
+      { listIndex: 2, title: '👍Positive [I really liked...]', dueDaysFromNow: 0 },
+
+      { listIndex: 3, title: '👎Negative [Im not sure about...]', dueDaysFromNow: 0 },
+
+      { listIndex: 4, title: '🙋Question [What about...?]', dueDaysFromNow: 0 },
+      { listIndex: 4, title: '🤔Have you considered...', dueDaysFromNow: 0 },
+
+      { listIndex: 5, title: '❌Blocker', dueDaysFromNow: 0 },
+    ],
+  },
+  '5': {
+    boardStyle: {
+      boardColor: '#0d62b8',
+      boardType: 'image',
+      boardImg:
+        'https://images.unsplash.com/photo-1737819605100-d2b097891439?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    },
+    lists: ['Helpful Launch Info', 'To Do', 'In Progress', 'Ready For Launch', 'Launched'],
+    tasks: [
+      { listIndex: 0, title: 'Target Product Launch Date: December 1, 2019', dueDaysFromNow: 2 },
+      { listIndex: 0, title: 'Marketing docs and assets', dueDaysFromNow: 2 },
+      { listIndex: 0, title: 'Launch Timeline & Stakeholders', dueDaysFromNow: 2 },
+
+      { listIndex: 1, title: 'Fix alignment issue on /pricing', dueDaysFromNow: 1 },
+      {
+        listIndex: 1,
+        title: 'Update assorted references on existing Marketing pages',
+        dueDaysFromNow: 1,
+      },
+
+      { listIndex: 2, title: 'Social promotion', dueDaysFromNow: 0 },
+      { listIndex: 2, title: 'Blog post - Announcement', dueDaysFromNow: 0 },
+      { listIndex: 2, title: 'In-App Announcement', dueDaysFromNow: 0 },
+      { listIndex: 2, title: 'Email Newsletter', dueDaysFromNow: 0 },
+
+      { listIndex: 3, title: 'Messaging Doc', dueDaysFromNow: 0 },
+      { listIndex: 3, title: 'Marketing Training on Power-Ups', dueDaysFromNow: 0 },
+      { listIndex: 3, title: 'Sales Training On Power-Ups', dueDaysFromNow: 0 },
+    ],
+  },
+  '6': {
+    boardStyle: {
+      boardColor: '#ce66d1',
+      boardType: 'image',
+      boardImg:
+        'https://images.unsplash.com/photo-1626544827763-d516dce335e2?q=80&w=1934&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    },
+    lists: ['Backlog', 'Design', 'To Do', 'Doing', 'Code Review', 'Testing', 'Done 🎉'],
+    tasks: [
+      { listIndex: 0, title: 'Backlog', dueDaysFromNow: 2 },
+      { listIndex: 0, title: '[Example task]', dueDaysFromNow: 2 },
+
+      { listIndex: 1, title: 'Design & Research', dueDaysFromNow: 1 },
+      {
+        listIndex: 1,
+        title: '[Example task with designs]',
+        dueDaysFromNow: 1,
+      },
+
+      { listIndex: 2, title: 'To Do', dueDaysFromNow: 0 },
+
+      { listIndex: 3, title: 'Doing', dueDaysFromNow: 0 },
+      { listIndex: 3, title: '[Example task]', dueDaysFromNow: 0 },
+      { listIndex: 4, title: 'Code Review', dueDaysFromNow: 0 },
+      {
+        listIndex: 4,
+        title:
+          'This list has the List Limits Power-up enabled, to help the team prioritize and remove bottlenecks before picking up new work. The list will be highlighted if the number of cards in it passes the limit that the team determines based on team size.',
+        dueDaysFromNow: 0,
+      },
+      { listIndex: 4, title: '[Example task]', dueDaysFromNow: 0 },
+      { listIndex: 4, title: '[Example task]', dueDaysFromNow: 0 },
+      { listIndex: 5, title: 'Testing', dueDaysFromNow: 0 },
+      { listIndex: 6, title: 'Done', dueDaysFromNow: 0 },
+      { listIndex: 6, title: '[Completed task]', dueDaysFromNow: 0 },
+    ],
+  },
+  '7': {
+    boardStyle: {
+      boardColor: '#383838',
+      boardType: 'image',
+      boardImg:
+        'https://images.unsplash.com/photo-1623715537851-8bc15aa8c145?q=80&w=1886&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    },
+    lists: [
+      'Start here!',
+      'Today',
+      'Tomorrow',
+      'This Week',
+      'Waiting',
+      'Inbox',
+      'Done 🎉',
+      'References',
+    ],
+    tasks: [
+      {
+        listIndex: 0,
+        title: `How to set up this board: A Trello Insider's Guide To Personal Productivity`,
+        dueDaysFromNow: 2,
+      },
+      {
+        listIndex: 0,
+        title: 'Power-Ups you can use on this board for maximum productivity.',
+        dueDaysFromNow: 2,
+      },
+      {
+        listIndex: 0,
+        title: 'Automation Tips & Tricks: How to funnel all your things into this board.',
+        dueDaysFromNow: 2,
+      },
+      {
+        listIndex: 0,
+        title: 'M: Meeting cards are always prefixed with "M" and have a due date.',
+        dueDaysFromNow: 2,
+      },
+      {
+        listIndex: 0,
+        title: 'E: Email cards are prefixed with "E" and sent to the board via Zapier.',
+        dueDaysFromNow: 2,
+      },
+
+      {
+        listIndex: 1,
+        title:
+          'Spend 5-15 minutes each morning planning out the day ahead. Move cards over from Tomorrow, Soon, Waiting, and Inbox, and add your meetings.',
+        dueDaysFromNow: 1,
+      },
+
+      {
+        listIndex: 2,
+        title: `Hold tasks here that won't fit in Today, but should happen soon.`,
+        dueDaysFromNow: 0,
+      },
+
+      {
+        listIndex: 3,
+        title: 'Add tasks here that should happen by the end of the week.',
+        dueDaysFromNow: 0,
+      },
+
+      {
+        listIndex: 4,
+        title: `Add stuff here that needs to happen eventually, but hasn't been scheduled yet.`,
+        dueDaysFromNow: 0,
+      },
+
+      {
+        listIndex: 5,
+        title: `Everything should be added here first, before they've been prioritized into the other lists.`,
+        dueDaysFromNow: 0,
+      },
+      {
+        listIndex: 6,
+        title: `This is your trophy room. It feels good to be reminded of all the things you've accomplished!`,
+        dueDaysFromNow: 0,
+      },
+      {
+        listIndex: 7,
+        title: 'This is your place to keep inspiration and things to remember.',
+        dueDaysFromNow: 0,
+      },
+    ],
+  },
+  '8': {
+    boardStyle: {
+      boardColor: '121010',
+      boardType: 'image',
+      boardImg:
+        'https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?q=80&w=1964&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    },
+    lists: [
+      'Project Resources',
+      'Questions For Next Meeting',
+      'To Do',
+      'Pending',
+      'Blocked',
+      'Done',
+    ],
+    tasks: [
+      {
+        listIndex: 0,
+        title: 'Looking for even more project management features?',
+        dueDaysFromNow: 2,
+      },
+
+      {
+        listIndex: 0,
+        title: 'Trello Tip: Card labels! What do they mean? (Click for more info)',
+        dueDaysFromNow: 2,
+      },
+      { listIndex: 0, title: 'Project "Teamwork Dream Work" Launch Timeline', dueDaysFromNow: 2 },
+
+      { listIndex: 0, title: 'Stakeholders', dueDaysFromNow: 2 },
+      { listIndex: 0, title: 'Weekly Updates', dueDaysFromNow: 2 },
+
+      {
+        listIndex: 1,
+        title: `Trello Tip: 🌊Slide your Q's into this handy list so your team keeps on flowing.`,
+        dueDaysFromNow: 1,
+      },
+      {
+        listIndex: 1,
+        title: `Who's the best person to fix my HTML snag?`,
+        dueDaysFromNow: 1,
+      },
+      {
+        listIndex: 1,
+        title: `How can I get access to the super secret document?`,
+        dueDaysFromNow: 1,
+      },
+
+      {
+        listIndex: 2,
+        title: `Trello Tip: This is where assigned tasks live so that your team can see who's working on what and when it's due.`,
+        dueDaysFromNow: 0,
+      },
+      {
+        listIndex: 2,
+        title: `Sketch site banner`,
+        dueDaysFromNow: 0,
+      },
+      {
+        listIndex: 2,
+        title: `Edit email drafts`,
+        dueDaysFromNow: 0,
+      },
+      {
+        listIndex: 2,
+        title: `Curate customer list`,
+        dueDaysFromNow: 0,
+      },
+      {
+        listIndex: 2,
+        title: `Sketch the "Teamy Dreamy" Font`,
+        dueDaysFromNow: 0,
+      },
+      {
+        listIndex: 2,
+        title: `Trello Tip: This is where assigned tasks live so that your team can see who's working on what and when it's due.`,
+        dueDaysFromNow: 0,
+      },
+
+      { listIndex: 3, title: 'Doing', dueDaysFromNow: 0 },
+      { listIndex: 3, title: '[Example task]', dueDaysFromNow: 0 },
+      { listIndex: 4, title: 'Code Review', dueDaysFromNow: 0 },
+      
+      { listIndex: 4, title: 'Trello Tip: 💬For those in-between tasks that are almost done but also awaiting one last step.', dueDaysFromNow: 0 },
+      { listIndex: 4, title: 'Legal review', dueDaysFromNow: 0 },
+      { listIndex: 4, title: 'Social media assets', dueDaysFromNow: 0 },
+      { listIndex: 5, title: 'Trello Tip: Splash those redtape-heavy issues that are slowing your team down here.', dueDaysFromNow: 0 },
+      { listIndex: 5, title: 'Freelancer contracts', dueDaysFromNow: 0 },
+      { listIndex: 5, title: 'Budget approval', dueDaysFromNow: 0 },
+      { listIndex: 6, title: `Brello Tip: ✨ Be proud! You're done! For all your finished tasks that your team has hustled on.`, dueDaysFromNow: 0 },
+      { listIndex: 6, title: 'Finalize Campaign Name: Teamwork Dream Work ✨', dueDaysFromNow: 0 },
+      { listIndex: 6, title: 'Submit Q1 report', dueDaysFromNow: 0 },
+      { listIndex: 6, title: 'Campaign Proposal', dueDaysFromNow: 0 },
+    ],
+  },
 };
 
 const router = Router();
