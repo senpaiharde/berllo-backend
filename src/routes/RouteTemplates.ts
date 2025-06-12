@@ -102,35 +102,41 @@ Move topics that are closed to "Done"`,
         },
         labels: { title: 'Discuss', color: '#fcac4c' },
       },
-      { listIndex: 0, title: 'FYI - Discuss if interested (#6)', dueDaysFromNow: 2 ,
-         cover: {
+      {
+        listIndex: 0,
+        title: 'FYI - Discuss if interested (#6)',
+        dueDaysFromNow: 2,
+        cover: {
           coverType: 'color',
           coverColor: '#447cbc',
         },
         labels: { title: 'FYI', color: '#447cbc' },
       },
-      { listIndex: 0, title: 'Paused - No need to discuss (#0)', dueDaysFromNow: 2 ,
-         cover: {
+      {
+        listIndex: 0,
+        title: 'Paused - No need to discuss (#0)',
+        dueDaysFromNow: 2,
+        cover: {
           coverType: 'color',
           coverColor: '#747474',
         },
         labels: { title: 'Paused', color: '#747474' },
       },
-      { listIndex: 0, title: 'Goal (#1)', dueDaysFromNow: 2 ,
-         cover: {
+      {
+        listIndex: 0,
+        title: 'Goal (#1)',
+        dueDaysFromNow: 2,
+        cover: {
           coverType: 'color',
           coverColor: '#64bc4c',
         },
         labels: { title: 'Goal', color: '#64bc4c' },
       },
 
-
-
-
       {
         listIndex: 1,
         title: 'The team is stuck on X, how can we move forward?',
-         cover: {
+        cover: {
           coverType: 'color',
           coverColor: '#ec5c44',
         },
@@ -141,7 +147,7 @@ Move topics that are closed to "Done"`,
         listIndex: 1,
         title: 'Ive drafted my goals for the next few months. Any feedback?',
         dueDaysFromNow: 1,
-         cover: {
+        cover: {
           coverType: 'color',
           coverColor: '#fcac4c',
         },
@@ -151,42 +157,59 @@ Move topics that are closed to "Done"`,
         listIndex: 1,
         title: 'I think we can improve velocity if we make some tooling changes.',
         dueDaysFromNow: 1,
-         cover: {
+        cover: {
           coverType: 'color',
           coverColor: '#fcac4c',
         },
         labels: { title: 'Discuss', color: '#fcac4c' },
       },
 
-      { listIndex: 2, title: 'New training program', dueDaysFromNow: 0 ,
-         cover: {
+      {
+        listIndex: 2,
+        title: 'New training program',
+        dueDaysFromNow: 0,
+        cover: {
           coverType: 'color',
           coverColor: '#fcac4c',
         },
         labels: { title: 'Discuss', color: '#fcac4c' },
       },
-      { listIndex: 2, title: 'Can you please give feedback on the report?', dueDaysFromNow: 0,
-         cover: {
+      {
+        listIndex: 2,
+        title: 'Can you please give feedback on the report?',
+        dueDaysFromNow: 0,
+        cover: {
           coverType: 'color',
           coverColor: '#fcac4c',
         },
         labels: { title: 'Discuss', color: '#fcac4c' },
-       },
+      },
 
-      { listIndex: 3, title: 'Manage time chaos', dueDaysFromNow: 0 , cover: {
-          coverType: 'color',
-          coverColor: '#64bc4c',
-        },
-        labels: { title: 'Goal', color: '#64bc4c' },},
-      { listIndex: 3, title: 'Mentor another developer', dueDaysFromNow: 0 ,
-         cover: {
+      {
+        listIndex: 3,
+        title: 'Manage time chaos',
+        dueDaysFromNow: 0,
+        cover: {
           coverType: 'color',
           coverColor: '#64bc4c',
         },
         labels: { title: 'Goal', color: '#64bc4c' },
       },
-      { listIndex: 3, title: 'Best practice blog', dueDaysFromNow: 0 ,
-         cover: {
+      {
+        listIndex: 3,
+        title: 'Mentor another developer',
+        dueDaysFromNow: 0,
+        cover: {
+          coverType: 'color',
+          coverColor: '#64bc4c',
+        },
+        labels: { title: 'Goal', color: '#64bc4c' },
+      },
+      {
+        listIndex: 3,
+        title: 'Best practice blog',
+        dueDaysFromNow: 0,
+        cover: {
           coverType: 'color',
           coverColor: '#64bc4c',
         },
@@ -211,25 +234,89 @@ Move topics that are closed to "Done"`,
       'Marketing Ideas - Icebox',
     ],
     tasks: [
-      { listIndex: 0, title: 'Review Tech partner pages', dueDaysFromNow: 2 },
+      {
+        listIndex: 0,
+        title: 'Review Tech partner pages',
+        dueDaysFromNow: 2,
+        labels: { title: 'Demand Marketing', color: '#9f8fef' },
+      },
       { listIndex: 0, title: 'Make sure sponsors are indicated for Tech Talk', dueDaysFromNow: 2 },
-      { listIndex: 0, title: 'Top 10 Trends list - Forbes', dueDaysFromNow: 2 },
+      {
+        listIndex: 0,
+        title: 'Top 10 Trends list - Forbes',
+        dueDaysFromNow: 2,
+        labels: { title: 'Planning', color: '#94c748' },
+      },
       { listIndex: 0, title: 'TBC Webinar: Ship Now, Not Later', dueDaysFromNow: 2 },
-      { listIndex: 0, title: '1:1 Nancy', dueDaysFromNow: 2 },
+      {
+        listIndex: 0,
+        title: '1:1 Nancy',
+        dueDaysFromNow: 2,
+        labels: { title: 'Happiness', color: '#e774bb' },
+      },
       { listIndex: 0, title: 'Lead Gen Mandrill stats', dueDaysFromNow: 2 },
 
-      { listIndex: 1, title: 'Going live with server deployment', dueDaysFromNow: 1 },
+      {
+        listIndex: 1,
+        title: 'Going live with server deployment',
+        dueDaysFromNow: 1,
+        labels: [
+          { title: 'Government', color: '#6cc3e0' },
+          { title: 'Planning', color: '#94c748' },
+        ],
+      },
       { listIndex: 1, title: 'Google Adwords list of referrers', dueDaysFromNow: 1 },
       { listIndex: 1, title: 'Q3 Webinar Content Planning', dueDaysFromNow: 1 },
       { listIndex: 1, title: 'IT Solutions page', dueDaysFromNow: 1 },
-      { listIndex: 1, title: 'Email campaign - February', dueDaysFromNow: 1 },
-      { listIndex: 2, title: 'Android App new landing page', dueDaysFromNow: 0 },
+      {
+        listIndex: 1,
+        title: 'Email campaign - February',
+        dueDaysFromNow: 1,
+        labels: { title: 'Demand Marketing', color: '#9f8fef' },
+      },
+      {
+        listIndex: 2,
+        title: 'Android App new landing page',
+        dueDaysFromNow: 0,
+        labels: { title: 'Remarket', color: '#fea362' },
+      },
       { listIndex: 2, title: 'Analytics', dueDaysFromNow: 0 },
-      { listIndex: 2, title: 'Branding guidelines', dueDaysFromNow: 0 },
-      { listIndex: 3, title: 'CSS Rules', dueDaysFromNow: 0 },
-      { listIndex: 3, title: 'Retail order', dueDaysFromNow: 0 },
+      {
+        listIndex: 2,
+        title: 'Branding guidelines',
+        dueDaysFromNow: 0,
+        labels: [
+          { title: 'Remarket', color: '#fea362' },
+          { title: 'Partners', color: '#579dff' },
+        ],
+      },
+      {
+        listIndex: 3,
+        title: 'CSS Rules',
+        dueDaysFromNow: 0,
+        labels: { title: 'Partners', color: '#579dff' },
+      },
+      {
+        listIndex: 3,
+        title: 'Retail order',
+        dueDaysFromNow: 0,
+        labels: { title: 'Happiness', color: '#e774bb' },
+      },
       { listIndex: 3, title: 'Mobile UI reboot', dueDaysFromNow: 0 },
-      { listIndex: 3, title: 'Google Analytics data - Q1', dueDaysFromNow: 0 },
+      {
+        listIndex: 3,
+        title: 'Google Analytics data - Q1',
+        dueDaysFromNow: 0,
+        attachments: {
+          url: 'https://trello.com/1/cards/54c9431da5320670f0de1489/attachments/54c94670208708e9a3a5c02a/previews/54c94672208708e9a3a5c02b/download/shutterstock_15708843222.jpg',
+          name: 'shutterstock',
+        },
+        cover: {
+          coverType: 'image',
+          coverImg:
+            'https://trello.com/1/cards/54c9431da5320670f0de1489/attachments/54c94670208708e9a3a5c02a/previews/54c94672208708e9a3a5c02b/download/shutterstock_15708843222.jpg',
+        },
+      },
       { listIndex: 4, title: 'Data Analytics podcast', dueDaysFromNow: 0 },
       { listIndex: 4, title: 'List of vendors for banquets', dueDaysFromNow: 0 },
       { listIndex: 4, title: 'Google Adwords best practices', dueDaysFromNow: 0 },
@@ -256,7 +343,12 @@ Move topics that are closed to "Done"`,
     },
     lists: ['Teams', 'Up Next', 'Current Projects', 'Completed Projects', 'Bravos'],
     tasks: [
-      { listIndex: 0, title: 'Product', dueDaysFromNow: 2 },
+      {
+        listIndex: 0,
+        title: 'Product',
+        dueDaysFromNow: 2,
+        labels: { title: 'Product', color: '#4bce97' },
+      },
       { listIndex: 0, title: 'Marketing', dueDaysFromNow: 2 },
       { listIndex: 0, title: 'Sales', dueDaysFromNow: 2 },
       { listIndex: 0, title: 'TBC Webinar: Ship Now, Not Later', dueDaysFromNow: 2 },
