@@ -226,62 +226,87 @@ Move topics that are closed to "Done"`,
       { listIndex: 0, title: 'Huddle Template :: [Presenter(s)] - [Project]', dueDaysFromNow: 2 },
       { listIndex: 0, title: 'Video Call Link', dueDaysFromNow: 2 },
       { listIndex: 0, title: 'Design Prototype Link', dueDaysFromNow: 2 },
-      
+
       { listIndex: 1, title: 'General Notes:', dueDaysFromNow: 1 },
       { listIndex: 1, title: '--', dueDaysFromNow: 1 },
       { listIndex: 1, title: 'Action Items', dueDaysFromNow: 1 },
       { listIndex: 1, title: '--', dueDaysFromNow: 1 },
-     
+
       { listIndex: 2, title: '👍Positive [I really liked...]', dueDaysFromNow: 0 },
-      
+
       { listIndex: 3, title: '👎Negative [Im not sure about...]', dueDaysFromNow: 0 },
-      
-      
+
       { listIndex: 4, title: '🙋Question [What about...?]', dueDaysFromNow: 0 },
       { listIndex: 4, title: '🤔Have you considered...', dueDaysFromNow: 0 },
-      
-      
+
       { listIndex: 5, title: '❌Blocker', dueDaysFromNow: 0 },
-     
     ],
   },
   '5': {
     boardStyle: {
-      boardColor: '#b5833e',
+      boardColor: '#0d62b8',
       boardType: 'image',
       boardImg:
-        'https://images.unsplash.com/photo-1653022860307-0ccb6379f78b?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+        'https://images.unsplash.com/photo-1737819605100-d2b097891439?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     },
-    lists: [
-      'Concept',
-      '📝 Notes',
-      '👍 Positives',
-      '👎 Negatives',
-      '🙋 Questions',
-      '🤔 Have You Considered?',
-      '❌ Potential Blockers',
-    ],
+    lists: ['Helpful Launch Info', 'To Do', 'In Progress', 'Ready For Launch', 'Launched'],
     tasks: [
-      { listIndex: 0, title: 'Huddle Template :: [Presenter(s)] - [Project]', dueDaysFromNow: 2 },
-      { listIndex: 0, title: 'Video Call Link', dueDaysFromNow: 2 },
-      { listIndex: 0, title: 'Design Prototype Link', dueDaysFromNow: 2 },
-      
-      { listIndex: 1, title: 'General Notes:', dueDaysFromNow: 1 },
-      { listIndex: 1, title: '--', dueDaysFromNow: 1 },
-      { listIndex: 1, title: 'Action Items', dueDaysFromNow: 1 },
-      { listIndex: 1, title: '--', dueDaysFromNow: 1 },
-     
-      { listIndex: 2, title: '👍Positive [I really liked...]', dueDaysFromNow: 0 },
-      
-      { listIndex: 3, title: '👎Negative [Im not sure about...]', dueDaysFromNow: 0 },
-      
-      
-      { listIndex: 4, title: '🙋Question [What about...?]', dueDaysFromNow: 0 },
-      { listIndex: 4, title: '🤔Have you considered...', dueDaysFromNow: 0 },
-      
-      
-      { listIndex: 5, title: '❌Blocker', dueDaysFromNow: 0 },
-     
+      { listIndex: 0, title: 'Target Product Launch Date: December 1, 2019', dueDaysFromNow: 2 },
+      { listIndex: 0, title: 'Marketing docs and assets', dueDaysFromNow: 2 },
+      { listIndex: 0, title: 'Launch Timeline & Stakeholders', dueDaysFromNow: 2 },
+
+      { listIndex: 1, title: 'Fix alignment issue on /pricing', dueDaysFromNow: 1 },
+      {
+        listIndex: 1,
+        title: 'Update assorted references on existing Marketing pages',
+        dueDaysFromNow: 1,
+      },
+
+      { listIndex: 2, title: 'Social promotion', dueDaysFromNow: 0 },
+      { listIndex: 2, title: 'Blog post - Announcement', dueDaysFromNow: 0 },
+      { listIndex: 2, title: 'In-App Announcement', dueDaysFromNow: 0 },
+      { listIndex: 2, title: 'Email Newsletter', dueDaysFromNow: 0 },
+
+      { listIndex: 3, title: 'Messaging Doc', dueDaysFromNow: 0 },
+      { listIndex: 3, title: 'Marketing Training on Power-Ups', dueDaysFromNow: 0 },
+      { listIndex: 3, title: 'Sales Training On Power-Ups', dueDaysFromNow: 0 },
+    ],
+  },
+  '6': {
+    boardStyle: {
+      boardColor: '#ce66d1',
+      boardType: 'image',
+      boardImg:
+        'https://images.unsplash.com/photo-1626544827763-d516dce335e2?q=80&w=1934&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    },
+    lists: ['Backlog', 'Design', 'To Do', 'Doing', 'Code Review', 'Testing', 'Done 🎉'],
+    tasks: [
+      { listIndex: 0, title: 'Backlog', dueDaysFromNow: 2 },
+      { listIndex: 0, title: '[Example task]', dueDaysFromNow: 2 },
+
+      { listIndex: 1, title: 'Design & Research', dueDaysFromNow: 1 },
+      {
+        listIndex: 1,
+        title: '[Example task with designs]',
+        dueDaysFromNow: 1,
+      },
+
+      { listIndex: 2, title: 'To Do', dueDaysFromNow: 0 },
+
+      { listIndex: 3, title: 'Doing', dueDaysFromNow: 0 },
+      { listIndex: 3, title: '[Example task]', dueDaysFromNow: 0 },
+      { listIndex: 4, title: 'Code Review', dueDaysFromNow: 0 },
+      {
+        listIndex: 4,
+        title:
+          'This list has the List Limits Power-up enabled, to help the team prioritize and remove bottlenecks before picking up new work. The list will be highlighted if the number of cards in it passes the limit that the team determines based on team size.',
+        dueDaysFromNow: 0,
+      },
+      { listIndex: 4, title: '[Example task]', dueDaysFromNow: 0 },
+      { listIndex: 4, title: '[Example task]', dueDaysFromNow: 0 },
+      { listIndex: 5, title: 'Testing', dueDaysFromNow: 0 },
+      { listIndex: 6, title: 'Done', dueDaysFromNow: 0 },
+      { listIndex: 6, title: '[Completed task]', dueDaysFromNow: 0 },
     ],
   },
 };
