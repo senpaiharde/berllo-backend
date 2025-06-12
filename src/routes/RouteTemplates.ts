@@ -23,7 +23,14 @@ const boardTemplates: Record<
   {
     boardStyle: Record<string, any>;
     lists: string[];
-    tasks: { listIndex: number; title: string; dueDaysFromNow?: number }[];
+    tasks: {
+      listIndex: number;
+      title: string;
+      dueDaysFromNow?: number;
+      attachments?: Record<string, any>;
+      cover?: Record<string, any>;
+      description?: string;
+    }[];
   }
 > = {
   '1': {
@@ -35,7 +42,45 @@ const boardTemplates: Record<
     },
     lists: ['Info', 'Team Members Topics', 'Managers Topics', 'Goals', 'Actions', 'Done'],
     tasks: [
-      { listIndex: 0, title: 'How to use this board', dueDaysFromNow: 2 },
+      {
+        listIndex: 0,
+        title: 'How to use this board',
+        dueDaysFromNow: 2,
+        attachments: {
+          url: 'https://trello.com/1/cards/5b2281bb004ac866019e5208/attachments/5b2284034d2649882a15974d/download/ScratchPaper.jpg',
+          name: 'ScratchPaper',
+        },
+        cover: {
+          coverType: 'image',
+          coverImg:
+            'https://trello.com/1/cards/5b2281bb004ac866019e5208/attachments/5b2284034d2649882a15974d/download/ScratchPaper.jpg',
+        },
+        description: `Suggested use of this template
+Before
+
+Both manager and team member put topics down on their lists, ranked by priority and labeled as either Blocker, Discuss, FYI or Paused.
+
+During
+
+Agree on agenda
+1. Can Blocker and Discuss topics can be covered?
+2. Any interest in FYI topics?
+
+Discuss topics
+1.  Capture notes/actions as you go (or defer to after meeting)
+
+Review progress on goals (either all or pick one to focus)
+
+Review actions
+
+After
+
+Capture necessary notes/actions not covered in 1-1 meeting
+
+Move discussions that have related actions to "Actions"
+
+Move topics that are closed to "Done"`,
+      },
       { listIndex: 0, title: 'Blocker - Timely discussion (#4)', dueDaysFromNow: 2 },
       { listIndex: 0, title: 'Discuss - Suggested topic (#3)', dueDaysFromNow: 2 },
       { listIndex: 0, title: 'FYI - Discuss if interested (#6)', dueDaysFromNow: 2 },
