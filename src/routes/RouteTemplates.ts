@@ -22,13 +22,13 @@ interface TemplateTask {
 const boardTemplates: Record<
   string,
   {
-    style: Record<string, any>;
+    boardStyle: Record<string, any>;
     lists: string[];
     tasks: { listIndex: number; title: string; dueDaysFromNow?: number }[];
   }
 > = {
   '1': {
-    style: { backgroundColor: '#FFEBEE' },
+    boardStyle: { backgroundColor: '#FFEBEE' },
     lists: ['To Do', 'Doing', 'Done'],
     tasks: [
       { listIndex: 0, title: 'Welcome to your new board!', dueDaysFromNow: 2 },
@@ -37,7 +37,7 @@ const boardTemplates: Record<
     ],
   },
   '2': {
-    style: { backgroundColor: '#E8F5E9' },
+    boardStyle: { backgroundColor: '#E8F5E9',boardType: 'color',boardImg:'none'  },
     lists: ['Backlog', 'Sprint', 'Review', 'Release'],
     tasks: [
       { listIndex: 0, title: 'Define project scope', dueDaysFromNow: 7 },
@@ -66,7 +66,7 @@ router.post('/template/:templateId', async (req: Request, res: Response):Promise
     //  Create the Board
     const board = await Board.create({
       boardTitle: title,
-      boardStyle: template.style,
+      boardStyle: template.boardStyle,
       createdBy: req.user!.id,      
       boardLists: [],                
       
@@ -77,7 +77,7 @@ router.post('/template/:templateId', async (req: Request, res: Response):Promise
       taskListBoard: board._id,
       taskListTitle: listTitle,
       indexInBoard: idx,
-      taskList: [],     
+          
       // archivedAt
     }));
     const createdLists = await List.insertMany(listDocs);
@@ -87,6 +87,10 @@ router.post('/template/:templateId', async (req: Request, res: Response):Promise
       board: board._id,
       list: createdLists[t.listIndex]._id,
       title: t.title,
+      archivedAt:Date.now(),
+      comments: [],
+      description:'',
+      isWatching: false,
       taskDescription: '',
       isDueComplete: false,
       position: idx,
@@ -98,6 +102,20 @@ router.post('/template/:templateId', async (req: Request, res: Response):Promise
     }));
     const createdTasks = await Task.insertMany(taskDocs);
 
+
+    
+    await Promise.all(
+  createdLists.map((listDoc) => {
+    const tasksForThisList = createdTasks
+      .filter((t) => t.list.toString() === listDoc._id.toString())
+      .map((t) => t._id);
+
+    return List.findByIdAndUpdate(
+      listDoc._id,
+      { $set: { taskList: tasksForThisList } }
+    ).exec();
+  })
+);
     //  Update the Board’s boardLists to reference the new lists
     board.boardLists = createdLists.map((l) => l._id);
     await board.save();
