@@ -30,6 +30,7 @@ const boardTemplates: Record<
       attachments?: Record<string, any>;
       cover?: Record<string, any>;
       description?: string;
+      labels?: Record<string, any>;
     }[];
   }
 > = {
@@ -81,34 +82,116 @@ Move discussions that have related actions to "Actions"
 
 Move topics that are closed to "Done"`,
       },
-      { listIndex: 0, title: 'Blocker - Timely discussion (#4)', dueDaysFromNow: 2 },
-      { listIndex: 0, title: 'Discuss - Suggested topic (#3)', dueDaysFromNow: 2 },
-      { listIndex: 0, title: 'FYI - Discuss if interested (#6)', dueDaysFromNow: 2 },
-      { listIndex: 0, title: 'Paused - No need to discuss (#0)', dueDaysFromNow: 2 },
-      { listIndex: 0, title: 'Goal (#1)', dueDaysFromNow: 2 },
+      {
+        listIndex: 0,
+        title: 'Blocker - Timely discussion (#4)',
+        dueDaysFromNow: 2,
+        cover: {
+          coverType: 'color',
+          coverColor: '#ec5c44',
+        },
+        labels: { title: 'Blocker', color: '#ec5c44' },
+      },
+      {
+        listIndex: 0,
+        title: 'Discuss - Suggested topic (#3)',
+        dueDaysFromNow: 2,
+        cover: {
+          coverType: 'color',
+          coverColor: '#fcac4c',
+        },
+        labels: { title: 'Discuss', color: '#fcac4c' },
+      },
+      { listIndex: 0, title: 'FYI - Discuss if interested (#6)', dueDaysFromNow: 2 ,
+         cover: {
+          coverType: 'color',
+          coverColor: '#447cbc',
+        },
+        labels: { title: 'FYI', color: '#447cbc' },
+      },
+      { listIndex: 0, title: 'Paused - No need to discuss (#0)', dueDaysFromNow: 2 ,
+         cover: {
+          coverType: 'color',
+          coverColor: '#747474',
+        },
+        labels: { title: 'Paused', color: '#747474' },
+      },
+      { listIndex: 0, title: 'Goal (#1)', dueDaysFromNow: 2 ,
+         cover: {
+          coverType: 'color',
+          coverColor: '#64bc4c',
+        },
+        labels: { title: 'Goal', color: '#64bc4c' },
+      },
+
+
+
 
       {
         listIndex: 1,
         title: 'The team is stuck on X, how can we move forward?',
+         cover: {
+          coverType: 'color',
+          coverColor: '#ec5c44',
+        },
+        labels: { title: 'Blocker', color: '#ec5c44' },
         dueDaysFromNow: 1,
       },
       {
         listIndex: 1,
         title: 'Ive drafted my goals for the next few months. Any feedback?',
         dueDaysFromNow: 1,
+         cover: {
+          coverType: 'color',
+          coverColor: '#fcac4c',
+        },
+        labels: { title: 'Discuss', color: '#fcac4c' },
       },
       {
         listIndex: 1,
         title: 'I think we can improve velocity if we make some tooling changes.',
         dueDaysFromNow: 1,
+         cover: {
+          coverType: 'color',
+          coverColor: '#fcac4c',
+        },
+        labels: { title: 'Discuss', color: '#fcac4c' },
       },
 
-      { listIndex: 2, title: 'New training program', dueDaysFromNow: 0 },
-      { listIndex: 2, title: 'Can you please give feedback on the report?', dueDaysFromNow: 0 },
+      { listIndex: 2, title: 'New training program', dueDaysFromNow: 0 ,
+         cover: {
+          coverType: 'color',
+          coverColor: '#fcac4c',
+        },
+        labels: { title: 'Discuss', color: '#fcac4c' },
+      },
+      { listIndex: 2, title: 'Can you please give feedback on the report?', dueDaysFromNow: 0,
+         cover: {
+          coverType: 'color',
+          coverColor: '#fcac4c',
+        },
+        labels: { title: 'Discuss', color: '#fcac4c' },
+       },
 
-      { listIndex: 3, title: 'Manage time chaos', dueDaysFromNow: 0 },
-      { listIndex: 3, title: 'Mentor another developer', dueDaysFromNow: 0 },
-      { listIndex: 3, title: 'Best practice blog', dueDaysFromNow: 0 },
+      { listIndex: 3, title: 'Manage time chaos', dueDaysFromNow: 0 , cover: {
+          coverType: 'color',
+          coverColor: '#64bc4c',
+        },
+        labels: { title: 'Goal', color: '#64bc4c' },},
+      { listIndex: 3, title: 'Mentor another developer', dueDaysFromNow: 0 ,
+         cover: {
+          coverType: 'color',
+          coverColor: '#64bc4c',
+        },
+        labels: { title: 'Goal', color: '#64bc4c' },
+      },
+      { listIndex: 3, title: 'Best practice blog', dueDaysFromNow: 0 ,
+         cover: {
+          coverType: 'color',
+          coverColor: '#64bc4c',
+        },
+        labels: { title: 'Goal', color: '#64bc4c' },
+      },
     ],
   },
   '2': {
@@ -477,14 +560,28 @@ Move topics that are closed to "Done"`,
       { listIndex: 3, title: 'Doing', dueDaysFromNow: 0 },
       { listIndex: 3, title: '[Example task]', dueDaysFromNow: 0 },
       { listIndex: 4, title: 'Code Review', dueDaysFromNow: 0 },
-      
-      { listIndex: 4, title: 'Trello Tip: 💬For those in-between tasks that are almost done but also awaiting one last step.', dueDaysFromNow: 0 },
+
+      {
+        listIndex: 4,
+        title:
+          'Trello Tip: 💬For those in-between tasks that are almost done but also awaiting one last step.',
+        dueDaysFromNow: 0,
+      },
       { listIndex: 4, title: 'Legal review', dueDaysFromNow: 0 },
       { listIndex: 4, title: 'Social media assets', dueDaysFromNow: 0 },
-      { listIndex: 5, title: 'Trello Tip: Splash those redtape-heavy issues that are slowing your team down here.', dueDaysFromNow: 0 },
+      {
+        listIndex: 5,
+        title:
+          'Trello Tip: Splash those redtape-heavy issues that are slowing your team down here.',
+        dueDaysFromNow: 0,
+      },
       { listIndex: 5, title: 'Freelancer contracts', dueDaysFromNow: 0 },
       { listIndex: 5, title: 'Budget approval', dueDaysFromNow: 0 },
-      { listIndex: 6, title: `Brello Tip: ✨ Be proud! You're done! For all your finished tasks that your team has hustled on.`, dueDaysFromNow: 0 },
+      {
+        listIndex: 6,
+        title: `Brello Tip: ✨ Be proud! You're done! For all your finished tasks that your team has hustled on.`,
+        dueDaysFromNow: 0,
+      },
       { listIndex: 6, title: 'Finalize Campaign Name: Teamwork Dream Work ✨', dueDaysFromNow: 0 },
       { listIndex: 6, title: 'Submit Q1 report', dueDaysFromNow: 0 },
       { listIndex: 6, title: 'Campaign Proposal', dueDaysFromNow: 0 },
@@ -534,12 +631,13 @@ router.post('/template/:templateId', async (req: Request, res: Response): Promis
       archivedAt: Date.now(),
       comments: [],
       description: t.description,
-       cover:  t.cover,
-       attachments: t.attachments,
+      cover: t.cover,
+      attachments: t.attachments,
       isWatching: false,
       taskDescription: '',
       isDueComplete: false,
       position: idx,
+      labels: t.labels,
       dueDate: t.dueDaysFromNow != null ? new Date(Date.now() + t.dueDaysFromNow * 86400000) : null,
       // attachments, labels, comments etc.
     }));
