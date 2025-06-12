@@ -163,6 +163,127 @@ Move topics that are closed to "Done"`,
       },
     ],
   },
+
+  '3': {
+    boardStyle: {
+      boardColor: '#1f381d',
+      boardType: 'image',
+      boardImg:
+        'https://images.unsplash.com/photo-1540690574994-69de75ab59da?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    },
+    lists: ['Teams', 'Up Next', 'Current Projects', 'Completed Projects', 'Bravos'],
+    tasks: [
+      { listIndex: 0, title: 'Product', dueDaysFromNow: 2 },
+      { listIndex: 0, title: 'Marketing', dueDaysFromNow: 2 },
+      { listIndex: 0, title: 'Sales', dueDaysFromNow: 2 },
+      { listIndex: 0, title: 'TBC Webinar: Ship Now, Not Later', dueDaysFromNow: 2 },
+      { listIndex: 0, title: 'Support', dueDaysFromNow: 2 },
+      { listIndex: 0, title: 'People', dueDaysFromNow: 2 },
+      { listIndex: 0, title: 'IT', dueDaysFromNow: 2 },
+
+      { listIndex: 1, title: 'Increase sales revenue by 30% in Q3', dueDaysFromNow: 1 },
+      { listIndex: 1, title: 'Ship iOS app', dueDaysFromNow: 1 },
+      { listIndex: 1, title: 'Increase conversion rate by 20% by Q3', dueDaysFromNow: 1 },
+
+      { listIndex: 2, title: 'Develop Engineering Blog', dueDaysFromNow: 0 },
+      { listIndex: 2, title: 'Brand Guidelines', dueDaysFromNow: 0 },
+      { listIndex: 2, title: 'Analytics Data', dueDaysFromNow: 0 },
+      { listIndex: 3, title: 'Website Redesign', dueDaysFromNow: 0 },
+      { listIndex: 3, title: 'Social Media Campaign', dueDaysFromNow: 0 },
+      { listIndex: 3, title: 'Update Help Documentation', dueDaysFromNow: 0 },
+
+      {
+        listIndex: 4,
+        title:
+          'Bravo to Tom for answering the most Customer Support emails ever received in one day!',
+        dueDaysFromNow: 0,
+      },
+      {
+        listIndex: 4,
+        title: 'Bravo to Lauren for taking the lead and finishing the new landing page design!',
+        dueDaysFromNow: 0,
+      },
+    ],
+  },
+
+  '4': {
+    boardStyle: {
+      boardColor: '#b5833e',
+      boardType: 'image',
+      boardImg:
+        'https://images.unsplash.com/photo-1653022860307-0ccb6379f78b?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    },
+    lists: [
+      'Concept',
+      '📝 Notes',
+      '👍 Positives',
+      '👎 Negatives',
+      '🙋 Questions',
+      '🤔 Have You Considered?',
+      '❌ Potential Blockers',
+    ],
+    tasks: [
+      { listIndex: 0, title: 'Huddle Template :: [Presenter(s)] - [Project]', dueDaysFromNow: 2 },
+      { listIndex: 0, title: 'Video Call Link', dueDaysFromNow: 2 },
+      { listIndex: 0, title: 'Design Prototype Link', dueDaysFromNow: 2 },
+      
+      { listIndex: 1, title: 'General Notes:', dueDaysFromNow: 1 },
+      { listIndex: 1, title: '--', dueDaysFromNow: 1 },
+      { listIndex: 1, title: 'Action Items', dueDaysFromNow: 1 },
+      { listIndex: 1, title: '--', dueDaysFromNow: 1 },
+     
+      { listIndex: 2, title: '👍Positive [I really liked...]', dueDaysFromNow: 0 },
+      
+      { listIndex: 3, title: '👎Negative [Im not sure about...]', dueDaysFromNow: 0 },
+      
+      
+      { listIndex: 4, title: '🙋Question [What about...?]', dueDaysFromNow: 0 },
+      { listIndex: 4, title: '🤔Have you considered...', dueDaysFromNow: 0 },
+      
+      
+      { listIndex: 5, title: '❌Blocker', dueDaysFromNow: 0 },
+     
+    ],
+  },
+  '5': {
+    boardStyle: {
+      boardColor: '#b5833e',
+      boardType: 'image',
+      boardImg:
+        'https://images.unsplash.com/photo-1653022860307-0ccb6379f78b?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    },
+    lists: [
+      'Concept',
+      '📝 Notes',
+      '👍 Positives',
+      '👎 Negatives',
+      '🙋 Questions',
+      '🤔 Have You Considered?',
+      '❌ Potential Blockers',
+    ],
+    tasks: [
+      { listIndex: 0, title: 'Huddle Template :: [Presenter(s)] - [Project]', dueDaysFromNow: 2 },
+      { listIndex: 0, title: 'Video Call Link', dueDaysFromNow: 2 },
+      { listIndex: 0, title: 'Design Prototype Link', dueDaysFromNow: 2 },
+      
+      { listIndex: 1, title: 'General Notes:', dueDaysFromNow: 1 },
+      { listIndex: 1, title: '--', dueDaysFromNow: 1 },
+      { listIndex: 1, title: 'Action Items', dueDaysFromNow: 1 },
+      { listIndex: 1, title: '--', dueDaysFromNow: 1 },
+     
+      { listIndex: 2, title: '👍Positive [I really liked...]', dueDaysFromNow: 0 },
+      
+      { listIndex: 3, title: '👎Negative [Im not sure about...]', dueDaysFromNow: 0 },
+      
+      
+      { listIndex: 4, title: '🙋Question [What about...?]', dueDaysFromNow: 0 },
+      { listIndex: 4, title: '🤔Have you considered...', dueDaysFromNow: 0 },
+      
+      
+      { listIndex: 5, title: '❌Blocker', dueDaysFromNow: 0 },
+     
+    ],
+  },
 };
 
 const router = Router();
