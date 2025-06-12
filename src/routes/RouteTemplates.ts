@@ -33,7 +33,55 @@ const boardTemplates: Record<
       boardImg:
         'https://images.unsplash.com/photo-1633155561838-9b372f906787?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
     },
-    lists: ['Done', 'Current Sprint', 'In Progress','On Hold','Next-up','Questions','Marketing Ideas - Icebox'],
+    lists: ['Info', 'Team Members Topics', 'Managers Topics', 'Goals', 'Actions', 'Done'],
+    tasks: [
+      { listIndex: 0, title: 'How to use this board', dueDaysFromNow: 2 },
+      { listIndex: 0, title: 'Blocker - Timely discussion (#4)', dueDaysFromNow: 2 },
+      { listIndex: 0, title: 'Discuss - Suggested topic (#3)', dueDaysFromNow: 2 },
+      { listIndex: 0, title: 'FYI - Discuss if interested (#6)', dueDaysFromNow: 2 },
+      { listIndex: 0, title: 'Paused - No need to discuss (#0)', dueDaysFromNow: 2 },
+      { listIndex: 0, title: 'Goal (#1)', dueDaysFromNow: 2 },
+
+      {
+        listIndex: 1,
+        title: 'The team is stuck on X, how can we move forward?',
+        dueDaysFromNow: 1,
+      },
+      {
+        listIndex: 1,
+        title: 'Ive drafted my goals for the next few months. Any feedback?',
+        dueDaysFromNow: 1,
+      },
+      {
+        listIndex: 1,
+        title: 'I think we can improve velocity if we make some tooling changes.',
+        dueDaysFromNow: 1,
+      },
+
+      { listIndex: 2, title: 'New training program', dueDaysFromNow: 0 },
+      { listIndex: 2, title: 'Can you please give feedback on the report?', dueDaysFromNow: 0 },
+
+      { listIndex: 3, title: 'Manage time chaos', dueDaysFromNow: 0 },
+      { listIndex: 3, title: 'Mentor another developer', dueDaysFromNow: 0 },
+      { listIndex: 3, title: 'Best practice blog', dueDaysFromNow: 0 },
+    ],
+  },
+  '2': {
+    boardStyle: {
+      boardColor: '#62bcf5',
+      boardType: 'image',
+      boardImg:
+        'https://plus.unsplash.com/premium_photo-1739507949249-1dd3c826fd72?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    },
+    lists: [
+      'Done',
+      'Current Sprint',
+      'In Progress',
+      'On Hold',
+      'Next-up',
+      'Questions',
+      'Marketing Ideas - Icebox',
+    ],
     tasks: [
       { listIndex: 0, title: 'Review Tech partner pages', dueDaysFromNow: 2 },
       { listIndex: 0, title: 'Make sure sponsors are indicated for Tech Talk', dueDaysFromNow: 2 },
@@ -41,8 +89,7 @@ const boardTemplates: Record<
       { listIndex: 0, title: 'TBC Webinar: Ship Now, Not Later', dueDaysFromNow: 2 },
       { listIndex: 0, title: '1:1 Nancy', dueDaysFromNow: 2 },
       { listIndex: 0, title: 'Lead Gen Mandrill stats', dueDaysFromNow: 2 },
-      
-      
+
       { listIndex: 1, title: 'Going live with server deployment', dueDaysFromNow: 1 },
       { listIndex: 1, title: 'Google Adwords list of referrers', dueDaysFromNow: 1 },
       { listIndex: 1, title: 'Q3 Webinar Content Planning', dueDaysFromNow: 1 },
@@ -58,25 +105,17 @@ const boardTemplates: Record<
       { listIndex: 4, title: 'Data Analytics podcast', dueDaysFromNow: 0 },
       { listIndex: 4, title: 'List of vendors for banquets', dueDaysFromNow: 0 },
       { listIndex: 4, title: 'Google Adwords best practices', dueDaysFromNow: 0 },
-      { listIndex: 5, title: 'How do you adjust the canvas size in Illustrator?', dueDaysFromNow: 0 },
+      {
+        listIndex: 5,
+        title: 'How do you adjust the canvas size in Illustrator?',
+        dueDaysFromNow: 0,
+      },
       { listIndex: 5, title: 'Does Screenhero have a trial period?', dueDaysFromNow: 0 },
-      { listIndex: 5, title: 'When does the new subway fare hike increase - before or after remote week?', dueDaysFromNow: 0 },
-      
-
-
-    ],
-  },
-  '2': {
-    boardStyle: {
-      boardColor: '#62bcf5',
-      boardType: 'image',
-      boardImg:
-        'https://plus.unsplash.com/premium_photo-1739507949249-1dd3c826fd72?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    },
-    lists: ['Backlog', 'Sprint', 'Review', 'Release'],
-    tasks: [
-      { listIndex: 0, title: 'Define project scope', dueDaysFromNow: 7 },
-      { listIndex: 1, title: 'Implement core feature', dueDaysFromNow: 3 },
+      {
+        listIndex: 5,
+        title: 'When does the new subway fare hike increase - before or after remote week?',
+        dueDaysFromNow: 0,
+      },
     ],
   },
 };
