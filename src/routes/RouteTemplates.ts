@@ -1,4 +1,3 @@
-
 import { Router, Request, Response } from 'express';
 import mongoose from 'mongoose';
 import Board from '../models/Board';
@@ -28,29 +27,64 @@ const boardTemplates: Record<
   }
 > = {
   '1': {
-    boardStyle: { boardColor: '#FFEBEE' ,boardType: 'color',boardImg:'none'  },
-    lists: ['To Do', 'Doing', 'Done'],
+    boardStyle: {
+      boardColor: '#1c1912',
+      boardType: 'image',
+      boardImg:
+        'https://images.unsplash.com/photo-1633155561838-9b372f906787?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    },
+    lists: ['Done', 'Current Sprint', 'In Progress','On Hold','Next-up','Questions','Marketing Ideas - Icebox'],
     tasks: [
-      { listIndex: 0, title: 'Welcome to your new board!', dueDaysFromNow: 2 },
-      { listIndex: 1, title: 'This task is in progress', dueDaysFromNow: 1 },
-      { listIndex: 2, title: 'Completed task example', dueDaysFromNow: 0 },
+      { listIndex: 0, title: 'Review Tech partner pages', dueDaysFromNow: 2 },
+      { listIndex: 0, title: 'Make sure sponsors are indicated for Tech Talk', dueDaysFromNow: 2 },
+      { listIndex: 0, title: 'Top 10 Trends list - Forbes', dueDaysFromNow: 2 },
+      { listIndex: 0, title: 'TBC Webinar: Ship Now, Not Later', dueDaysFromNow: 2 },
+      { listIndex: 0, title: '1:1 Nancy', dueDaysFromNow: 2 },
+      { listIndex: 0, title: 'Lead Gen Mandrill stats', dueDaysFromNow: 2 },
+      
+      
+      { listIndex: 1, title: 'Going live with server deployment', dueDaysFromNow: 1 },
+      { listIndex: 1, title: 'Google Adwords list of referrers', dueDaysFromNow: 1 },
+      { listIndex: 1, title: 'Q3 Webinar Content Planning', dueDaysFromNow: 1 },
+      { listIndex: 1, title: 'IT Solutions page', dueDaysFromNow: 1 },
+      { listIndex: 1, title: 'Email campaign - February', dueDaysFromNow: 1 },
+      { listIndex: 2, title: 'Android App new landing page', dueDaysFromNow: 0 },
+      { listIndex: 2, title: 'Analytics', dueDaysFromNow: 0 },
+      { listIndex: 2, title: 'Branding guidelines', dueDaysFromNow: 0 },
+      { listIndex: 3, title: 'CSS Rules', dueDaysFromNow: 0 },
+      { listIndex: 3, title: 'Retail order', dueDaysFromNow: 0 },
+      { listIndex: 3, title: 'Mobile UI reboot', dueDaysFromNow: 0 },
+      { listIndex: 3, title: 'Google Analytics data - Q1', dueDaysFromNow: 0 },
+      { listIndex: 4, title: 'Data Analytics podcast', dueDaysFromNow: 0 },
+      { listIndex: 4, title: 'List of vendors for banquets', dueDaysFromNow: 0 },
+      { listIndex: 4, title: 'Google Adwords best practices', dueDaysFromNow: 0 },
+      { listIndex: 5, title: 'How do you adjust the canvas size in Illustrator?', dueDaysFromNow: 0 },
+      { listIndex: 5, title: 'Does Screenhero have a trial period?', dueDaysFromNow: 0 },
+      { listIndex: 5, title: 'When does the new subway fare hike increase - before or after remote week?', dueDaysFromNow: 0 },
+      
+
+
     ],
   },
   '2': {
-    boardStyle: { boardColor: '#E8F5E9',boardType: 'color',boardImg:'none'  },
+    boardStyle: {
+      boardColor: '#62bcf5',
+      boardType: 'image',
+      boardImg:
+        'https://plus.unsplash.com/premium_photo-1739507949249-1dd3c826fd72?q=80&w=1932&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+    },
     lists: ['Backlog', 'Sprint', 'Review', 'Release'],
     tasks: [
       { listIndex: 0, title: 'Define project scope', dueDaysFromNow: 7 },
       { listIndex: 1, title: 'Implement core feature', dueDaysFromNow: 3 },
     ],
   },
- 
 };
 
 const router = Router();
-router.use(authMiddleware)
+router.use(authMiddleware);
 
-router.post('/template/:templateId', async (req: Request, res: Response):Promise<any> => {
+router.post('/template/:templateId', async (req: Request, res: Response): Promise<any> => {
   const { templateId } = req.params;
   const { title } = req.body as { title?: string };
 
@@ -67,9 +101,8 @@ router.post('/template/:templateId', async (req: Request, res: Response):Promise
     const board = await Board.create({
       boardTitle: title,
       boardStyle: template.boardStyle,
-      createdBy: req.user!.id,      
-      boardLists: [],                
-      
+      createdBy: req.user!.id,
+      boardLists: [],
     });
 
     //  Bulk‐insert Lists
@@ -77,7 +110,7 @@ router.post('/template/:templateId', async (req: Request, res: Response):Promise
       taskListBoard: board._id,
       taskListTitle: listTitle,
       indexInBoard: idx,
-          
+
       // archivedAt
     }));
     const createdLists = await List.insertMany(listDocs);
@@ -87,41 +120,33 @@ router.post('/template/:templateId', async (req: Request, res: Response):Promise
       board: board._id,
       list: createdLists[t.listIndex]._id,
       title: t.title,
-      archivedAt:Date.now(),
+      archivedAt: Date.now(),
       comments: [],
-      description:'',
+      description: '',
       isWatching: false,
       taskDescription: '',
       isDueComplete: false,
       position: idx,
-      dueDate:
-        t.dueDaysFromNow != null
-          ? new Date(Date.now() + t.dueDaysFromNow * 86400000)
-          : null,
-      // attachments, labels, comments etc. 
+      dueDate: t.dueDaysFromNow != null ? new Date(Date.now() + t.dueDaysFromNow * 86400000) : null,
+      // attachments, labels, comments etc.
     }));
     const createdTasks = await Task.insertMany(taskDocs);
 
-
-
     await Promise.all(
-  createdLists.map((listDoc) => {
-    const tasksForThisList = createdTasks
-      .filter((t) => t.list.toString() === listDoc._id.toString())
-      .map((t) => t._id);
+      createdLists.map((listDoc) => {
+        const tasksForThisList = createdTasks
+          .filter((t) => t.list.toString() === listDoc._id.toString())
+          .map((t) => t._id);
 
-    return List.findByIdAndUpdate(
-      listDoc._id,
-      { $set: { taskList: tasksForThisList } }
-    ).exec();
-  })
-);
+        return List.findByIdAndUpdate(listDoc._id, { $set: { taskList: tasksForThisList } }).exec();
+      })
+    );
     //  Update the Board’s boardLists to reference the new lists
     board.boardLists = createdLists.map((l) => l._id);
     await board.save();
 
-    // 
-    //    
+    //
+    //
     // for (const list of createdLists) {
     //   const tasksForList = createdTasks
     //     .filter((t) => t.list.toString() === list._id.toString())
@@ -129,34 +154,34 @@ router.post('/template/:templateId', async (req: Request, res: Response):Promise
     //   await List.findByIdAndUpdate(list._id, { $set: { taskList: tasksForList } });
     // }
 
-    //  Emit a socket 
-   // getIO().emit('boardCreated', {
+    //  Emit a socket
+    // getIO().emit('boardCreated', {
     //  board,
     //  lists: createdLists,
-   //   tasks: createdTasks,
-   // });
+    //   tasks: createdTasks,
+    // });
 
-    //  Return 
+    //  Return
     await User.findByIdAndUpdate(req.user!.id, {
-          $pull: { lastBoardVisited: { board: board._id } },
-        });
-    
-        // 2) add it to the front and slice to 25
-        await User.findByIdAndUpdate(req.user!.id, {
-          $push: {
-            lastBoardVisited: {
-              $each: [
-                {
-                  board: board._id,
-                  boardTitle: board.boardTitle,
-                  boardStyle: board.boardStyle,
-                },
-              ],
-              $position: 0,
-              $slice: 8,
+      $pull: { lastBoardVisited: { board: board._id } },
+    });
+
+    // 2) add it to the front and slice to 25
+    await User.findByIdAndUpdate(req.user!.id, {
+      $push: {
+        lastBoardVisited: {
+          $each: [
+            {
+              board: board._id,
+              boardTitle: board.boardTitle,
+              boardStyle: board.boardStyle,
             },
-          },
-        });
+          ],
+          $position: 0,
+          $slice: 8,
+        },
+      },
+    });
     return res.status(201).json({
       board,
       lists: createdLists,
