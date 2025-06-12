@@ -348,24 +348,181 @@ Move topics that are closed to "Done"`,
         title: 'Product',
         dueDaysFromNow: 2,
         labels: { title: 'Product', color: '#4bce97' },
+        description: `March 20, 2015:
+
+New design & bug fixes for iOS app.
+
+Updated for Kit Kat on Android
+
+Updated landing page
+
+March 13, 2015:
+
+Changed logo to flatter look
+
+Fixed bonus points bugs
+
+March 6, 2015:
+
+Strings translated for localization`,
       },
-      { listIndex: 0, title: 'Marketing', dueDaysFromNow: 2 },
-      { listIndex: 0, title: 'Sales', dueDaysFromNow: 2 },
-      { listIndex: 0, title: 'TBC Webinar: Ship Now, Not Later', dueDaysFromNow: 2 },
-      { listIndex: 0, title: 'Support', dueDaysFromNow: 2 },
-      { listIndex: 0, title: 'People', dueDaysFromNow: 2 },
-      { listIndex: 0, title: 'IT', dueDaysFromNow: 2 },
+      {
+        listIndex: 0,
+        title: 'Marketing',
+        dueDaysFromNow: 2,
+        labels: { title: 'Marketing', color: '#f5cd47' },
+        description: `March 20, 2015:
 
-      { listIndex: 1, title: 'Increase sales revenue by 30% in Q3', dueDaysFromNow: 1 },
-      { listIndex: 1, title: 'Ship iOS app', dueDaysFromNow: 1 },
-      { listIndex: 1, title: 'Increase conversion rate by 20% by Q3', dueDaysFromNow: 1 },
+Boosted new signups by 21%
 
-      { listIndex: 2, title: 'Develop Engineering Blog', dueDaysFromNow: 0 },
-      { listIndex: 2, title: 'Brand Guidelines', dueDaysFromNow: 0 },
-      { listIndex: 2, title: 'Analytics Data', dueDaysFromNow: 0 },
-      { listIndex: 3, title: 'Website Redesign', dueDaysFromNow: 0 },
-      { listIndex: 3, title: 'Social Media Campaign', dueDaysFromNow: 0 },
-      { listIndex: 3, title: 'Update Help Documentation', dueDaysFromNow: 0 },
+Launched "New You" campaign
+
+March 13, 2015:
+
+Blog redesign
+
+March 6, 2015:
+
+Email drip campaign
+
+Newsletter redesign`,
+      },
+      {
+        listIndex: 0,
+        title: 'Sales',
+        dueDaysFromNow: 2,
+        labels: { title: 'Sales', color: '#fea362' },
+        description: `March 20, 2015:
+
+10 new Enterprise clients
+
+14 new Business Pro accounts
+
+March 13, 2015:
+
+13 new Enterprise clients
+
+6 new Business Pro accounts
+
+March 6, 2015:
+
+9 new Enterprise clients
+
+17 new Business Pro accounts`,
+      },
+
+      {
+        listIndex: 0,
+        title: 'Support',
+        dueDaysFromNow: 2,
+        labels: { title: 'Support', color: '#f87168' },
+        description: `March 20, 2015:
+
+485 new conversations this past week. 6 week moving average is 444.
+
+All hands on deck Wednesday 3/18 AM due to login issue.
+
+We now have an Enterprise User Guide in the help docs.
+
+March 13, 2015:
+
+Support dealt with 542 New conversations last week, which brings our 6 week moving average up to 419.
+
+March 6, 2015:
+
+432 supper conversations this past week, 6 week moving average is 417.
+
+Updates images and gifs in help documentation.
+
+Onboarding Carol who is now taking 12% of the support queue.`,
+      },
+      {
+        listIndex: 0,
+        title: 'People',
+        dueDaysFromNow: 2,
+        labels: { title: 'People', color: '#9f8fef' },
+        description: `Description
+March 20, 2015:
+
+Hired Kathy Carter as our new node.js dev. She will start April 15, 2015.
+
+Posted opening for a Windows mobile dev.
+
+March 13, 2015:
+
+Tom Lee accepted our sales offer. He will begin on April 7, 2015.
+
+We attended an intern recruiting event. Everyone wants to intern with us!
+
+March 6, 2015:
+
+Priscilla Parjet has accepted our offer for the Android designer role and will begin April 4, 2015.
+
+Posted opening for new Support Specialist opening.`,
+      },
+      {
+        listIndex: 0,
+        title: 'IT',
+        dueDaysFromNow: 2,
+        labels: { title: 'IT', color: '#579dff' },
+        description: `Description
+March 20, 2015:
+
+Moved base.html to the client, improving deployments.
+
+Fixed an issue that was causing android app to not load.
+
+Worked on security inbox and admin tools for support and marketing
+
+March 13, 2015:
+
+Updated several of our libraries, and shipped a change that got us off of the soon to be deprecated openid (this was a big deal)
+
+Planning for our transition of another soon-to-be-deprecated API
+
+Worked on i18n for shop
+
+Handled security inbox
+
+March 6, 2015:
+
+Continued work on i18n
+
+Worked on export and a very important update for signin
+
+Worked on billing
+
+Fixed the rest of the bugs we had come in on Hackerone.`,
+      },
+
+      { listIndex: 1, title: 'Increase sales revenue by 30% in Q3', dueDaysFromNow: 1,
+         labels: { title: 'Sales', color: '#fea362' },
+       },
+      { listIndex: 1, title: 'Ship iOS app', dueDaysFromNow: 1,
+       labels: { title: 'Product', color: '#4bce97' },
+       },
+      { listIndex: 1, title: 'Increase conversion rate by 20% by Q3', dueDaysFromNow: 1,
+        labels: { title: 'Marketing', color: '#f5cd47' },
+       },
+
+      { listIndex: 2, title: 'Develop Engineering Blog', dueDaysFromNow: 0,
+         labels: { title: 'IT', color: '#579dff' },
+       },
+      { listIndex: 2, title: 'Brand Guidelines', dueDaysFromNow: 0,
+        labels: { title: 'Product', color: '#4bce97' },
+       },
+      { listIndex: 2, title: 'Analytics Data', dueDaysFromNow: 0,
+        labels: { title: 'Marketing', color: '#f5cd47' },
+       },
+      { listIndex: 3, title: 'Website Redesign', dueDaysFromNow: 0,
+        labels: { title: 'Product', color: '#4bce97' },
+       },
+      { listIndex: 3, title: 'Social Media Campaign', dueDaysFromNow: 0,
+         labels: { title: 'Marketing', color: '#f5cd47' },
+       },
+      { listIndex: 3, title: 'Update Help Documentation', dueDaysFromNow: 0,
+         labels: { title: 'Support', color: '#f87168' },
+       },
 
       {
         listIndex: 4,
