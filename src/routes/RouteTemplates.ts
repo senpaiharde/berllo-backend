@@ -597,7 +597,17 @@ Fixed the rest of the bugs we had come in on Hackerone.`,
       { listIndex: 2, title: 'Social promotion', dueDaysFromNow: 0 },
       { listIndex: 2, title: 'Blog post - Announcement', dueDaysFromNow: 0 },
       { listIndex: 2, title: 'In-App Announcement', dueDaysFromNow: 0 },
-      { listIndex: 2, title: 'Email Newsletter', dueDaysFromNow: 0 },
+      { listIndex: 2, title: 'Email Newsletter', dueDaysFromNow: 0,
+        attachments: {
+          url: 'https://trello.com/1/cards/57e1548d041d8599c9136222/attachments/57b74cf82f5af3045b8c29f2/previews/57b74cfb2f5af3045b8c29fe/download/Screen_Shot_2016-08-19_at_12.48.08_PM.png',
+          name: 'Screen Shot 2016-08-19 at 12.48.08',
+        },
+        cover: {
+          coverType: 'image',
+          coverImg:
+            'https://trello.com/1/cards/57e1548d041d8599c9136222/attachments/57b74cf82f5af3045b8c29f2/previews/57b74cfb2f5af3045b8c29fe/download/Screen_Shot_2016-08-19_at_12.48.08_PM.png',
+        },
+       },
 
       { listIndex: 3, title: 'Messaging Doc', dueDaysFromNow: 0 },
       { listIndex: 3, title: 'Marketing Training on Power-Ups', dueDaysFromNow: 0 },
@@ -613,21 +623,72 @@ Fixed the rest of the bugs we had come in on Hackerone.`,
     },
     lists: ['Backlog', 'Design', 'To Do', 'Doing', 'Code Review', 'Testing', 'Done 🎉'],
     tasks: [
-      { listIndex: 0, title: 'Backlog', dueDaysFromNow: 2 },
+      { listIndex: 0, title: 'Backlog', dueDaysFromNow: 2
+        ,attachments: {
+          url: 'https://trello.com/1/cards/5e20e0dcc014133d08a75c9f/attachments/5e20e0dcc014133d08a75ca0/previews/5e20e0dcc014133d08a75ca8/download/Backlog.png',
+          name: 'Backlog',
+        },
+        cover: {
+          coverType: 'image',
+          coverImg:
+            'https://trello.com/1/cards/5e20e0dcc014133d08a75c9f/attachments/5e20e0dcc014133d08a75ca0/previews/5e20e0dcc014133d08a75ca8/download/Backlog.png',
+        },
+       
+       },
       { listIndex: 0, title: '[Example task]', dueDaysFromNow: 2 },
 
-      { listIndex: 1, title: 'Design & Research', dueDaysFromNow: 1 },
+      { listIndex: 1, title: 'Design & Research', dueDaysFromNow: 1,
+         attachments: {
+          url: 'https://trello.com/1/cards/5e20e0e72365b93c7a291206/attachments/5e20e0e72365b93c7a291207/previews/5e20e0e72365b93c7a29120f/download/Design.png',
+          name: 'Design',
+        },
+        cover: {
+          coverType: 'image',
+          coverImg:
+            'https://trello.com/1/cards/5e20e0e72365b93c7a291206/attachments/5e20e0e72365b93c7a291207/previews/5e20e0e72365b93c7a29120f/download/Design.png',
+        },
+       },
       {
         listIndex: 1,
         title: '[Example task with designs]',
         dueDaysFromNow: 1,
       },
 
-      { listIndex: 2, title: 'To Do', dueDaysFromNow: 0 },
+      { listIndex: 2, title: 'To Do', dueDaysFromNow: 0
+         ,attachments: {
+          url: 'https://trello.com/1/cards/5e20e0feb14af8106c94fd13/attachments/5e20e0feb14af8106c94fd14/previews/5e20e0feb14af8106c94fd1c/download/To-Do.png',
+          name: 'To-Do',
+        },
+        cover: {
+          coverType: 'image',
+          coverImg:
+            'https://trello.com/1/cards/5e20e0feb14af8106c94fd13/attachments/5e20e0feb14af8106c94fd14/previews/5e20e0feb14af8106c94fd1c/download/To-Do.png',
+        },
+       },
 
-      { listIndex: 3, title: 'Doing', dueDaysFromNow: 0 },
+      { listIndex: 3, title: 'Doing', dueDaysFromNow: 0 
+         ,attachments: {
+          url: 'https://trello.com/1/cards/5e20e1118b32cf019685117d/attachments/5e20e1118b32cf019685117f/previews/5e20e1118b32cf0196851185/download/Doing.png',
+          name: 'Doing',
+        },
+        cover: {
+          coverType: 'image',
+          coverImg:
+            'https://trello.com/1/cards/5e20e1118b32cf019685117d/attachments/5e20e1118b32cf019685117f/previews/5e20e1118b32cf0196851185/download/Doing.png',
+        },
+      },
       { listIndex: 3, title: '[Example task]', dueDaysFromNow: 0 },
-      { listIndex: 4, title: 'Code Review', dueDaysFromNow: 0 },
+      { listIndex: 4, title: 'Code Review', dueDaysFromNow: 0
+         ,attachments: {
+          url: 'https://trello.com/1/cards/5e20e18afa5c990bda4ccaca/attachments/5e20e18afa5c990bda4ccacb/previews/5e20e18afa5c990bda4ccad3/download/Code_Review.png',
+          name: 'Code Review',
+        },
+        cover: {
+          coverType: 'image',
+          coverImg:
+            'https://trello.com/1/cards/5e20e18afa5c990bda4ccaca/attachments/5e20e18afa5c990bda4ccacb/previews/5e20e18afa5c990bda4ccad3/download/Code_Review.png',
+        },
+       },
       {
         listIndex: 4,
         title:
@@ -636,8 +697,28 @@ Fixed the rest of the bugs we had come in on Hackerone.`,
       },
       { listIndex: 4, title: '[Example task]', dueDaysFromNow: 0 },
       { listIndex: 4, title: '[Example task]', dueDaysFromNow: 0 },
-      { listIndex: 5, title: 'Testing', dueDaysFromNow: 0 },
-      { listIndex: 6, title: 'Done', dueDaysFromNow: 0 },
+      { listIndex: 5, title: 'Testing', dueDaysFromNow: 0 
+         ,attachments: {
+          url: 'https://trello.com/1/cards/5e20e19e0202e55e31a89842/attachments/5e20e19e0202e55e31a89843/previews/5e20e19e0202e55e31a8984b/download/Verifying.png',
+          name: 'Verifying',
+        },
+        cover: {
+          coverType: 'image',
+          coverImg:
+            'https://trello.com/1/cards/5e20e19e0202e55e31a89842/attachments/5e20e19e0202e55e31a89843/previews/5e20e19e0202e55e31a8984b/download/Verifying.png',
+        },
+      },
+      { listIndex: 6, title: 'Done', dueDaysFromNow: 0
+         ,attachments: {
+          url: 'https://trello.com/1/cards/5e20e11f6c504c7c31fc4105/attachments/5e20e11f6c504c7c31fc410c/previews/5e20e11f6c504c7c31fc4114/download/Done.png',
+          name: 'Done',
+        },
+        cover: {
+          coverType: 'image',
+          coverImg:
+            'https://trello.com/1/cards/5e20e11f6c504c7c31fc4105/attachments/5e20e11f6c504c7c31fc410c/previews/5e20e11f6c504c7c31fc4114/download/Done.png',
+        },
+       },
       { listIndex: 6, title: '[Completed task]', dueDaysFromNow: 0 },
     ],
   },
