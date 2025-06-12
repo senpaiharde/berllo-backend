@@ -28,7 +28,7 @@ const boardTemplates: Record<
   }
 > = {
   '1': {
-    boardStyle: { backgroundColor: '#FFEBEE' },
+    boardStyle: { boardColor: '#FFEBEE' ,boardType: 'color',boardImg:'none'  },
     lists: ['To Do', 'Doing', 'Done'],
     tasks: [
       { listIndex: 0, title: 'Welcome to your new board!', dueDaysFromNow: 2 },
@@ -37,7 +37,7 @@ const boardTemplates: Record<
     ],
   },
   '2': {
-    boardStyle: { backgroundColor: '#E8F5E9',boardType: 'color',boardImg:'none'  },
+    boardStyle: { boardColor: '#E8F5E9',boardType: 'color',boardImg:'none'  },
     lists: ['Backlog', 'Sprint', 'Review', 'Release'],
     tasks: [
       { listIndex: 0, title: 'Define project scope', dueDaysFromNow: 7 },
@@ -103,7 +103,7 @@ router.post('/template/:templateId', async (req: Request, res: Response):Promise
     const createdTasks = await Task.insertMany(taskDocs);
 
 
-    
+
     await Promise.all(
   createdLists.map((listDoc) => {
     const tasksForThisList = createdTasks
