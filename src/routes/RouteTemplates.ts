@@ -743,7 +743,16 @@ Fixed the rest of the bugs we had come in on Hackerone.`,
       {
         listIndex: 0,
         title: `How to set up this board: A Trello Insider's Guide To Personal Productivity`,
-        dueDaysFromNow: 2,
+        dueDaysFromNow: 2
+        ,attachments: {
+          url: 'https://trello.com/1/cards/5d9389e457df5203e183a3be/attachments/5d9389e457df5203e183a3f6/previews/5d9389e457df5203e183a3f4/download/Screen_20Shot_202017-11-13_20at_209.59.38_20PM.png',
+          name: 'Screen',
+        },
+        cover: {
+          coverType: 'image',
+          coverImg:
+            'https://trello.com/1/cards/5d9389e457df5203e183a3be/attachments/5d9389e457df5203e183a3f6/previews/5d9389e457df5203e183a3f4/download/Screen_20Shot_202017-11-13_20at_209.59.38_20PM.png',
+        },
       },
       {
         listIndex: 0,
@@ -827,7 +836,16 @@ Fixed the rest of the bugs we had come in on Hackerone.`,
       {
         listIndex: 0,
         title: 'Looking for even more project management features?',
-        dueDaysFromNow: 2,
+        dueDaysFromNow: 2
+        ,attachments: {
+          url: 'https://trello.com/1/cards/6467c62b60882bcc403e5341/attachments/6633b1b7f9c26daeaf6eeae9/download/jira-timeline.jpg',
+          name: 'jira-timeline',
+        },
+        cover: {
+          coverType: 'image',
+          coverImg:
+            'https://trello.com/1/cards/6467c62b60882bcc403e5341/attachments/6633b1b7f9c26daeaf6eeae9/download/jira-timeline.jpg',
+        },
       },
 
       {
